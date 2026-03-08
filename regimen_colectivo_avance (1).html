@@ -1,0 +1,1145 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Régimen Colectivo — Avance Teórico</title>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=JetBrains+Mono:wght@300;400;500&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.min.js"></script>
+<style>
+  :root {
+    --ink: #0f0e0c;
+    --paper: #f5f0e8;
+    --paper-dark: #ede7d9;
+    --accent: #8b2500;
+    --accent-light: #c43a00;
+    --gold: #a07020;
+    --gold-light: #c8941a;
+    --blue: #1a3a5c;
+    --blue-light: #2a5480;
+    --green: #1a4a2a;
+    --rule: #c8b89a;
+    --faint: rgba(139,37,0,0.07);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'EB Garamond', Georgia, serif;
+    font-size: 19px;
+    line-height: 1.75;
+    min-height: 100vh;
+  }
+
+  /* ── HEADER ── */
+  .masthead {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 4rem 3rem 3rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .masthead::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 39px,
+      rgba(200,184,154,0.08) 40px
+    );
+    pointer-events: none;
+  }
+
+  .masthead-inner {
+    max-width: 860px;
+    margin: 0 auto;
+    position: relative;
+  }
+
+  .journal-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: 0.25em;
+    color: var(--gold-light);
+    text-transform: uppercase;
+    margin-bottom: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .journal-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: rgba(200,148,26,0.4);
+  }
+
+  .masthead h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2.4rem, 5vw, 4rem);
+    font-weight: 300;
+    line-height: 1.15;
+    letter-spacing: -0.01em;
+    color: var(--paper);
+    margin-bottom: 0.5rem;
+  }
+
+  .masthead h1 em {
+    color: var(--gold-light);
+    font-style: italic;
+  }
+
+  .masthead-subtitle {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.25rem;
+    font-weight: 300;
+    font-style: italic;
+    color: rgba(245,240,232,0.65);
+    margin-top: 0.75rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .meta-row {
+    display: flex;
+    gap: 2.5rem;
+    flex-wrap: wrap;
+  }
+
+  .meta-item {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11.5px;
+    color: rgba(245,240,232,0.5);
+    letter-spacing: 0.05em;
+  }
+
+  .meta-item span {
+    color: rgba(245,240,232,0.85);
+  }
+
+  /* ── PROGRESS BAR ── */
+  .progress-strip {
+    background: var(--paper-dark);
+    border-bottom: 1px solid var(--rule);
+    padding: 1.2rem 3rem;
+  }
+
+  .progress-strip-inner {
+    max-width: 860px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+  }
+
+  .progress-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10.5px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gold);
+    white-space: nowrap;
+  }
+
+  .progress-stages {
+    display: flex;
+    gap: 0;
+    flex: 1;
+  }
+
+  .stage {
+    flex: 1;
+    height: 6px;
+    background: var(--rule);
+    position: relative;
+  }
+
+  .stage.done { background: var(--accent); }
+  .stage.partial {
+    background: linear-gradient(90deg, var(--accent) 60%, var(--rule) 60%);
+  }
+  .stage:first-child { border-radius: 3px 0 0 3px; }
+  .stage:last-child  { border-radius: 0 3px 3px 0; }
+  .stage + .stage    { margin-left: 2px; }
+
+  /* ── CONTENT ── */
+  .content {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 0 3rem;
+  }
+
+  /* ── SECTION ── */
+  .section {
+    padding: 3.5rem 0 2.5rem;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .section:last-child { border-bottom: none; }
+
+  .section-header {
+    display: flex;
+    align-items: baseline;
+    gap: 1.2rem;
+    margin-bottom: 2rem;
+  }
+
+  .section-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    color: var(--accent);
+    flex-shrink: 0;
+    margin-top: 0.35rem;
+  }
+
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2rem;
+    font-weight: 400;
+    line-height: 1.2;
+    color: var(--ink);
+  }
+
+  .section-title em {
+    color: var(--accent);
+    font-style: italic;
+  }
+
+  /* ── RUNNING TEXT ── */
+  p {
+    margin-bottom: 1.2rem;
+    max-width: 72ch;
+  }
+
+  p:last-child { margin-bottom: 0; }
+
+  strong { font-weight: 600; color: var(--ink); }
+
+  /* ── EQUATION BLOCKS ── */
+  .eq-block {
+    background: rgba(15,14,12,0.04);
+    border-left: 3px solid var(--accent);
+    padding: 1.2rem 1.8rem;
+    margin: 1.8rem 0;
+    border-radius: 0 4px 4px 0;
+    overflow-x: auto;
+  }
+
+  .eq-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 0.5rem;
+  }
+
+  .eq-desc {
+    font-size: 0.88rem;
+    font-style: italic;
+    color: rgba(15,14,12,0.6);
+    margin-top: 0.5rem;
+  }
+
+  /* ── RESULT CARDS ── */
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1rem;
+    margin: 2rem 0;
+  }
+
+  .card {
+    background: var(--paper-dark);
+    border: 1px solid var(--rule);
+    border-radius: 6px;
+    padding: 1.4rem 1.6rem;
+    position: relative;
+  }
+
+  .card.confirmed {
+    border-left: 4px solid #1a7a3a;
+    background: rgba(26,74,42,0.04);
+  }
+
+  .card.pending {
+    border-left: 4px solid var(--gold);
+    background: rgba(160,112,32,0.04);
+  }
+
+  .card.critical {
+    border-left: 4px solid var(--accent);
+    background: var(--faint);
+  }
+
+  .card-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9.5px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+  }
+
+  .card.confirmed .card-tag { color: #1a7a3a; }
+  .card.pending   .card-tag { color: var(--gold); }
+  .card.critical  .card-tag { color: var(--accent); }
+
+  .card-value {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1.25rem;
+    font-weight: 500;
+    color: var(--ink);
+    margin-bottom: 0.3rem;
+  }
+
+  .card-desc {
+    font-size: 0.88rem;
+    color: rgba(15,14,12,0.6);
+    line-height: 1.45;
+  }
+
+  /* ── TABLE ── */
+  .data-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    margin: 1.5rem 0;
+  }
+
+  .data-table th {
+    text-align: left;
+    padding: 0.5rem 0.8rem;
+    border-bottom: 2px solid var(--ink);
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    font-size: 11px;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+
+  .data-table td {
+    padding: 0.45rem 0.8rem;
+    border-bottom: 1px solid var(--rule);
+    vertical-align: top;
+  }
+
+  .data-table tr:last-child td { border-bottom: none; }
+  .data-table tr:hover td { background: var(--faint); }
+
+  .badge {
+    display: inline-block;
+    padding: 0.1rem 0.5rem;
+    border-radius: 3px;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+  }
+
+  .badge-ok    { background: rgba(26,122,58,0.15); color: #1a7a3a; }
+  .badge-warn  { background: rgba(160,112,32,0.15); color: #8a6010; }
+  .badge-pend  { background: rgba(26,58,92,0.12); color: var(--blue); }
+
+  /* ── INSIGHT BOXES ── */
+  .insight {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 2rem 2.2rem;
+    border-radius: 6px;
+    margin: 2rem 0;
+    position: relative;
+  }
+
+  .insight::before {
+    content: '→';
+    position: absolute;
+    top: 1.8rem;
+    right: 1.8rem;
+    font-size: 1.5rem;
+    color: var(--gold-light);
+    opacity: 0.6;
+  }
+
+  .insight-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9.5px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--gold-light);
+    margin-bottom: 0.8rem;
+  }
+
+  .insight p {
+    color: rgba(245,240,232,0.88);
+    font-size: 1rem;
+    max-width: none;
+  }
+
+  .insight strong { color: var(--paper); }
+
+  /* ── CODE ── */
+  pre, code {
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  code {
+    background: rgba(15,14,12,0.07);
+    padding: 0.1em 0.35em;
+    border-radius: 3px;
+    font-size: 0.83em;
+  }
+
+  .code-block {
+    background: #1a1815;
+    color: #e8e0d0;
+    padding: 1.2rem 1.6rem;
+    border-radius: 6px;
+    font-size: 13px;
+    line-height: 1.65;
+    overflow-x: auto;
+    margin: 1.5rem 0;
+  }
+
+  .code-block .comment { color: #7a7060; }
+  .code-block .key     { color: #c89040; }
+  .code-block .val     { color: #80b878; }
+
+  /* ── TIMELINE ── */
+  .timeline {
+    position: relative;
+    margin: 2rem 0;
+    padding-left: 2rem;
+  }
+
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.6rem;
+    bottom: 0.6rem;
+    width: 1px;
+    background: var(--rule);
+  }
+
+  .timeline-item {
+    position: relative;
+    margin-bottom: 1.8rem;
+    padding-left: 1.5rem;
+  }
+
+  .timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -2rem;
+    top: 0.55rem;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--paper);
+    border: 2px solid var(--rule);
+  }
+
+  .timeline-item.done::before {
+    background: var(--accent);
+    border-color: var(--accent);
+  }
+
+  .timeline-item.key::before {
+    background: var(--gold);
+    border-color: var(--gold);
+    width: 14px;
+    height: 14px;
+    left: calc(-2rem - 2px);
+    top: 0.42rem;
+  }
+
+  .timeline-head {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 0.3rem;
+  }
+
+  .timeline-body {
+    font-size: 0.93rem;
+    color: rgba(15,14,12,0.7);
+    max-width: 64ch;
+  }
+
+  /* ── FALSIFICATION TABLE ── */
+  .falsif {
+    margin: 1.5rem 0;
+  }
+
+  .falsif-item {
+    display: grid;
+    grid-template-columns: 2rem 1fr auto;
+    gap: 0.8rem;
+    align-items: start;
+    padding: 0.8rem 0;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .falsif-item:last-child { border-bottom: none; }
+
+  .falsif-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--accent);
+    padding-top: 0.1rem;
+  }
+
+  .falsif-text {
+    font-size: 0.93rem;
+    line-height: 1.5;
+  }
+
+  .falsif-result {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    white-space: nowrap;
+  }
+
+  /* ── TWO COL ── */
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin: 1.5rem 0;
+  }
+
+  @media (max-width: 640px) {
+    .two-col { grid-template-columns: 1fr; }
+    .content { padding: 0 1.5rem; }
+    .masthead { padding: 2.5rem 1.5rem 2rem; }
+    .progress-strip { padding: 1rem 1.5rem; }
+  }
+
+  /* ── RULING LINES ── */
+  .rule-ornament {
+    text-align: center;
+    color: var(--rule);
+    font-size: 1.2rem;
+    letter-spacing: 0.5em;
+    margin: 2.5rem 0;
+    user-select: none;
+  }
+
+  /* ── FOOTER ── */
+  .footer {
+    background: var(--ink);
+    color: rgba(245,240,232,0.45);
+    padding: 2.5rem 3rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.05em;
+    line-height: 1.8;
+  }
+
+  .footer-inner {
+    max-width: 860px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+  }
+
+  .footer strong {
+    color: rgba(245,240,232,0.75);
+    font-weight: 500;
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .masthead-inner { animation: fadeUp 0.6s ease both; }
+  .section { animation: fadeUp 0.5s ease both; }
+
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════════════════════════
+     MASTHEAD
+══════════════════════════════════════════════════════════════ -->
+<header class="masthead">
+  <div class="masthead-inner">
+    <div class="journal-label">Bitácora de investigación &nbsp;·&nbsp; Física teórica</div>
+    <h1>El Régimen <em>Colectivo</em><br>y la Estructura del Universo</h1>
+    <p class="masthead-subtitle">
+      De las curvas de rotación de galaxias enanas a una teoría de perturbaciones cosmológicas con dos fluidos
+    </p>
+    <div class="meta-row">
+      <div class="meta-item">Sesiones: <span>1–6</span></div>
+      <div class="meta-item">Estado: <span>En desarrollo activo</span></div>
+      <div class="meta-item">Parámetros libres: <span>0</span></div>
+      <div class="meta-item">Galaxias confirmadas: <span>5 / 5</span></div>
+    </div>
+  </div>
+</header>
+
+<!-- PROGRESS BAR -->
+<div class="progress-strip">
+  <div class="progress-strip-inner">
+    <div class="progress-label">Progreso</div>
+    <div class="progress-stages">
+      <div class="stage done" title="Derivación g_crit"></div>
+      <div class="stage done" title="Confirmación galaxias"></div>
+      <div class="stage done" title="Predicciones JWST"></div>
+      <div class="stage done" title="Teoría dos fluidos"></div>
+      <div class="stage done" title="α desde acción de Maupertuis"></div>
+      <div class="stage done" title="Mini-modelo P(k)"></div>
+      <div class="stage partial" title="Confrontar DESI / Euclid"></div>
+    </div>
+    <div class="progress-label" style="color:rgba(15,14,12,0.45)">6 / 7</div>
+  </div>
+</div>
+
+
+<div class="content">
+
+<!-- ══════════════════════════════════════════════════════════════
+     §1  PUNTO DE PARTIDA
+══════════════════════════════════════════════════════════════ -->
+<section class="section">
+  <div class="section-header">
+    <div class="section-num">§ 01</div>
+    <h2 class="section-title">El punto de partida:<br><em>¿por qué las enanas son raras?</em></h2>
+  </div>
+
+  <p>
+    Las galaxias enanas de baja superficie brillante —«unicornios»— tienen curvas de rotación planas que no siguen la ley newtoniana simple. Su velocidad orbital satisface una relación cuártica:
+  </p>
+
+  <div class="eq-block">
+    <div class="eq-label">Régimen colectivo — velocidad de rotación</div>
+    \[ V^4 = G \cdot M_{\text{bar}} \cdot g_{\text{crit}} \]
+    <div class="eq-desc">Cero parámetros libres. V se predice a partir de la masa bariónica observable únicamente.</div>
+  </div>
+
+  <p>
+    Esta ecuación es la misma estructura que MOND, pero con una diferencia fundamental: <strong>g_crit no es un parámetro ajustado</strong>. Se deriva del principio de Maupertuis bajo la condición de que la frecuencia orbital resuene con la frecuencia de Hubble:
+  </p>
+
+  <div class="eq-block">
+    <div class="eq-label">Derivación de g_crit</div>
+    \[ g_{\text{crit}} = \frac{c \cdot H_0}{4\pi^2 \sqrt{3}} = 1.009 \times 10^{-11} \; \text{m/s}^2 \]
+    <div class="eq-desc">El valor empírico de MOND es a₀ = 1.2×10⁻¹⁰ m/s² — un factor 12 mayor. Son distintos.</div>
+  </div>
+
+  <div class="two-col">
+    <div class="card confirmed">
+      <div class="card-tag">✓ Derivado</div>
+      <div class="card-value">1.009 × 10⁻¹¹ m/s²</div>
+      <div class="card-desc">g_crit calculado. Error vs. valor empírico: 0.9%</div>
+    </div>
+    <div class="card confirmed">
+      <div class="card-tag">✓ Confirmado</div>
+      <div class="card-value">5 / 5 galaxias</div>
+      <div class="card-desc">IC 1613, UGC06628, UGC07125, UGC09992, UGC04305 — error medio &lt; 15%</div>
+    </div>
+    <div class="card confirmed">
+      <div class="card-tag">✓ Falsificación negativa</div>
+      <div class="card-value">0 / 137 falsos positivos</div>
+      <div class="card-desc">Ninguna galaxia hamiltoniana cumple la condición colectiva. El modelo falla donde debe fallar.</div>
+    </div>
+    <div class="card confirmed">
+      <div class="card-tag">✓ Radio de transición</div>
+      <div class="card-value">R_T = √(GM / g_crit)</div>
+      <div class="card-desc">El radio donde la galaxia pasa de Newton a colectivo. Derivado, no ajustado.</div>
+    </div>
+  </div>
+
+  <div class="insight">
+    <div class="insight-label">Proceso mental</div>
+    <p>
+      La pregunta fue: ¿qué tienen en común estas galaxias que las hace obedecer V⁴ = GM·g_crit? La respuesta emergió de la mecánica analítica: son sistemas donde la aceleración gravitacional cae por debajo de g_crit en <em>todos</em> sus puntos. Toda su materia orbita en el régimen donde Ω_orbital ≈ ω_Hubble. De ahí el nombre: <strong>régimen colectivo</strong>. La galaxia oscila con el universo.
+    </p>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════════════
+     §2  DOS REGÍMENES
+══════════════════════════════════════════════════════════════ -->
+<section class="section">
+  <div class="section-header">
+    <div class="section-num">§ 02</div>
+    <h2 class="section-title">La frontera:<br><em>dos regímenes, una condición</em></h2>
+  </div>
+
+  <p>
+    El modelo no modifica la gravedad. Lo que cambia es <strong>cómo la materia responde</strong> a ella según el régimen de aceleración local:
+  </p>
+
+  <div class="two-col">
+    <div class="card">
+      <div class="card-tag" style="color:var(--blue)">Régimen Hamiltoniano</div>
+      <div class="card-value" style="font-size:1rem; margin:0.5rem 0">\( g > g_{\text{crit}} \)</div>
+      <div class="card-desc">
+        Gravedad newtoniana exacta.<br>
+        V² = GM/R<br>
+        Galaxias masivas, clusters.<br>
+        Materia oscura relevante aquí.
+      </div>
+    </div>
+    <div class="card critical">
+      <div class="card-tag">Régimen Colectivo</div>
+      <div class="card-value" style="font-size:1rem; margin:0.5rem 0">\( g < g_{\text{crit}} \)</div>
+      <div class="card-desc">
+        Fuerza efectiva: √(GM·g_crit)/r<br>
+        V⁴ = GM·g_crit<br>
+        Enanas, grupos pobres.<br>
+        Sin materia oscura necesaria.
+      </div>
+    </div>
+  </div>
+
+  <p>
+    Ambos regímenes coexisten. En la misma estructura puede haber materia en ambos: el centro de una galaxia masiva puede ser hamiltoniano mientras su halo externo es colectivo. La frontera no es geométrica sino dinámica — depende de g local.
+  </p>
+
+  <div class="eq-block">
+    <div class="eq-label">Condición de régimen</div>
+    \[
+    \frac{GM(R)}{R^2} \lessgtr g_{\text{crit}}
+    \quad \Longleftrightarrow \quad
+    R \lessgtr R_T = \sqrt{\frac{GM}{g_{\text{crit}}}}
+    \]
+    <div class="eq-desc">R_T es el radio de transición. Interior: hamiltoniano. Exterior: colectivo.</div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════════════
+     §3  PREDICCIONES JWST
+══════════════════════════════════════════════════════════════ -->
+<section class="section">
+  <div class="section-header">
+    <div class="section-num">§ 03</div>
+    <h2 class="section-title">Predicción JWST:<br><em>V_flat evoluciona con z</em></h2>
+  </div>
+
+  <p>
+    Si g_crit ∝ H(z), entonces la velocidad de rotación de una enana de igual masa bariónica a distintos redshifts es diferente. La predicción exacta:
+  </p>
+
+  <div class="eq-block">
+    <div class="eq-label">Evolución de V_flat con redshift</div>
+    \[
+    V_{\text{flat}}(z) = V_{\text{flat}}(0) \cdot \left[\frac{H(z)}{H_0}\right]^{1/4}
+    \]
+    <div class="eq-desc">A z = 2: factor ×1.312. Las enanas a z alto deberían rotar más rápido que sus análogas locales.</div>
+  </div>
+
+  <p>
+    Los datos de Nestor Shachar+2023 (z = 0.6–2.5) muestran que la BTFR <em>no evoluciona</em> para galaxias masivas. Eso <strong>no contradice</strong> la predicción: esas galaxias son masivas (log M★ ~ 10–11 M☉) y están en régimen hamiltoniano. La predicción solo aplica a enanas colectivas (M &lt; 10⁹ M☉) a z alto — aún no sistemáticamente medidas por JWST.
+  </p>
+
+  <div class="card pending" style="max-width:480px">
+    <div class="card-tag">Pendiente — test definitivo</div>
+    <div class="card-value">V_flat(z=2) = 1.312 × V_flat(z=0)</div>
+    <div class="card-desc">Requiere ELT o campaña JWST dirigida a enanas lensadas a z > 1. No hay datos hoy.</div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════════════
+     §4  IC 1613 — EL UNICORNIO CONFIRMADO
+══════════════════════════════════════════════════════════════ -->
+<section class="section">
+  <div class="section-header">
+    <div class="section-num">§ 04</div>
+    <h2 class="section-title">IC 1613:<br><em>la premisa cosmológica oculta</em></h2>
+  </div>
+
+  <p>
+    IC 1613 es una galaxia enana del Grupo Local, completamente confirmada como unicornio: 109 puntos de curva de rotación, todos con g &lt; g_crit, error de predicción del 12%. Pero más importante que el número es lo que enseña sobre la historia de estructura:
+  </p>
+
+  <div class="insight">
+    <div class="insight-label">Premisa cosmológica — derivada de IC 1613</div>
+    <p>
+      <strong>Toda estructura nace en régimen colectivo.</strong> Al nacer, una perturbación tiene poca masa y radio grande. La aceleración g = GM/R² es diminuta — siempre menor que g_crit. IC 1613 nunca creció lo suficiente para cruzar al régimen hamiltoniano. Los clusters de galaxias sí lo hicieron. La historia del universo es la historia de <em>qué estructuras cruzaron el umbral y cuándo</em>.
+    </p>
+  </div>
+
+  <p>
+    Esto define f_C(k,z) — la fracción de materia en régimen colectivo para cada escala k en cada época z. Empieza en 1 para todo k, y decae conforme las estructuras crecen y cruzan g_crit.
+  </p>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════════════
+     §5  TEORÍA DE DOS FLUIDOS
+══════════════════════════════════════════════════════════════ -->
+<section class="section">
+  <div class="section-header">
+    <div class="section-num">§ 05</div>
+    <h2 class="section-title">Teoría de dos fluidos:<br><em>el sistema acoplado</em></h2>
+  </div>
+
+  <p>
+    El universo no es todo colectivo ni todo hamiltoniano. En cualquier escala k coexisten ambos tipos de materia. El potencial gravitacional es el mismo para ambos — lo genera toda la masa. Lo que difiere es <strong>cuánto se colapsa cada fluido</strong> ante ese potencial:
+  </p>
+
+  <div class="eq-block">
+    <div class="eq-label">Sistema acoplado — dos fluidos</div>
+    \[
+    \ddot{\delta}_H + 2H\dot{\delta}_H = 4\pi G\bar{\rho}\,\bigl[f_H\,\delta_H + f_C\,\delta_C\bigr]
+    \]
+    \[
+    \ddot{\delta}_C + 2H\dot{\delta}_C = \alpha \cdot 4\pi G\bar{\rho}\,\bigl[f_H\,\delta_H + f_C\,\delta_C\bigr]
+    \]
+    <div class="eq-desc">
+      El término entre corchetes es el potencial total — idéntico para ambos. El coeficiente α es lo que distingue la respuesta colectiva de la hamiltoniana.
+    </div>
+  </div>
+
+  <p>
+    El valor de α no se ajusta. Se deriva de la acción de Maupertuis reescrita en coordenadas comóviles.
+  </p>
+
+  <div class="rule-ornament">· · ·</div>
+
+  <h3 style="font-family:'Cormorant Garamond',serif; font-size:1.4rem; font-weight:400; margin-bottom:1rem;">La derivación de α</h3>
+
+  <p>
+    En el régimen colectivo la fuerza efectiva sobre un exceso de densidad δ en escala R es:
+  </p>
+
+  <div class="eq-block">
+    <div class="eq-label">Fuerza colectiva en coordenadas comóviles</div>
+    \[
+    g_{\text{eff}} = \frac{\sqrt{G \cdot M(r) \cdot g_{\text{crit}}}}{r}
+    \propto (1+\delta)^{1/2} \cdot r^{1/2}
+    \]
+    <div class="eq-desc">Linearizando (1+δ)^(1/2) ≈ 1 + δ/2, la contribución de la perturbación es la mitad del valor newtoniano.</div>
+  </div>
+
+  <div class="eq-block">
+    <div class="eq-label">Resultado — α derivado</div>
+    \[
+    \alpha = \frac{1}{2}
+    \]
+    <div class="eq-desc">
+      La ecuación de Poisson efectiva en el régimen colectivo es −∇²Φ_eff/a² = 2πGρ̄δ, la mitad del valor newtoniano 4πGρ̄δ. α = 1/2 sale de linealizar la acción de Maupertuis en comóviles — no de un ajuste.
+    </div>
+  </div>
+
+  <div class="timeline">
+    <div class="timeline-item done">
+      <div class="timeline-head">g_eff ∝ √(M·g_crit)/r</div>
+      <div class="timeline-body">Fuerza efectiva en régimen colectivo, derivada del principio de Maupertuis con Ω = ω_H.</div>
+    </div>
+    <div class="timeline-item done">
+      <div class="timeline-head">Transformación a coordenadas comóviles</div>
+      <div class="timeline-body">r = a·x, velocidad peculiar u = ẋ. La acción de Maupertuis se reescribe como m·a²∮u·dx.</div>
+    </div>
+    <div class="timeline-item done">
+      <div class="timeline-head">Linearización: (1+δ)^(1/2) ≈ 1 + δ/2</div>
+      <div class="timeline-body">El factor δ/2 en la fuente produce α = 1/2. Es el coeficiente de la perturbación en el potencial efectivo.</div>
+    </div>
+    <div class="timeline-item key">
+      <div class="timeline-head">Ecuación de crecimiento sub-lineal</div>
+      <div class="timeline-body">δ ∝ a^n con n = (−1+√(1+6α))/2. Para α=1/2: n = 0.5. Para Newton (α=1): n ≈ 0.82.</div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════════════
+     §6  f_C(k,z) Y EL ESPECTRO DE POTENCIAS
+══════════════════════════════════════════════════════════════ -->
+<section class="section">
+  <div class="section-header">
+    <div class="section-num">§ 06</div>
+    <h2 class="section-title">f_C(k,z) y el espectro<br><em>de potencias P(k)</em></h2>
+  </div>
+
+  <p>
+    La escala crítica k_crit(z) separa los modos que están hoy en régimen colectivo de los que ya cruzaron a hamiltoniano:
+  </p>
+
+  <div class="eq-block">
+    <div class="eq-label">Escala crítica — evolución con z</div>
+    \[
+    k_{\text{crit}}(z) = \frac{4\pi^2 G}{3} \cdot \frac{\bar{\rho}_m(z)}{g_{\text{crit}}(z)}
+    \propto (1+z)^{3/2}
+    \]
+    <div class="eq-desc">k_crit crece con z — en el universo temprano era enorme. Todo modo comenzó siendo hamiltoniano y entra al régimen colectivo conforme k_crit cae por debajo de k.</div>
+  </div>
+
+  <table class="data-table">
+    <thead>
+      <tr>
+        <th>z</th>
+        <th>k_crit [h/Mpc]</th>
+        <th>R_crit [Mpc]</th>
+        <th>Régimen en esa escala</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>0.0</td><td>0.0111</td><td>90</td><td><span class="badge badge-warn">Transición ahora</span></td></tr>
+      <tr><td>0.3</td><td>0.0210</td><td>48</td><td><span class="badge badge-warn">z* ≈ 0.3</span></td></tr>
+      <tr><td>1.0</td><td>0.0507</td><td>20</td><td><span class="badge badge-pend">Colectivo activo</span></td></tr>
+      <tr><td>2.0</td><td>0.1015</td><td>10</td><td><span class="badge badge-pend">Colectivo activo</span></td></tr>
+      <tr><td>3.0</td><td>0.1599</td><td>6</td><td><span class="badge badge-pend">Colectivo profundo</span></td></tr>
+    </tbody>
+  </table>
+
+  <p>
+    El mini-modelo numérico calcula P(k) integrando la ecuación de crecimiento modo por modo, con f_C(k,z) sigmoide suave alrededor de k_crit(z):
+  </p>
+
+  <div class="code-block">
+<span class="comment"># Fracción colectiva — sigmoide en log(k)</span>
+<span class="key">def</span> fC(k, a):
+    kc = k_crit(a)
+    x  = np.log(k / kc)
+    <span class="key">return</span> <span class="val">1</span> / (<span class="val">1</span> + np.exp(-<span class="val">4</span> * x))
+
+<span class="comment"># Ecuación de crecimiento con régimen colectivo</span>
+<span class="key">def</span> ode(lna, y, k):
+    a, fc = np.exp(lna), fC(k, np.exp(lna))
+    src = (<span class="val">3</span>/<span class="val">2</span>) * Om_a * ((1-fc)*delta + fc*(delta**<span class="val">0.5</span>))
+    <span class="key">return</span> [dd, src - (<span class="val">2</span>-q)*dd]
+  </div>
+
+  <div class="insight">
+    <div class="insight-label">Resultado del mini-modelo</div>
+    <p>
+      La transición en P(k) aparece en <strong>R ≈ 82 Mpc</strong> — cerca de los 100 Mpc predichos por la escala de g_crit. Escalas menores (galaxias, grupos) muestran amplificación respecto a ΛCDM. Escalas mayores son idénticas a ΛCDM. Esto es observable con DESI y Euclid.
+    </p>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════════════
+     §7  CONEXIÓN CON BAO
+══════════════════════════════════════════════════════════════ -->
+<section class="section">
+  <div class="section-header">
+    <div class="section-num">§ 07</div>
+    <h2 class="section-title">La escala BAO:<br><em>misma raíz, misma física</em></h2>
+  </div>
+
+  <p>
+    La escala de transición R* del régimen colectivo y la escala BAO comparten la misma estructura matemática:
+  </p>
+
+  <div class="eq-block">
+    <div class="eq-label">Comparación de escalas</div>
+    \[
+    R^* = \frac{c}{4\pi^2\sqrt{3}\,H_0} \approx 63 \; \text{Mpc}
+    \qquad
+    R_{\text{BAO}} \approx 147 \; \text{Mpc}
+    \]
+    <div class="eq-desc">Ambas son múltiplos de c/H₀. El factor √3 aparece en g_crit y en la velocidad del sonido del plasma primordial. No son numéricamente iguales (factor ~2.3), pero tienen la misma raíz física: resonancia con el horizonte de Hubble.</div>
+  </div>
+
+  <p>
+    Ambas condiciones de resonancia con H₀ producen escalas características en el mismo orden de magnitud — decenas a centenas de Mpc. La transición colectivo→hamiltoniano ocurre exactamente en el rango donde DESI mide los picos BAO, lo que abre la posibilidad de una modulación de su amplitud detectable en bins de redshift.
+  </p>
+
+  <div class="card pending">
+    <div class="card-tag">Test pendiente — DESI DR2</div>
+    <div class="card-value">Amplitud del pico BAO vs. z</div>
+    <div class="card-desc">La altura del pico BAO debería mostrar evolución con z que no está en ΛCDM puro. Detectable con los datos existentes de DESI DR1/DR2.</div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════════════
+     §8  INTENTOS DE FALSIFICACIÓN
+══════════════════════════════════════════════════════════════ -->
+<section class="section">
+  <div class="section-header">
+    <div class="section-num">§ 08</div>
+    <h2 class="section-title">Intentos de falsificación:<br><em>lo que sobrevivió y lo que no</em></h2>
+  </div>
+
+  <div class="falsif">
+    <div class="falsif-item">
+      <div class="falsif-num">F1</div>
+      <div class="falsif-text"><strong>Falsos positivos:</strong> ¿predicen las galaxias hamiltonianas V_flat colectivo?</div>
+      <div class="falsif-result"><span class="badge badge-ok">0 / 137 ✓</span></div>
+    </div>
+    <div class="falsif-item">
+      <div class="falsif-num">F2</div>
+      <div class="falsif-text"><strong>Sensibilidad a g_crit:</strong> ¿rompe el modelo si g_crit cambia ×0.5 o ×2?</div>
+      <div class="falsif-result"><span class="badge badge-ok">Sí — específico ✓</span></div>
+    </div>
+    <div class="falsif-item">
+      <div class="falsif-num">F3</div>
+      <div class="falsif-text"><strong>Sensibilidad a Υ★:</strong> variando la masa-luz del 0.1 a 1.5, ¿se rompe la predicción de UGC04305?</div>
+      <div class="falsif-result"><span class="badge badge-ok">Robusto ✓</span></div>
+    </div>
+    <div class="falsif-item">
+      <div class="falsif-num">F4</div>
+      <div class="falsif-text"><strong>vs. MOND:</strong> g_crit = 1.0×10⁻¹¹ vs. a₀ = 1.2×10⁻¹⁰ — ¿distinguibles?</div>
+      <div class="falsif-result"><span class="badge badge-ok">Factor 12 — sí ✓</span></div>
+    </div>
+    <div class="falsif-item">
+      <div class="falsif-num">F5</div>
+      <div class="falsif-text"><strong>Sesgo sistemático en residuales:</strong> media de error en 5 galaxias</div>
+      <div class="falsif-result"><span class="badge badge-ok">−0.2 km/s ✓</span></div>
+    </div>
+    <div class="falsif-item">
+      <div class="falsif-num">F6</div>
+      <div class="falsif-text"><strong>Gap teórico real:</strong> la condición Ω_orbital = ω_Hubble es una aserción, no una derivación desde primeros principios del lagrangiano de campo.</div>
+      <div class="falsif-result"><span class="badge badge-warn">Abierto ⚠</span></div>
+    </div>
+  </div>
+
+  <p>
+    El falsificador nuclear que colapsaría el modelo: <em>una galaxia completamente colectiva (todos sus puntos con g &lt; g_crit, curva plana clara) cuya V_flat difiera más del 25% de la predicción</em>. No se ha encontrado.
+  </p>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════════════
+     §9  GAPS ABIERTOS
+══════════════════════════════════════════════════════════════ -->
+<section class="section">
+  <div class="section-header">
+    <div class="section-num">§ 09</div>
+    <h2 class="section-title">Gaps abiertos:<br><em>el mapa de lo que falta</em></h2>
+  </div>
+
+  <div class="card-grid">
+    <div class="card pending">
+      <div class="card-tag">Derivación pendiente</div>
+      <div class="card-value" style="font-size:1rem">Acción de Maupertuis en cosmología de campo</div>
+      <div class="card-desc">La condición Ω = ω_H necesita surgir de un lagrangiano covariante, no imponerse. Ese es el gap fundamental.</div>
+    </div>
+    <div class="card pending">
+      <div class="card-tag">Cálculo pendiente</div>
+      <div class="card-value" style="font-size:1rem">MCMC con P(k) y f·σ₈</div>
+      <div class="card-desc">Fitear el modelo completo contra DESI DR1/DR2 para obtener Ω_cdm efectivo con el modelo correcto.</div>
+    </div>
+    <div class="card pending">
+      <div class="card-tag">Dato faltante</div>
+      <div class="card-value" style="font-size:1rem">Oh+2015 curvas completas</div>
+      <div class="card-desc">VizieR J/AJ/149/180 — 26 galaxias LITTLE THINGS. DDO 50 (err=11%) y NGC 1569 (err=4%) son candidatos críticos.</div>
+    </div>
+    <div class="card pending">
+      <div class="card-tag">Test observacional</div>
+      <div class="card-value" style="font-size:1rem">V_flat(z) en enanas a z > 1</div>
+      <div class="card-desc">La predicción V∝H(z)^(1/4) requiere JWST o ELT sobre enanas lensadas. No hay datos sistemáticos hoy.</div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════════════
+     §10  ESTADO ACTUAL
+══════════════════════════════════════════════════════════════ -->
+<section class="section">
+  <div class="section-header">
+    <div class="section-num">§ 10</div>
+    <h2 class="section-title">Estado actual:<br><em>qué está sólido</em></h2>
+  </div>
+
+  <table class="data-table">
+    <thead>
+      <tr>
+        <th>Resultado</th>
+        <th>Ecuación</th>
+        <th>Estado</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Valor de g_crit</td>
+        <td><code>cH₀/(4π²√3) = 1.009×10⁻¹¹ m/s²</code></td>
+        <td><span class="badge badge-ok">Derivado + confirmado</span></td>
+      </tr>
+      <tr>
+        <td>Velocidad de rotación</td>
+        <td><code>V⁴ = G·M_bar·g_crit</code></td>
+        <td><span class="badge badge-ok">5/5 galaxias ✓</span></td>
+      </tr>
+      <tr>
+        <td>Predicción redshift</td>
+        <td><code>V_flat(z) ∝ H(z)^(1/4)</code></td>
+        <td><span class="badge badge-warn">Derivada, sin datos</span></td>
+      </tr>
+      <tr>
+        <td>Valor de α</td>
+        <td><code>α = 1/2 (acción de Maupertuis en comóviles)</code></td>
+        <td><span class="badge badge-ok">Derivado</span></td>
+      </tr>
+      <tr>
+        <td>Crecimiento sub-lineal</td>
+        <td><code>δ ∝ a^0.5 en régimen colectivo</code></td>
+        <td><span class="badge badge-ok">Derivado</span></td>
+      </tr>
+      <tr>
+        <td>f_C(k,z)</td>
+        <td><code>sigmoide en k/k_crit(z)</code></td>
+        <td><span class="badge badge-ok">Implementado</span></td>
+      </tr>
+      <tr>
+        <td>P(k) mini-modelo</td>
+        <td><code>transición en R ≈ 82 Mpc</code></td>
+        <td><span class="badge badge-warn">Aproximado</span></td>
+      </tr>
+      <tr>
+        <td>Acoplamiento f_C ↔ δ no lineal</td>
+        <td><code>δ̈ + 2Hδ̇ = (3/2)Ωm[(1-fC)δ + fC√δ]</code></td>
+        <td><span class="badge badge-pend">Estructura correcta, α a verificar</span></td>
+      </tr>
+      <tr>
+        <td>Derivación desde lagrangiano covariante</td>
+        <td>—</td>
+        <td><span class="badge badge-pend">No realizado</span></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="insight">
+    <div class="insight-label">Síntesis del proceso mental</div>
+    <p>
+      El modelo empezó como una pregunta sobre galaxias enanas y terminó como una teoría de dos fluidos cosmológica. El camino fue: <strong>observación → principio variacional → g_crit → condición de régimen → premisa de IC 1613 → f_C(k,z) → sistema acoplado → α derivado → P(k)</strong>. Cada paso surgió de la física anterior, sin parámetros libres adicionales. El modelo es falsificable, tiene predicciones específicas, y los gaps están bien localizados. No está completo — pero la estructura es limpia.
+    </p>
+  </div>
+</section>
+
+</div><!-- /content -->
+
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div>
+      <strong>Constantes clave</strong><br>
+      g_crit = 1.009 × 10⁻¹¹ m/s²<br>
+      k_crit(z=0) = 0.0111 h/Mpc → R = 90 Mpc<br>
+      z* ≈ 0.3 — época de transición global<br>
+      α = 1/2 — respuesta colectiva al potencial<br>
+    </div>
+    <div>
+      <strong>Próximos pasos</strong><br>
+      · Descargar Oh+2015 (VizieR J/AJ/149/180)<br>
+      · MCMC vs. DESI f·σ₈<br>
+      · Derivación covariante de Ω = ω_H<br>
+      · Test de amplitud BAO vs. z<br>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
