@@ -61,8 +61,30 @@ These relations may represent:
 - causal possibility
 
 In this model, the universe begins not with space or time, but with relations.
+## 2. Emergence Operator
+
+We define an emergence operator:
+
+E
+
+This operator represents the process through which relational structures become organized into coherent patterns.
+
+E does not represent time evolution in the conventional sense.
+
+Instead, it represents a structural transition from relational possibility to structured organization.
+
+Formally:
+
+S = E(R(Ω))
+
+Where:
+
+S represents an organized structure emerging from the relational network.
+
+This structure is the precursor to spacetime.
 
 Spacetime emerges when these relations become organized in coherent structures.
+
 These relations become organized through an emergence process:
 
 S = E(R(Ω))
