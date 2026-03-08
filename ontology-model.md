@@ -66,7 +66,23 @@ In this model, the universe begins not with space or time, but with relations.
 We define an emergence operator:
 
 E
+## 3. Emergence of Time
 
+Time is not assumed to exist at the ontological level Ω.
+
+Instead, time emerges when organized structures change between distinguishable states.
+
+If S represents a structured configuration produced by the emergence operator E, then the evolution of structures can be described as transitions between states:
+
+S₁ → S₂ → S₃ → ...
+
+These ordered transitions define a relational notion of time.
+
+In this view, time is not a fundamental dimension but a measure of structural change.
+
+Thus, time emerges from the sequence of transformations of emergent structures.
+
+T ≡ ordering(S)
 This operator represents the process through which relational structures become organized into coherent patterns.
 
 E does not represent time evolution in the conventional sense.
