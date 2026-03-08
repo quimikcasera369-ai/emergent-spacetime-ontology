@@ -83,6 +83,22 @@ In this view, time is not a fundamental dimension but a measure of structural ch
 Thus, time emerges from the sequence of transformations of emergent structures.
 
 T ≡ ordering(S)
+## 4. Emergence of Space
+
+Space is not assumed to exist at the fundamental ontological level Ω.
+
+Instead, spatial structure emerges from patterns of connectivity within the relational network.
+
+When relational structures organize into stable configurations, it becomes possible to define notions of proximity and separation between elements.
+
+These patterns of relational connectivity can be interpreted as spatial relations.
+
+Thus, space emerges as a relational geometry defined by the structure of connections between ontological elements.
+
+Symbolically:
+
+Space ≡ geometry(R)
+
 This operator represents the process through which relational structures become organized into coherent patterns.
 
 E does not represent time evolution in the conventional sense.
