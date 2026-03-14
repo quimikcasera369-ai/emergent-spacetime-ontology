@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Cosmología de Dos Regímenes Gravitacionales</title>
+
+<style>
+
+body{
+    font-family: Georgia, "Times New Roman", serif;
+    margin:80px auto;
+    max-width:900px;
+    line-height:1.7;
+    font-size:18px;
+    color:#111;
+}
+
+h1{
+    text-align:center;
+    margin-bottom:10px;
+}
+
+.author{
+    text-align:center;
+    margin-bottom:50px;
+}
+
+h2{
+    margin-top:50px;
+    border-bottom:1px solid #ddd;
+    padding-bottom:5px;
+}
+
+.eq{
+    text-align:center;
+    font-size:20px;
+    margin:20px 0;
+}
+
+.abstract{
+    background:#f7f7f7;
+    padding:20px;
+    border-left:4px solid #555;
+}
+
+.note{
+    background:#fbfbfb;
+    padding:15px;
+    border-left:3px solid #3b6bd6;
+}
+
+</style>
+
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+</head>
+
+<body>
+
+<h1>Cosmología de Dos Regímenes Gravitacionales</h1>
+
+<div class="author">
+Juan Torres (concepto inicial)<br>
+Modelo exploratorio de dinámica gravitacional colectiva
+</div>
+
+
+<div class="abstract">
+
+<b>Resumen</b>
+
+<p>
+Se propone un marco cosmológico basado en la existencia de dos
+regímenes gravitacionales emergentes: un régimen hamiltoniano
+convencional y un régimen colectivo que aparece cuando la
+aceleración gravitatoria cae por debajo de un umbral fundamental
+\(g_{crit}\).
+</p>
+
+<p>
+El modelo se deriva a partir del principio variacional de Maupertuis
+expresado en coordenadas comóviles. La transición entre ambos
+regímenes genera una dinámica efectiva de dos fluidos que modifica
+el crecimiento de perturbaciones cosmológicas.
+</p>
+
+</div>
+
+<h2>1. Introducción</h2>
+
+<p>
+El crecimiento de estructura en cosmología estándar se describe
+mediante la evolución de perturbaciones lineales en un fluido
+gravitacional dominado por materia oscura.
+</p>
+
+<p>
+Sin embargo, diversas tensiones observacionales en el crecimiento
+de estructura sugieren la posibilidad de nuevas dinámicas
+gravitacionales a bajas aceleraciones.
+</p>
+
+<p>
+En este trabajo se explora un marco alternativo donde el campo
+gravitacional presenta un régimen colectivo emergente.
+</p>
+
+
+<h2>2. Acción de Maupertuis en espacio cosmológico</h2>
+
+<p>
+Partimos del principio variacional:
+</p>
+
+<div class="eq">
+\( S = \int p \cdot dq \)
+</div>
+
+<p>
+En cosmología usamos coordenadas comóviles:
+</p>
+
+<div class="eq">
+\( r = a(t)x \)
+</div>
+
+<p>
+La velocidad peculiar es
+</p>
+
+<div class="eq">
+\( v = a\dot{x} \)
+</div>
+
+<p>
+El momento conjugado se vuelve
+</p>
+
+<div class="eq">
+\( p = m a^2 \dot{x} \)
+</div>
+
+<p>
+La acción efectiva toma la forma
+</p>
+
+<div class="eq">
+\( S = \int m a^2 \dot{x}^2 dt \)
+</div>
+
+<p>
+La variación produce la ecuación de movimiento cosmológica
+</p>
+
+<div class="eq">
+\( \ddot{x} + 2H\dot{x} =
+-\frac{1}{a^2}\nabla\phi
+\)
+</div>
+
+
+<h2>3. Régimen colectivo</h2>
+
+<p>
+Proponemos que a bajas aceleraciones el potencial gravitatorio
+efectivo se transforma según
+</p>
+
+<div class="eq">
+\( \Phi_{eff} = \sqrt{\Phi \Phi_{crit}} \)
+</div>
+
+<p>
+donde el umbral de aceleración está dado por
+</p>
+
+<div class="eq">
+\( g_{crit} =
+\frac{cH_0}{4\pi^2\sqrt{3}}
+\)
+</div>
+
+<div class="note">
+Este umbral conecta escalas locales con la escala cosmológica
+de Hubble.
+</div>
+
+
+<h2>4. Sistema cosmológico de dos fluidos</h2>
+
+<p>
+La densidad total se separa en dos componentes:
+</p>
+
+<div class="eq">
+\( \rho = \rho_H + \rho_C \)
+</div>
+
+<ul>
+<li>\(\rho_H\) — componente hamiltoniana</li>
+<li>\(\rho_C\) — componente colectiva</li>
+</ul>
+
+<p>
+Definimos la fracción colectiva
+</p>
+
+<div class="eq">
+\( f_C = \frac{\rho_C}{\rho} \)
+</div>
+
+<p>
+La ecuación de crecimiento se convierte en
+</p>
+
+<div class="eq">
+\(
+\ddot{\delta}+2H\dot{\delta}
+=
+4\pi G\bar{\rho}
+(1-\frac{1}{2}f_C)\delta
+\)
+</div>
+
+
+<h2>5. Condición de transición gravitacional</h2>
+
+<p>
+La transición entre regímenes ocurre cuando la aceleración
+de una perturbación satisface
+</p>
+
+<div class="eq">
+\( g(R) = G\bar{\rho}\delta R \)
+</div>
+
+<div class="eq">
+\( g(R) = g_{crit} \)
+</div>
+
+<p>
+lo cual determina un redshift de transición dependiente de escala.
+</p>
+
+
+<h2>6. Ecuación cerrada para la fracción colectiva</h2>
+
+<p>
+Asumiendo una distribución gaussiana de perturbaciones,
+la fracción colectiva puede escribirse como
+</p>
+
+<div class="eq">
+\(
+f_C(k,z)=
+\frac{1}{2}
+\operatorname{erfc}
+\left(
+\frac{\delta_{crit}(k,z)}
+{\sqrt{2}\sigma(k,z)}
+\right)
+\)
+</div>
+
+
+<h2>7. Consecuencias cosmológicas</h2>
+
+<ul>
+
+<li>Dependencia de escala en el crecimiento de estructuras</li>
+
+<li>Supresión del crecimiento a grandes escalas</li>
+
+<li>Transición característica alrededor de ~100 Mpc</li>
+
+<li>Modificación del espectro de potencia de materia</li>
+
+</ul>
+
+
+<h2>8. Conclusión</h2>
+
+<p>
+El modelo presentado constituye un marco preliminar para explorar
+dinámicas gravitacionales colectivas en cosmología.
+</p>
+
+<p>
+La teoría genera un sistema dinámico cerrado que puede
+investigarse numéricamente para obtener predicciones observacionales.
+</p>
+
+</body>
+</html>

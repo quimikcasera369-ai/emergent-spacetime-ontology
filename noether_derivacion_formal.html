@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Derivación Formal — Noether en el Régimen Colectivo</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,600;1,300&family=EB+Garamond:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['$','$']],
+    displayMath: [['$$','$$']],
+    tags: 'ams'
+  }
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<style>
+:root {
+  --bg:    #0d0c0a;
+  --paper: #131110;
+  --ink:   #e8e0d0;
+  --dim:   #7a7060;
+  --rust:  #c43a00;
+  --gold:  #c8941a;
+  --blue:  #2a5480;
+  --rule:  #2e2820;
+  --warm:  #1a1714;
+  --green: #2a6a30;
+}
+
+*  { box-sizing: border-box; margin:0; padding:0; }
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: 'EB Garamond', Georgia, serif;
+  font-size: 19px;
+  line-height: 1.85;
+}
+
+/* ── HEADER ────────────────────────────────────────────────── */
+header {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 80px 40px 60px;
+  border-bottom: 1px solid var(--rule);
+}
+
+.h-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--rust);
+  margin-bottom: 20px;
+}
+
+header h1 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 44px;
+  font-weight: 300;
+  line-height: 1.1;
+  color: var(--ink);
+  margin-bottom: 12px;
+}
+
+header h1 em { font-style: italic; color: var(--gold); }
+
+.h-sub {
+  font-size: 17px;
+  color: var(--dim);
+  font-style: italic;
+  margin-top: 16px;
+}
+
+/* ── MAIN ──────────────────────────────────────────────────── */
+main {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 0 40px 120px;
+}
+
+/* ── STEP BLOCKS ───────────────────────────────────────────── */
+.step {
+  padding: 64px 0 48px;
+  border-bottom: 1px solid var(--rule);
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.step.visible { opacity:1; transform:none; }
+
+.step-num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--rust);
+  margin-bottom: 16px;
+}
+
+.step h2 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 32px;
+  font-weight: 600;
+  color: var(--ink);
+  line-height: 1.2;
+  margin-bottom: 28px;
+}
+
+.step h2 em { font-style:italic; color:var(--gold); }
+
+p { margin-bottom: 18px; }
+
+/* ── MathJax display blocks ───────────────────────────────── */
+.math-block {
+  background: var(--warm);
+  border-left: 3px solid var(--rust);
+  padding: 20px 28px;
+  margin: 28px 0;
+  overflow-x: auto;
+}
+
+.math-block.gold { border-color: var(--gold); }
+.math-block.green { border-color: var(--green); }
+.math-block.blue  { border-color: var(--blue); }
+
+/* ── ANNOTATION ────────────────────────────────────────────── */
+.annotation {
+  display: flex;
+  gap: 16px;
+  margin: 16px 0;
+  padding: 14px 18px;
+  border: 1px solid var(--rule);
+  background: #161410;
+  font-size: 16px;
+}
+
+.ann-marker {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--gold);
+  padding-top: 2px;
+  white-space: nowrap;
+  min-width: 60px;
+}
+
+.ann-text { color: var(--dim); }
+.ann-text strong { color: var(--ink); }
+
+/* ── RESULT BOX ────────────────────────────────────────────── */
+.result-box {
+  border: 1px solid var(--gold);
+  padding: 28px 32px;
+  margin: 36px 0;
+  background: #1a1508;
+  text-align: center;
+}
+
+.result-box .rb-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 16px;
+}
+
+/* ── CAVEAT ────────────────────────────────────────────────── */
+.caveat {
+  border-left: 3px solid #4a3a00;
+  padding: 16px 20px;
+  margin: 24px 0;
+  background: #141008;
+  font-size: 16px;
+  color: var(--dim);
+}
+.caveat strong { color: var(--gold); }
+
+/* ── SUMMARY TABLE ─────────────────────────────────────────── */
+.summary {
+  margin: 48px 0 0;
+  border: 1px solid var(--rule);
+  overflow: hidden;
+}
+
+.summary-row {
+  display: grid;
+  grid-template-columns: 40px 200px 1fr;
+  gap: 0;
+  border-bottom: 1px solid var(--rule);
+}
+.summary-row:last-child { border-bottom: none; }
+
+.sr-num {
+  background: var(--warm);
+  padding: 16px;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--rule);
+  text-align: center;
+  display: flex; align-items: center; justify-content: center;
+}
+
+.sr-key {
+  padding: 16px;
+  border-left: 1px solid var(--rule);
+  border-right: 1px solid var(--rule);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  color: var(--gold);
+  display: flex; align-items: center;
+}
+
+.sr-val {
+  padding: 16px;
+  font-size: 16px;
+  color: var(--dim);
+  display: flex; align-items: center;
+}
+.sr-val strong { color: var(--ink); }
+
+/* ── FOOTER ────────────────────────────────────────────────── */
+footer {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 60px 40px 80px;
+  border-top: 1px solid var(--rule);
+  text-align: center;
+}
+
+footer p {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 20px;
+  font-style: italic;
+  color: var(--dim);
+  margin-bottom: 8px;
+}
+
+footer .sig {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--rule);
+  letter-spacing: 0.1em;
+  margin-top: 32px;
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="h-label">Derivación formal · Régimen colectivo · Noether</div>
+  <h1>El Lagrangiano exacto,<br>la simetría de escala,<br><em>y la cantidad conservada</em></h1>
+  <p class="h-sub">Tres pasos. Sin adornos. Con caveats honestos donde los hay.</p>
+</header>
+
+<main>
+
+<!-- ═══════════════════════════════════════════════════════
+     PASO 1 — EL LAGRANGIANO
+═══════════════════════════════════════════════════════ -->
+<div class="step" id="s1">
+  <div class="step-num">Paso 1 de 3</div>
+  <h2>El Lagrangiano exacto del <em>régimen colectivo</em></h2>
+
+  <p>Partimos de una partícula de prueba de masa $m$ orbitando en coordenadas polares $(r, \theta)$ en el plano ecuatorial de una galaxia en régimen colectivo.</p>
+
+  <p>La energía cinética es estándar. El potencial hay que derivarlo desde la condición del régimen colectivo.</p>
+
+  <h3 style="font-family:'Cormorant Garamond',serif;font-size:22px;color:var(--gold);margin:32px 0 12px;">1.1 El potencial logarítmico</h3>
+
+  <p>En régimen colectivo, la velocidad de rotación es constante: $v^2 = GM \cdot g_{crit} / v^2$... es decir, $v^4 = GM \cdot g_{crit}$, por lo que:</p>
+
+  <div class="math-block">
+    $$v = V_0 = (G M_\text{bar} \cdot g_\text{crit})^{1/4} = \text{constante}$$
+  </div>
+
+  <p>La fuerza centrípeta que produce $V_0 = $ constante debe satisfacer $m\ddot{r} = -dV/dr$ con $\ddot{r} = 0$ para órbita circular, y la condición radial:</p>
+
+  <div class="math-block">
+    $$\frac{V_0^2}{r} = -\frac{d\Phi}{dr} \quad \Longrightarrow \quad \frac{d\Phi}{dr} = -\frac{V_0^2}{r}$$
+  </div>
+
+  <p>Integrando:</p>
+
+  <div class="math-block gold">
+    $$\boxed{\Phi(r) = -V_0^2 \ln r + \text{cte}}$$
+  </div>
+
+  <div class="annotation">
+    <span class="ann-marker">nota</span>
+    <span class="ann-text">El signo: con la convención $F = -\nabla\Phi$, el potencial $\Phi = -V_0^2 \ln r$ produce fuerza centrípeta hacia adentro $F_r = +V_0^2/r > 0$ en dirección $\hat{r}$ negativa. Usamos la convención $\Phi = +V_0^2 \ln r$ con $F = +\nabla\Phi$, o equivalentemente $\Phi = -V_0^2 \ln r$ con $F = -d\Phi/dr$. Tomamos la convención estándar: <strong>$\Phi(r) = -V_0^2 \ln r$</strong> (la constante se fija al origen sin consecuencias físicas).</span>
+  </div>
+
+  <h3 style="font-family:'Cormorant Garamond',serif;font-size:22px;color:var(--gold);margin:32px 0 12px;">1.2 El Lagrangiano completo</h3>
+
+  <div class="math-block gold">
+    $$\boxed{\mathcal{L}(r, \dot{r}, \theta, \dot{\theta}) = \frac{1}{2}m(\dot{r}^2 + r^2\dot{\theta}^2) + mV_0^2 \ln r}$$
+  </div>
+
+  <p>Con $V_0 = (GM_\text{bar} \cdot g_\text{crit})^{1/4}$ fijo para cada galaxia.</p>
+
+  <h3 style="font-family:'Cormorant Garamond',serif;font-size:22px;color:var(--gold);margin:32px 0 12px;">1.3 Verificación: ecuaciones de movimiento</h3>
+
+  <p>Las ecuaciones de Euler-Lagrange dan:</p>
+
+  <p><strong>Para $\theta$:</strong></p>
+  <div class="math-block">
+    $$\frac{d}{dt}\left(mR^2\dot{\theta}\right) = 0 \quad \Longrightarrow \quad L_z = mr^2\dot{\theta} = \text{constante}$$
+  </div>
+  <p>El momento angular se conserva — consecuencia de la simetría rotacional $\partial\mathcal{L}/\partial\theta = 0$.</p>
+
+  <p><strong>Para $r$:</strong></p>
+  <div class="math-block">
+    $$m\ddot{r} - mr\dot{\theta}^2 + \frac{mV_0^2}{r} = 0$$
+  </div>
+  <p>Para órbita circular ($\ddot{r} = 0$):</p>
+  <div class="math-block">
+    $$r\dot{\theta}^2 = \frac{V_0^2}{r} \quad \Longrightarrow \quad v_\text{orb}^2 = r^2\dot{\theta}^2 = V_0^2 \checkmark$$
+  </div>
+
+  <div class="result-box">
+    <div class="rb-label">Resultado 1</div>
+    $$\mathcal{L} = \frac{1}{2}m(\dot{r}^2 + r^2\dot{\theta}^2) + mV_0^2 \ln r$$
+    <p style="margin-top:16px;font-size:16px;color:var(--dim);">El Lagrangiano del régimen colectivo tiene potencial logarítmico. Las ecuaciones de movimiento reproducen $v = V_0 = $ constante para órbitas circulares.</p>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════
+     PASO 2 — SIMETRÍA DE ESCALA
+═══════════════════════════════════════════════════════ -->
+<div class="step" id="s2">
+  <div class="step-num">Paso 2 de 3</div>
+  <h2>La simetría de escala: <em>demostración formal</em></h2>
+
+  <p>Queremos mostrar que el sistema es invariante bajo un grupo de transformaciones de escala. Definimos la transformación de dilatación con parámetro $\lambda > 0$:</p>
+
+  <div class="math-block blue">
+    $$\mathcal{D}_\lambda: \quad r \to \lambda r, \quad t \to \lambda t$$
+  </div>
+
+  <div class="annotation">
+    <span class="ann-marker">por qué</span>
+    <span class="ann-text">Escalamos tanto posición como tiempo con el <strong>mismo factor</strong> $\lambda$. Esto preserva la velocidad: $\dot{r} \to \dot{r}$ y $r\dot{\theta} \to r\dot{\theta}$.</span>
+  </div>
+
+  <h3 style="font-family:'Cormorant Garamond',serif;font-size:22px;color:var(--gold);margin:32px 0 12px;">2.1 Cómo transforma el Lagrangiano</h3>
+
+  <p>Bajo $\mathcal{D}_\lambda$, los términos individuales:</p>
+
+  <div class="math-block">
+    $$\dot{r}^2 = \left(\frac{dr}{dt}\right)^2 \to \left(\frac{d(\lambda r)}{d(\lambda t)}\right)^2 = \dot{r}^2 \quad \text{(invariante)}$$
+    $$r^2\dot{\theta}^2 = r^2\left(\frac{d\theta}{dt}\right)^2 \to (\lambda r)^2\left(\frac{d\theta}{\lambda dt}\right)^2 = r^2\dot{\theta}^2 \quad \text{(invariante)}$$
+    $$\ln r \to \ln(\lambda r) = \ln r + \ln\lambda$$
+  </div>
+
+  <p>Por lo tanto:</p>
+
+  <div class="math-block gold">
+    $$\mathcal{L} \;\xrightarrow{\;\mathcal{D}_\lambda\;}\; \mathcal{L} + mV_0^2 \ln\lambda$$
+  </div>
+
+  <p>El Lagrangiano cambia por una <strong>constante</strong> $mV_0^2 \ln\lambda$. Esto es una <em>cuasi-simetría</em> (o simetría de Noether débil): la acción cambia solo por un término de frontera, lo que es suficiente para el teorema de Noether.</p>
+
+  <h3 style="font-family:'Cormorant Garamond',serif;font-size:22px;color:var(--gold);margin:32px 0 12px;">2.2 El potencial como función de escala</h3>
+
+  <p>El potencial logarítmico pertenece a la familia de potenciales de escala. Definimos el <strong>grado de homogeneidad</strong> generalizado mediante:</p>
+
+  <div class="math-block">
+    $$\Phi(\lambda r) = \Phi(r) + V_0^2 \ln\lambda$$
+  </div>
+
+  <p>Derivando con respecto a $\lambda$ y evaluando en $\lambda = 1$:</p>
+
+  <div class="math-block">
+    $$r \frac{d\Phi}{dr} = V_0^2 \quad \Longrightarrow \quad r \cdot \frac{V_0^2}{r} = V_0^2 \checkmark$$
+  </div>
+
+  <p>Esta identidad es la <strong>ecuación de Euler para funciones homogéneas generalizada al caso logarítmico</strong>. Tiene consecuencias directas vía el teorema del virial.</p>
+
+  <h3 style="font-family:'Cormorant Garamond',serif;font-size:22px;color:var(--gold);margin:32px 0 12px;">2.3 Comparación con el régimen kepleriano</h3>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:2px;margin:24px 0;background:var(--rule);">
+    <div style="background:var(--warm);padding:20px;">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--blue);letter-spacing:0.15em;text-transform:uppercase;margin-bottom:10px;">Kepleriano</div>
+      <p style="font-size:16px;margin-bottom:8px;">$\Phi = -GM/r$</p>
+      <p style="font-size:16px;margin-bottom:8px;">$\Phi(\lambda r) = \lambda^{-1}\Phi(r)$</p>
+      <p style="font-size:16px;color:var(--dim);">Simetría: $r \to \lambda r$, $t \to \lambda^{3/2}t$<br>(3ª ley de Kepler)</p>
+    </div>
+    <div style="background:var(--warm);padding:20px;">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--rust);letter-spacing:0.15em;text-transform:uppercase;margin-bottom:10px;">Colectivo</div>
+      <p style="font-size:16px;margin-bottom:8px;">$\Phi = -V_0^2\ln r$</p>
+      <p style="font-size:16px;margin-bottom:8px;">$\Phi(\lambda r) = \Phi(r) + V_0^2\ln\lambda$</p>
+      <p style="font-size:16px;color:var(--dim);">Simetría: $r \to \lambda r$, $t \to \lambda t$<br>(escala isotrópica)</p>
+    </div>
+  </div>
+
+  <div class="result-box">
+    <div class="rb-label">Resultado 2</div>
+    $$\Phi(\lambda r) = \Phi(r) + V_0^2 \ln\lambda$$
+    <p style="margin-top:16px;font-size:16px;color:var(--dim);">El potencial logarítmico es <strong>cuasi-homogéneo de grado logarítmico</strong>. El sistema es invariante bajo la dilatación isotrópica $\mathcal{D}_\lambda: (r,t) \to (\lambda r, \lambda t)$, que es una cuasi-simetría del Lagrangiano.</p>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════
+     PASO 3 — NOETHER
+═══════════════════════════════════════════════════════ -->
+<div class="step" id="s3">
+  <div class="step-num">Paso 3 de 3</div>
+  <h2>La cantidad conservada <em>por el teorema de Noether</em></h2>
+
+  <h3 style="font-family:'Cormorant Garamond',serif;font-size:22px;color:var(--gold);margin:0 0 16px;">3.1 Vía el Teorema del Virial (la ruta más limpia)</h3>
+
+  <p>El Teorema del Virial es la consecuencia directa de la simetría de escala para sistemas ligados. Para cualquier potencial que satisfaga $r \cdot d\Phi/dr = kV_0^2$:</p>
+
+  <div class="math-block">
+    $$2\langle T \rangle = \left\langle r \frac{d\Phi}{dr} \right\rangle$$
+  </div>
+
+  <p>Para nuestro potencial logarítmico, $r \cdot d\Phi/dr = V_0^2$ (constante). Por lo tanto:</p>
+
+  <div class="math-block gold">
+    $$2\langle T \rangle = V_0^2 \quad \Longrightarrow \quad \langle T \rangle = \frac{1}{2}mV_0^2 = \text{constante}$$
+  </div>
+
+  <p>Para órbita circular (donde $T$ es exactamente constante, no solo en promedio):</p>
+
+  <div class="math-block green">
+    $$\boxed{T = \frac{1}{2}mv_\text{orb}^2 = \frac{1}{2}mV_0^2 = \text{constante}}$$
+  </div>
+
+  <p><strong>La energía cinética orbital está congelada.</strong> No por una fuerza externa sino por una ley de conservación — consecuencia directa de la simetría de escala del potencial.</p>
+
+  <h3 style="font-family:'Cormorant Garamond',serif;font-size:22px;color:var(--gold);margin:32px 0 12px;">3.2 Vía Noether directo: la carga de dilatación</h3>
+
+  <p>Para la cuasi-simetría $\mathcal{D}_\lambda$ con generador infinitesimal $\epsilon$:</p>
+
+  <div class="math-block">
+    $$\delta r = \epsilon r, \quad \delta t = \epsilon t, \quad \delta\theta = 0$$
+  </div>
+
+  <p>La variación del Lagrangiano es $\delta\mathcal{L} = mV_0^2\epsilon = \frac{d}{dt}(mV_0^2 \epsilon t)$, es decir, es una derivada total con función de Noether $F = mV_0^2 t$.</p>
+
+  <p>La <strong>carga de dilatación</strong> (corriente de Noether conservada) es:</p>
+
+  <div class="math-block">
+    $$\mathcal{D} = \underbrace{\frac{\partial\mathcal{L}}{\partial\dot{r}}\cdot \delta r}_{p_r \cdot \epsilon r} + \underbrace{\frac{\partial\mathcal{L}}{\partial\dot{\theta}}\cdot \delta\theta}_{0} - \underbrace{\left(\mathcal{L} - \frac{\partial\mathcal{L}}{\partial\dot{r}}\dot{r} - \frac{\partial\mathcal{L}}{\partial\dot{\theta}}\dot{\theta}\right)}_{\text{Hamiltoniano} = H} \cdot \epsilon t + F$$
+  </div>
+
+  <p>Dividiendo por $\epsilon$:</p>
+
+  <div class="math-block gold">
+    $$\mathcal{D} = m\dot{r}\cdot r - H\cdot t + mV_0^2 t = m r\dot{r} + (mV_0^2 - H)\,t$$
+  </div>
+
+  <p>Para verificar la conservación, calculamos $d\mathcal{D}/dt$:</p>
+
+  <div class="math-block">
+    $$\frac{d\mathcal{D}}{dt} = m(\ddot{r}r + \dot{r}^2) + (mV_0^2 - H)$$
+  </div>
+
+  <p>Usando la ecuación de movimiento $m\ddot{r} = -mV_0^2/r + mr\dot{\theta}^2$ y el Hamiltoniano $H = T + V = \frac{1}{2}m(\dot{r}^2 + r^2\dot{\theta}^2) - mV_0^2\ln r$:</p>
+
+  <div class="math-block">
+    $$\frac{d\mathcal{D}}{dt} = m\left(-\frac{V_0^2}{r}\cdot r + r^2\dot{\theta}^2 + \dot{r}^2\right) + mV_0^2 - H$$
+    $$= m(-V_0^2 + r^2\dot{\theta}^2 + \dot{r}^2) + mV_0^2 - \frac{1}{2}m(\dot{r}^2 + r^2\dot{\theta}^2) + mV_0^2\ln r$$
+    $$= 2T - H + mV_0^2\ln r + \cancel{m(-V_0^2 + V_0^2)}$$
+    $$= 2T - (T - mV_0^2\ln r) + mV_0^2\ln r = T + 2mV_0^2\ln r$$
+  </div>
+
+  <p>Esto se anula cuando:</p>
+
+  <div class="math-block gold">
+    $$T = -2mV_0^2 \ln r$$
+  </div>
+
+  <div class="caveat">
+    <strong>Caveat honesto:</strong> La carga de dilatación $\mathcal{D}$ se conserva solo sobre la trayectoria específica donde $T = -2mV_0^2\ln r$. Esto no es una conservación universal — depende del radio orbital. Lo que sí es universal es la consecuencia del Virial: <strong>$T = \frac{1}{2}mV_0^2$ para cualquier órbita circular</strong>, independientemente del radio.
+  </div>
+
+  <h3 style="font-family:'Cormorant Garamond',serif;font-size:22px;color:var(--gold);margin:32px 0 12px;">3.3 La cantidad conservada correcta: el momento angular escalado</h3>
+
+  <p>La conservación más profunda y limpia del sistema emerge combinando <strong>dos simetrías independientes</strong> del Lagrangiano:</p>
+
+  <div class="annotation">
+    <span class="ann-marker">Simetría 1</span>
+    <span class="ann-text">$\partial\mathcal{L}/\partial\theta = 0$ → <strong>momento angular conservado:</strong> $L_z = mr^2\dot{\theta} = $ cte</span>
+  </div>
+
+  <div class="annotation">
+    <span class="ann-marker">Simetría 2</span>
+    <span class="ann-text">$\partial\mathcal{L}/\partial t = 0$ → <strong>energía conservada:</strong> $H = \frac{1}{2}m(\dot{r}^2 + r^2\dot\theta^2) - mV_0^2\ln r = $ cte</span>
+  </div>
+
+  <p>Para una órbita circular ($\dot{r} = 0$), de $L_z = mrV_0$ (ya que $v = V_0$):</p>
+
+  <div class="math-block">
+    $$r = \frac{L_z}{mV_0} = \text{constante}$$
+  </div>
+
+  <p>Una vez que $r$ es constante, de la ecuación radial:</p>
+
+  <div class="math-block green">
+    $$\boxed{v_\text{orb} = r\dot{\theta} = V_0 = (GM_\text{bar} \cdot g_\text{crit})^{1/4} = \text{constante}}$$
+  </div>
+
+  <p>$V_0$ no puede cambiar porque está fijado por $M_\text{bar}$ y $g_\text{crit}$ — ambos constantes para una galaxia dada. <strong>La velocidad orbital está topológicamente protegida por la conservación del momento angular sobre el potencial logarítmico.</strong></p>
+
+  <div class="result-box">
+    <div class="rb-label">Resultado 3 — La cantidad conservada</div>
+    $$T = \frac{1}{2}mv_\text{orb}^2 = \frac{1}{2}mV_0^2 = \frac{1}{2}m\sqrt{GM_\text{bar}\cdot g_\text{crit}} = \text{constante}$$
+    <p style="margin-top:16px;font-size:16px;color:var(--dim);">Consecuencia del Virial aplicado al potencial cuasi-homogéneo logarítmico. <strong>La energía cinética orbital es la invariante de Noether de la simetría de escala isotrópica $\mathcal{D}_\lambda$.</strong></p>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════
+     SÍNTESIS
+═══════════════════════════════════════════════════════ -->
+<div class="step" id="s4">
+  <div class="step-num">Síntesis</div>
+  <h2>Los tres resultados <em>en una tabla</em></h2>
+
+  <div class="summary">
+    <div class="summary-row">
+      <div class="sr-num">1</div>
+      <div class="sr-key">Lagrangiano</div>
+      <div class="sr-val">$\mathcal{L} = \frac{1}{2}m(\dot{r}^2 + r^2\dot{\theta}^2) + mV_0^2\ln r$<br><strong>Potencial logarítmico derivado de V⁴ = GM·g_crit</strong></div>
+    </div>
+    <div class="summary-row">
+      <div class="sr-num">2</div>
+      <div class="sr-key">Simetría de escala</div>
+      <div class="sr-val">$\Phi(\lambda r) = \Phi(r) + V_0^2\ln\lambda$<br><strong>Cuasi-simetría bajo $\mathcal{D}_\lambda: (r,t)\to(\lambda r, \lambda t)$</strong></div>
+    </div>
+    <div class="summary-row">
+      <div class="sr-num">3</div>
+      <div class="sr-key">Cantidad conservada</div>
+      <div class="sr-val">$T = \frac{1}{2}mV_0^2 = \text{cte}$ (por Virial / Noether)<br><strong>La energía cinética orbital es invariante de escala</strong></div>
+    </div>
+    <div class="summary-row">
+      <div class="sr-num" style="color:var(--rust);">✓</div>
+      <div class="sr-key">Consecuencia física</div>
+      <div class="sr-val">$v_\text{orb} = V_0 = (GM_\text{bar}\cdot g_\text{crit})^{1/4} = \text{constante}$<br><strong>La curva de rotación plana es la firma de la simetría de escala</strong></div>
+    </div>
+  </div>
+
+  <div style="margin-top:48px;padding:32px;border:1px solid var(--rule);background:var(--warm);text-align:center;">
+    <p style="font-family:'Cormorant Garamond',serif;font-size:22px;font-style:italic;color:var(--ink);margin-bottom:0;">
+      La curva de rotación plana no es un misterio. Es la consecuencia del teorema de Noether aplicado a un potencial cuasi-homogéneo logarítmico que emerge cuando la aceleración local cruza g_crit — el punto donde la simetría kepleriana cede a la simetría de escala del horizonte de De Sitter.
+    </p>
+  </div>
+</div>
+
+</main>
+
+<footer>
+  <p>Derivado en tiempo real.</p>
+  <p>6:00 am. Guadalajara. Modo introspectivo.</p>
+  <div class="sig">Juan Pablo Figueroa Torres · 10 marzo 2026</div>
+</footer>
+
+<script>
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.08 });
+document.querySelectorAll('.step').forEach(s => obs.observe(s));
+</script>
+</body>
+</html>

@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gravitational Emergence by Dynamic Coherence</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Georgia', 'Times New Roman', serif; line-height: 1.6; color: #222; background: #f5f5f5; padding: 20px; }
+        .container { max-width: 900px; margin: 0 auto; background: white; padding: 40px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        .title-page { text-align: center; padding: 60px 0; border-bottom: 2px solid #333; margin-bottom: 40px; }
+        .main-title { font-size: 2.2em; font-weight: bold; margin-bottom: 20px; color: #1a1a1a; }
+        .subtitle { font-size: 1.2em; margin-bottom: 30px; color: #555; font-style: italic; }
+        .author-info { margin-top: 50px; }
+        .author-name { font-size: 1.4em; font-weight: bold; margin-bottom: 10px; }
+        .author-role { font-size: 1.1em; font-style: italic; margin-bottom: 5px; color: #555; }
+        .author-location { font-size: 1.1em; color: #666; }
+        .toc { background: #f9f9f9; padding: 30px; margin: 40px 0; border-left: 4px solid #2c5aa0; }
+        .toc h2 { margin-bottom: 20px; color: #2c5aa0; }
+        .toc-item { margin: 10px 0; padding-left: 20px; }
+        .toc-item.level-1 { font-weight: bold; margin-top: 15px; }
+        .toc-item a { color: #2c5aa0; text-decoration: none; }
+        .toc-item a:hover { text-decoration: underline; }
+        h1 { font-size: 2em; margin: 50px 0 20px 0; color: #1a1a1a; border-bottom: 2px solid #2c5aa0; padding-bottom: 10px; }
+        h2 { font-size: 1.6em; margin: 35px 0 15px 0; color: #2c5aa0; }
+        h3 { font-size: 1.3em; margin: 25px 0 12px 0; color: #444; }
+        p { margin: 15px 0; text-align: justify; }
+        .equation { text-align: center; font-size: 1.3em; margin: 25px 0; padding: 20px; background: #f9f9f9; border-radius: 5px; font-family: 'Courier New', monospace; }
+        .equation-large { font-size: 1.5em; }
+        .equation-block { background: #f0f7ff; padding: 20px; margin: 20px 0; border-left: 4px solid #2c5aa0; border-radius: 3px; }
+        ul { margin: 15px 0 15px 40px; }
+        li { margin: 8px 0; }
+        table { width: 100%; border-collapse: collapse; margin: 25px 0; background: white; }
+        th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
+        th { background: #e3f2fd; font-weight: bold; text-align: center; }
+        td { text-align: center; }
+        .highlight { background: #fff9e6; padding: 20px; border-left: 4px solid #ffb300; margin: 20px 0; }
+        .key-statement { background: #e8f5e9; padding: 20px; border-left: 4px solid #4caf50; margin: 20px 0; font-size: 1.1em; }
+        .warning-box { background: #ffebee; padding: 20px; border-left: 4px solid #f44336; margin: 20px 0; }
+        .result-box { background: #e8f5e9; padding: 20px; border-left: 4px solid #2e7d32; margin: 20px 0; border-radius: 3px; }
+        .section-break { margin: 60px 0; border-top: 1px solid #ddd; }
+        .definition-box { background: #f5f5f5; padding: 20px; border: 2px solid #2c5aa0; margin: 25px 0; border-radius: 5px; }
+        .math-section { background: #fafafa; padding: 25px; margin: 30px 0; border: 1px solid #ddd; border-radius: 5px; }
+        .math-section h3 { color: #2c5aa0; margin-top: 0; }
+        .domain-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin: 24px 0; }
+        .domain-box { border-radius: 4px; padding: 18px 16px; border: 1px solid; }
+        .domain-box.newton { background: #e3f2fd; border-color: #1565c0; }
+        .domain-box.umbral { background: #fff8e1; border-color: #f57f17; }
+        .domain-box.colect { background: #e8f5e9; border-color: #2e7d32; }
+        .domain-label { font-weight: bold; font-size: 0.9em; margin-bottom: 6px; }
+        .domain-box.newton .domain-label { color: #1565c0; }
+        .domain-box.umbral .domain-label { color: #e65100; }
+        .domain-box.colect .domain-label { color: #2e7d32; }
+        .domain-cond { font-family: 'Courier New', monospace; font-size: 0.95em; margin-bottom: 6px; }
+        .domain-desc { font-size: 0.85em; color: #555; line-height: 1.5; }
+        .key-box { background: #1a1a1a; color: #fff; padding: 20px 28px; margin: 24px 0; text-align: center; border-radius: 4px; }
+        .key-box .kb-eq { font-family: 'Courier New', monospace; font-size: 1.3em; margin-bottom: 8px; }
+        .key-box .kb-sub { font-size: 0.88em; color: #aaa; }
+        .code-block { background: #1e1e1e; color: #d4d4d4; font-family: 'Courier New', monospace; font-size: 0.88em; padding: 20px 24px; margin: 20px 0; border-radius: 4px; line-height: 1.9; overflow-x: auto; white-space: pre; }
+        .tag-c { display:inline-block; background:#e3f2fd; color:#1565c0; font-size:0.8em; padding:1px 7px; border-radius:3px; font-family:monospace; }
+        .tag-u { display:inline-block; background:#fff8e1; color:#e65100; font-size:0.8em; padding:1px 7px; border-radius:3px; font-family:monospace; }
+        .tag-n { display:inline-block; background:#f5f5f5; color:#555; font-size:0.8em; padding:1px 7px; border-radius:3px; font-family:monospace; }
+        .ref-list { font-size: 0.9em; line-height: 1.8; }
+        .ref-list li { margin: 6px 0; }
+        sup { font-size: 0.7em; vertical-align: super; }
+        sub { font-size: 0.7em; vertical-align: sub; }
+        @media print { body { background: white; padding: 0; } .container { box-shadow: none; padding: 20px; } }
+        @media (max-width: 600px) { .container { padding: 20px; } .main-title { font-size: 1.6em; } h1 { font-size: 1.5em; } h2 { font-size: 1.3em; } table { font-size: 0.9em; } th, td { padding: 8px; } .domain-grid { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+<div class="container">
+
+    <!-- Title Page -->
+    <div class="title-page">
+        <div class="main-title">Gravitational Emergence<br>by Dynamic Coherence</div>
+        <div class="subtitle">A reinterpretation of galactic gravity as an emergent phenomenon</div>
+        <div class="author-info">
+            <div class="author-name">Juan Pablo Figueroa Torres</div>
+            <div class="author-role">Independent Researcher</div>
+            <div class="author-location">Guadalajara, Jalisco, México</div>
+        </div>
+    </div>
+
+    <!-- Table of Contents -->
+    <div class="toc">
+        <h2>Table of Contents</h2>
+        <div class="toc-item level-1"><a href="#sec1">1. Introduction</a></div>
+        <div class="toc-item level-1"><a href="#sec2">2. Hypothesis</a></div>
+        <div class="toc-item level-1"><a href="#sec3">3. Mathematical Formulation</a></div>
+        <div class="toc-item level-1"><a href="#sec4">4. The Three Dynamical Domains</a></div>
+        <div class="toc-item level-1"><a href="#sec5">5. Predictions</a></div>
+        <div class="toc-item level-1"><a href="#sec6">6. Operational Protocol</a></div>
+        <div class="toc-item level-1"><a href="#sec7">7. Results — SPARC + LITTLE THINGS Catalogues</a></div>
+        <div class="toc-item" style="padding-left:40px; font-size:0.95em;"><a href="#sec7">7.1–7.5 · SPARC: 175 galaxies, 3/3 COLLECTIVE confirm</a></div>
+        <div class="toc-item" style="padding-left:40px; font-size:0.95em;">7.6 · Protocol refinement: plateau criterion</div>
+        <div class="toc-item" style="padding-left:40px; font-size:0.95em;">7.7–7.8 · LITTLE THINGS: UGC04305, direct TRGB, 6.0% error</div>
+        <div class="toc-item" style="padding-left:40px; font-size:0.95em;">7.8b · IC 1613 — Second TRGB confirmation, 5.34% error</div>
+        <div class="toc-item" style="padding-left:40px; font-size:0.95em;">7.9 · Methodological contrast with MOND</div>
+        <div class="toc-item" style="padding-left:40px; font-size:0.95em;">7.10 · Selection bias in catalogues</div>
+        <div class="toc-item level-1"><a href="#sec8">8. Wide Binary Comparison</a></div>
+        <div class="toc-item level-1"><a href="#sec9">9. Interpretation</a></div>
+        <div class="toc-item level-1"><a href="#sec10">10. Current Limitations</a></div>
+        <div class="toc-item level-1"><a href="#sec11">11. Model Status — February 2026</a></div>
+        <div class="toc-item level-1"><a href="#sec12">12. References</a></div>
+    </div>
+
+    <!-- 1. INTRODUCTION -->
+    <h1 id="sec1">1. Introduction</h1>
+    <p>The standard gravitational framework describes gravity as a fundamental force (Newton) or as geometric curvature of spacetime (General Relativity). Both approaches assume gravity exists as a direct consequence of mass.</p>
+    <p>However, astronomical observations show systematic patterns:</p>
+    <ul>
+        <li>Flat rotation curves in galaxies</li>
+        <li>The same order of characteristic acceleration across very different systems</li>
+        <li>Decoupling between visible mass and orbital dynamics</li>
+    </ul>
+    <p>These anomalies led to the introduction of dark matter as an additional explanatory component. The present work proposes an alternative interpretation.</p>
+    <div class="key-statement">
+        <strong>Proposed reinterpretation:</strong> Gravity is not the primary cause of motion, but rather the result of an organized dynamical regime. Mass does not generate gravity directly; it permits the regime in which gravity appears.
+    </div>
+
+    <!-- 2. HYPOTHESIS -->
+    <h1 id="sec2">2. Hypothesis</h1>
+    <div class="key-statement">
+        <strong>Central hypothesis:</strong> Gravity is an emergent phenomenon of the dynamic coherence of inertial motion in regions of space–matter interaction.
+    </div>
+    <p style="margin-top:20px;"><strong>Mass does not directly generate gravity; it allows the regime in which gravity appears to exist.</strong></p>
+
+    <h2>Operational Definition</h2>
+    <div class="definition-box">
+        <p style="margin-bottom:15px;"><strong>Emergent gravity exists when:</strong></p>
+        <div class="equation equation-large"><em>a</em> ≤ <em>a</em><sub>crit</sub></div>
+        <p style="margin:15px 0;">where:</p>
+        <div class="equation"><em>a</em> = <em>V</em>² / <em>R</em></div>
+        <p style="margin:15px 0;">and</p>
+        <div class="equation equation-large"><em>a</em><sub>crit</sub> ≈ 10<sup>−11</sup> m/s²</div>
+        <p style="margin-top:10px; font-size:0.9em; color:#555;">This threshold is an empirical universal constant, not an adjustable parameter. It represents the result of measuring V²/R at the edge of diffuse galaxies — independent of mass, radius, and galactic type (§3.2).</p>
+    </div>
+
+    <!-- 3. MATHEMATICAL FORMULATION -->
+    <h1 id="sec3">3. Mathematical Formulation</h1>
+
+    <div class="math-section">
+        <h3>3.1. Local Dynamical Magnitude</h3>
+        <div class="equation-block">
+            <div class="equation">a(R) = V(R)² / R</div>
+            <p style="margin-top:15px;"><strong>Definition:</strong> observed orbital acceleration at radius R.</p>
+        </div>
+    </div>
+
+    <div class="math-section">
+        <h3>3.2. Constants</h3>
+        <div class="code-block">G      =  6.674 × 10⁻¹¹  m³ kg⁻¹ s⁻²
+M_sol  =  1.989 × 10³⁰   kg
+kpc    =  3.0857 × 10¹⁹  m
+g_crit =  1.0   × 10⁻¹¹  m/s²   ← universal dynamic threshold</div>
+        <p style="font-size:0.9em; color:#666;">g_crit is not an adjustable parameter. It is the empirical result of measuring V²/R at the edges of diffuse galaxies — independent of mass, radius, and galactic type. It differs from the MOND acceleration constant a₀ = 1.2 × 10⁻¹⁰ m/s² by a factor of 12. This difference is conceptually significant: MOND's threshold is 12× larger, classifying nearly all galaxies as being in the modified regime, while g_crit applies only to the most diffuse, low-acceleration systems.</p>
+    </div>
+
+    <div class="math-section">
+        <h3>3.3. Equation of State of the Collective Regime</h3>
+        <p>In the collective regime, the system satisfies:</p>
+        <div class="equation-block">
+            <div class="equation equation-large">V⁴ = G · M<sub>bar</sub> · a<sub>crit</sub></div>
+            <p style="margin-top:15px;">This is <strong>not</strong> an arbitrary fundamental law. It is a dynamical equation of state of the gravitational system in the collective regime, analogous to how PV = nRT emerges for ideal gases without being a fundamental law of thermodynamics.</p>
+        </div>
+    </div>
+
+    <div class="math-section">
+        <h3>3.4. Transition Radius</h3>
+        <p>The radius at which the transition occurs is obtained by equating:</p>
+        <div class="equation-block">
+            <div class="equation">V(R<sub>T</sub>)² / R<sub>T</sub> = a<sub>crit</sub></div>
+            <p style="margin-top:15px;">Using the emergent relation V⁴ = G·M·a<sub>crit</sub>, one obtains:</p>
+            <div class="equation equation-large">R<sub>T</sub> = √(G·M / a<sub>crit</sub>)</div>
+            <p style="margin-top:10px;">Therefore: <strong>R<sub>T</sub> ∝ √M</strong> — each mass has its own transition radius.</p>
+        </div>
+    </div>
+
+    <div class="math-section">
+        <h3>3.5. Expected Rotation Curve Structure</h3>
+        <div class="equation-block">
+            <p><strong>Inner regime (R &lt; R<sub>T</sub>):</strong></p>
+            <div class="equation">V(R) ∝ R<sup>−1/2</sup></div>
+            <p style="margin-top:20px;"><strong>Transition zone (R ≈ R<sub>T</sub>):</strong></p>
+            <div class="equation">a(R) ≈ a<sub>crit</sub></div>
+            <p style="margin-top:20px;"><strong>Outer regime (R &gt; R<sub>T</sub>):</strong></p>
+            <div class="equation">dV/dR ≈ 0</div>
+        </div>
+    </div>
+
+    <!-- 4. THREE DOMAINS -->
+    <h1 id="sec4">4. The Three Dynamical Domains</h1>
+
+    <p>The hypothesis distinguishes three physical domains determined by the relationship between g_int and g_crit. This distinction is fundamental and must be established before any prediction can be made.</p>
+
+    <div class="key-box">
+        <div class="kb-eq">Threshold  ≠  Regime</div>
+        <div class="kb-sub">The threshold is a physical condition. The regime is an emergent dynamical state.<br>Crossing the threshold is necessary, but not sufficient.</div>
+    </div>
+
+    <div class="domain-grid">
+        <div class="domain-box newton">
+            <div class="domain-label">LOCAL NEWTONIAN</div>
+            <div class="domain-cond">g_int ≫ g_crit</div>
+            <div class="domain-desc">Classical Keplerian dynamics. Depends on local mass. No global mass–velocity relation exists.<br><br>V² = GM(R)/R</div>
+        </div>
+        <div class="domain-box umbral">
+            <div class="domain-label">THRESHOLD — TRANSITION</div>
+            <div class="domain-cond">g_int ≈ g_crit</div>
+            <div class="domain-desc">Necessary but not sufficient condition. The system is in the critical transition zone. The emergent equation of state does not yet apply.</div>
+        </div>
+        <div class="domain-box colect">
+            <div class="domain-label">COLLECTIVE EMERGENT</div>
+            <div class="domain-cond">g_int &lt; g_crit</div>
+            <div class="domain-desc">Full regime. The equation of state appears:<br><br>V⁴ = G · M_bar · g_crit<br><br>Only here does the velocity prediction apply.</div>
+        </div>
+    </div>
+
+    <table>
+        <thead>
+            <tr><th>System</th><th>Typical acceleration</th><th>Domain</th></tr>
+        </thead>
+        <tbody>
+            <tr><td>Solar System (Earth)</td><td>~6×10<sup>−3</sup> m/s²</td><td><span class="tag-n">NEWTONIAN</span></td></tr>
+            <tr><td>Globular clusters</td><td>~10<sup>−8</sup> m/s²</td><td><span class="tag-n">NEWTONIAN</span></td></tr>
+            <tr><td>Wide binaries</td><td>~10<sup>−9</sup> – 10<sup>−11</sup> m/s²</td><td><span class="tag-u">THRESHOLD</span></td></tr>
+            <tr><td>Galactic edge</td><td>~10<sup>−11</sup> m/s²</td><td><span class="tag-c">COLLECTIVE</span></td></tr>
+        </tbody>
+    </table>
+
+    <!-- 5. PREDICTIONS -->
+    <h1 id="sec5">5. Predictions</h1>
+
+    <h2>Prediction 0 — Universal Acceleration Threshold</h2>
+    <p>Different galaxies must converge to the same order of acceleration at their stable edge:</p>
+    <div class="equation equation-large"><em>a</em><sub>edge</sub> ≈ <em>a</em><sub>crit</sub></div>
+    <p>independent of mass, size, or galactic type. The hypothesis does not predict exact equality but convergence to the same physical order of magnitude.</p>
+
+    <h2>Prediction 1 — Mass–Velocity Relation</h2>
+    <p>In the COLLECTIVE domain, the orbital velocity satisfies:</p>
+    <div class="equation equation-large">V<sup>4</sup> = G · M<sub>bar</sub> · a<sub>crit</sub></div>
+    <p>This relation is <strong>not universal</strong> — it applies only when g_int &lt; g_crit. In the NEWTONIAN and THRESHOLD domains the equation does not apply and is predicted to fail.</p>
+
+    <h2>Prediction 2 — Dependence on Internal Threshold</h2>
+    <p>The dynamical change correlates with g_int = V²/R and not solely with the total mass of the system. Systems with different characteristic accelerations display different dynamics even with similar masses.</p>
+
+    <h2>Prediction 3 — Intermediate Population</h2>
+    <p>A population of galaxies in the threshold zone (g_int ≈ g_crit) must exist that does not obey the equation of state. These galaxies document the transition zone and constitute evidence for the three-domain structure.</p>
+
+    <h2>Prediction 4 — Population Breaks in Wide Binaries</h2>
+    <p>Since R<sub>T</sub> ∝ √M, systems with different total masses cross the threshold at different separations. For WD/MS vs WD/WD populations one predicts:</p>
+    <div class="equation">R<sub>break</sub>(MS+MS) &gt; R<sub>break</sub>(WD+MS) &gt; R<sub>break</sub>(WD+WD)</div>
+    <p>This prediction distinguishes the model from MOND, which predicts a break at the same separation regardless of mass.</p>
+
+    <div class="highlight">
+        <strong>Double falsifiable prediction:</strong>
+        <ul style="margin-top:10px;">
+            <li>Galaxies in COLLECTIVE must confirm the equation of state (error ≤ 20%)</li>
+            <li>Galaxies in THRESHOLD and NEWTONIAN must fail systematically — that too is a prediction</li>
+        </ul>
+    </div>
+
+    <!-- 6. OPERATIONAL PROTOCOL -->
+    <h1 id="sec6">6. Operational Protocol</h1>
+
+    <p>Reproducible procedure for classifying a galaxy and obtaining a velocity prediction. Primary data source: SPARC catalogue (Lelli et al. 2016); extended to LITTLE THINGS (Oh et al. 2015) for direct-distance cases.</p>
+
+    <h2>Required inputs</h2>
+    <table>
+        <thead><tr><th>Variable</th><th>Unit</th><th>Description</th></tr></thead>
+        <tbody>
+            <tr><td>V_flat</td><td>km/s</td><td>Effective flat velocity (V<sub>f</sub> — not maximum velocity)</td></tr>
+            <tr><td>R_flat</td><td>kpc</td><td>Radius of the last point of the rotation curve plateau</td></tr>
+            <tr><td>M_bar</td><td>M☉</td><td>Baryonic mass — catalogue nominal value (Υ = 0.5 for LITTLE THINGS; Υ = 0.7 for SPARC, 3.6 μm band). Not modified to fit results.</td></tr>
+        </tbody>
+    </table>
+
+    <h2>Data quality criteria</h2>
+    <p>Verify before proceeding. If any criterion fails → <strong>insufficient data</strong>, not falsification.</p>
+    <div class="code-block">Criterion 1 — SPARC quality flag:
+  Q = 1 or Q = 2   →   valid
+  Q = 3            →   discard
+
+Criterion 2 — Flat curve (updated §7.6):
+  Identify the longest consecutive window where variation &lt; 5%
+  V_flat = mean velocity over that window
+  R_flat = radius of the last point in the window
+  If the last point of the curve falls outside the identified plateau
+  → treat as HI edge artefact and exclude from V_flat
+
+Criterion 3 — Minimum 2 consecutive points in COLLECTIVE:
+  ≥ 2 points with g_int &lt; g_crit   →   valid
+  Only last point in COLLECTIVE     →   discard</div>
+
+    <h2>Execution flow</h2>
+    <div class="code-block">Step 1 — Unit conversion:
+  V  =  V_flat × 1000                 [m/s]
+  R  =  R_flat × 3.0857×10¹⁹         [m]
+  M  =  M_bar  × 1.989×10³⁰          [kg]
+
+Step 2 — Internal acceleration:
+  g_int  =  V²  /  R                  [m/s²]
+
+Step 3 — Domain classification:
+  g_int  ≫  g_crit   →  NEWTONIAN     out of scope
+  g_int  ≈  g_crit   →  THRESHOLD     no velocity verdict
+  g_int  &lt;  g_crit   →  COLLECTIVE    verify criteria → continue
+
+Step 4 — Predictions (valid COLLECTIVE only):
+  R_T      =  sqrt( G × M / g_crit )      [m]  ÷ 3.0857×10¹⁹  [kpc]
+  V_pred   =  ( G × M × g_crit )^(1/4)   [m/s] ÷ 1000         [km/s]
+
+Step 5 — Comparison:
+  error%  =  |V_pred − V_flat|  /  V_flat  ×  100
+  ratio   =  R_T_kpc  /  R_flat
+
+Step 6 — Verdict:
+  error%  ≤  20%  and  ratio ∈ [0.5, 2.0]   →  CONFIRMS
+  error%  &gt;  20%  in valid COLLECTIVE        →  FALSIFIES</div>
+
+    <div class="highlight">
+        <strong>Note on the coherence ratio [0.5, 2.0]:</strong> This interval is an anti-manipulation guard. Since R_T = √(G·M/g_crit) is fixed by the nominal catalogue M_bar without adjustment, a ratio outside [0.5, 2.0] would indicate that R_T falls far from the observed plateau zone, suggesting either an unreliable M_bar or a structurally atypical galaxy. The interval was chosen to be physically meaningful without being so narrow as to exclude genuine confirmations — it cannot be widened arbitrarily without losing its discriminating power.
+    </div>
+
+    <!-- 7. RESULTS -->
+    <h1 id="sec7">7. Results — SPARC and LITTLE THINGS Catalogues</h1>
+
+    <p>Complete cold run over the 175 galaxies of the SPARC catalogue (Lelli et al. 2016) applying the operational protocol. Baryonic mass with high-end photometry (Υ = 0.7, 3.6 μm band).</p>
+
+    <h2>7.1 — Prediction 0: Universal Threshold</h2>
+    <p>Test on galaxies with very different properties — verifying convergence of g_int to the same order of magnitude:</p>
+    <table>
+        <thead><tr><th>Galaxy</th><th>Distance</th><th>V (km/s)</th><th>R (kpc)</th><th>g_int (m/s²)</th><th>Domain</th></tr></thead>
+        <tbody>
+            <tr><td>UGCA444</td><td>0.98 Mpc</td><td>38.3</td><td>2.62</td><td>1.8 × 10<sup>−11</sup></td><td><span class="tag-u">THRESHOLD</span></td></tr>
+            <tr><td>UGCA442</td><td>4.35 Mpc</td><td>56.5</td><td>6.33</td><td>1.6 × 10<sup>−11</sup></td><td><span class="tag-u">THRESHOLD</span></td></tr>
+            <tr><td>UGCA281</td><td>5.68 Mpc</td><td>29.5</td><td>1.08</td><td>2.6 × 10<sup>−11</sup></td><td><span class="tag-u">THRESHOLD</span></td></tr>
+        </tbody>
+    </table>
+    <div class="result-box">
+        <strong>Prediction 0 result: ✅ CONSISTENT</strong><br>
+        Three galaxies with very different masses and sizes converge to the same order of magnitude of acceleration (~10<sup>−11</sup> m/s²). Independent of any parameter adjustment.
+    </div>
+
+    <h2>7.2 — Full distribution of 175 galaxies</h2>
+    <table>
+        <thead><tr><th>Domain</th><th>Condition</th><th>Galaxies</th><th>% of total</th></tr></thead>
+        <tbody>
+            <tr><td><span class="tag-n">NEWTONIAN</span></td><td>ratio &gt; 5</td><td>24</td><td>14%</td></tr>
+            <tr><td><span class="tag-u">THRESHOLD</span></td><td>1 ≤ ratio ≤ 5</td><td>103</td><td>59%</td></tr>
+            <tr><td><span class="tag-c">COLLECTIVE</span></td><td>ratio &lt; 1</td><td>8</td><td>5%</td></tr>
+        </tbody>
+    </table>
+    <p>The majority of SPARC galaxies fall in the THRESHOLD domain — consistent with Prediction 3 (an intermediate population in the transition zone must exist).</p>
+
+    <h2>7.3 — Quality criteria verification for the 8 COLLECTIVE galaxies</h2>
+    <table>
+        <thead><tr><th>Galaxy</th><th>Q</th><th>Flat curve</th><th>≥2 pts COLLECT.</th><th>Valid</th></tr></thead>
+        <tbody>
+            <tr><td>UGC06628</td><td>2</td><td>✓</td><td>✓</td><td>✅</td></tr>
+            <tr><td>UGC07125</td><td>1</td><td>✓</td><td>✓</td><td>✅</td></tr>
+            <tr><td>UGC09992</td><td>2</td><td>✓</td><td>✓</td><td>✅</td></tr>
+            <tr><td>F561-1</td><td>3</td><td>✓</td><td>✓</td><td>❌ Q=3</td></tr>
+            <tr><td>UGC04305</td><td>3</td><td>✓</td><td>✓</td><td>❌ Q=3</td></tr>
+            <tr><td>PGC51017</td><td>3</td><td>❌ descending</td><td>✓</td><td>❌ Q=3 + not flat</td></tr>
+            <tr><td>DDO170</td><td>2</td><td>❌ var. 11%</td><td>❌ 1 point</td><td>❌ not flat + marginal</td></tr>
+            <tr><td>UGC01230</td><td>1</td><td>❌ var. 9%</td><td>❌ 1 point</td><td>❌ marginal entry</td></tr>
+        </tbody>
+    </table>
+
+    <h2>7.4 — Prediction 1: Mass–velocity relation — Verdicts with valid data</h2>
+    <table>
+        <thead><tr><th>Galaxy</th><th>Q</th><th>V_flat</th><th>M_bar</th><th>g_int</th><th>V_pred</th><th>Error%</th><th>Verdict</th></tr></thead>
+        <tbody>
+            <tr><td>UGC06628</td><td>2</td><td>41.8 km/s</td><td>4.61×10⁹ M☉</td><td>7.36×10<sup>−12</sup></td><td>49.74 km/s</td><td>19.0%</td><td>✅ CONFIRMS</td></tr>
+            <tr><td>UGC07125</td><td>1</td><td>65.2 km/s</td><td>8.06×10⁹ M☉</td><td>7.38×10<sup>−12</sup></td><td>57.18 km/s</td><td>12.3%</td><td>✅ CONFIRMS</td></tr>
+            <tr><td>UGC09992</td><td>2</td><td>33.6 km/s</td><td>6.58×10⁸ M☉</td><td>9.41×10<sup>−12</sup></td><td>30.57 km/s</td><td>9.0%</td><td>✅ CONFIRMS</td></tr>
+        </tbody>
+    </table>
+
+    <div class="result-box">
+        <strong>Prediction 1 result: ✅ 3/3 CONFIRM — 0 falsifications with valid data</strong><br><br>
+        Note: sample insufficient for a statistically conclusive result (minimum required: 5 valid COLLECTIVE galaxies). Extension to LITTLE THINGS and other dwarf/LSB catalogues is underway.
+    </div>
+
+    <h2>7.5 — Double prediction — Full structure</h2>
+    <table>
+        <thead><tr><th>Domain</th><th>Prediction</th><th>Observed result</th></tr></thead>
+        <tbody>
+            <tr><td><span class="tag-c">COLLECTIVE</span> valid</td><td>error ≤ 20%</td><td>✅ 3/3 confirm</td></tr>
+            <tr><td><span class="tag-u">THRESHOLD</span> + <span class="tag-n">NEWTONIAN</span></td><td>systematic failure</td><td>✅ 127 galaxies fail by a large margin</td></tr>
+        </tbody>
+    </table>
+    <p>Both halves of the double prediction hold with the current SPARC data.</p>
+
+    <!-- 7b. UPDATED PROTOCOL — PLATEAU CRITERION -->
+    <h2>7.6 — Protocol Refinement: Plateau Criterion</h2>
+
+    <p>During the analysis of UGC04305 (LITTLE THINGS, Oh et al. 2015) a relevant observational artefact was identified: the last point of a rotation curve may fall below the true plateau because it corresponds to the HI disc edge, where the signal is weak and unreliable. This point does not reflect real dynamics but rather the detection limit of the HI radius.</p>
+
+    <div class="warning-box">
+        <strong>Concrete example — UGC04305:</strong>
+        <div class="code-block">R=4.77  →  Vobs=35.3  ← true plateau
+R=5.02  →  Vobs=35.2  ← true plateau
+R=5.27  →  Vobs=34.6  ← true plateau
+R=5.52  →  Vobs=33.0  ← HI edge, artefact drop</div>
+        <p>With the original criterion (last 3 points), variation = 6.4% → discarded. With real plateau detection, variation = 2.0% → valid. The original criterion was overly conservative in the presence of this well-documented artefact.</p>
+    </div>
+
+    <p><strong>Updated Criterion 2 — Real plateau:</strong></p>
+    <div class="code-block">Identify the longest consecutive window where variation &lt; 5%
+V_flat = mean velocity over that window
+R_flat = radius of the last point in the window
+If the last point of the curve falls outside the identified plateau
+→ treat as HI edge and exclude from V_flat</div>
+
+    <!-- 7c. LITTLE THINGS CATALOGUE -->
+    <h2>7.7 — LITTLE THINGS Catalogue — Oh et al. 2015</h2>
+
+    <p>To obtain verdicts with direct distances (independent of Hubble Flow), the LITTLE THINGS catalogue (Oh et al. 2015, AJ 149, 180) was analysed. It contains 26 dwarf irregular galaxies within 11 Mpc observed with VLA at high resolution, with independent TRGB distances.</p>
+
+    <p>All 26 galaxies were classified using V<sub>max</sub> and R<sub>max</sub> from Oh et al. (2015). The domain analysis uses only observed V and R — it is independent of M_bar.</p>
+
+    <table>
+        <thead><tr><th>Domain</th><th>Galaxies</th></tr></thead>
+        <tbody>
+            <tr><td><span class="tag-c">COLLECTIVE</span></td><td>6 — CVnIdwA, DDO043, DDO050, F564-V3, IC1613, WLM</td></tr>
+            <tr><td><span class="tag-u">THRESHOLD (low, ratio 1–2)</span></td><td>10</td></tr>
+            <tr><td><span class="tag-n">THRESHOLD / NEWTONIAN</span></td><td>10</td></tr>
+        </tbody>
+    </table>
+
+    <h2>7.8 — First verdict with direct TRGB distance — UGC04305 (DDO 50)</h2>
+
+    <p>UGC04305 (= Ho II = DDO 50 in LITTLE THINGS) has an independent TRGB distance of 3.45 Mpc. The full protocol was applied with plateau detection.</p>
+
+    <div class="code-block">Plateau identified: 5 consecutive points (R = 4.26–5.27 kpc)
+V_obs in plateau: [33.6, 35.1, 35.3, 35.2, 34.6]
+Variation: 2.0%  ✅
+V_flat = 34.76 km/s  (plateau mean)
+COLLECTIVE points in plateau: 5  ✅</div>
+
+    <div class="result-box">
+        <strong>UGC04305 — Verdict with direct TRGB distance</strong>
+
+        <table style="margin-top:15px;">
+            <thead><tr><th>Parameter</th><th>Value</th></tr></thead>
+            <tbody>
+                <tr><td>Distance</td><td>3.45 Mpc — TRGB direct (no Hubble Flow)</td></tr>
+                <tr><td>Domain</td><td><span class="tag-c">COLLECTIVE</span> — ratio = 0.743</td></tr>
+                <tr><td>M_bar</td><td>1.388×10⁹ M☉ (Υ = 0.5, Oh et al. 2015)</td></tr>
+                <tr><td>V_pred</td><td>36.84 km/s</td></tr>
+                <tr><td>V_obs</td><td>34.76 km/s</td></tr>
+                <tr><td>Error</td><td><strong>6.0%</strong></td></tr>
+                <tr><td>R_T / R_flat</td><td>0.743 — coherent</td></tr>
+                <tr><td>Verdict</td><td>✅ CONFIRMS</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- 7d. IC1613 -->
+    <h2>7.8b — Second TRGB confirmation — IC 1613</h2>
+
+    <p>IC 1613 is an isolated dwarf irregular galaxy (type IB(s)m) in the Local Group, located at 755 kpc from the Milky Way — the closest galaxy in the LITTLE THINGS sample. Its isolation from large neighbours makes it particularly valuable: its kinematics are free from tidal perturbations or interaction effects. IC 1613 has an independent TRGB distance measured by Oh et al. (2015) directly.</p>
+
+    <div class="warning-box">
+        <strong>Data source note — corrected vs. raw curve:</strong> LITTLE THINGS provides two rotation curve types for each galaxy. The raw curve (before asymmetric drift correction) contains perturbations that do not reflect the true dynamical state. The protocol requires the <em>corrected</em> curve (file dbf2A, Oh et al. 2015), which removes the systematic asymmetric drift. Using the raw curve produces a different — and incorrect — result.
+    </div>
+
+    <div class="code-block">Data source: dbf2A.txt — Oh et al. (2015) — corrected total rotation curve
+R₀.₃ = 2.000 kpc,  V₀.₃ = 20.510 km/s
+
+Plateau detected (§7.6 criterion):
+  16 consecutive points, R = 1.970 – 2.330 kpc
+  V range: 20.10 – 21.13 km/s
+  Variation: 4.99%  ✅
+  V_flat = 20.65 km/s  (plateau mean)
+  R_flat = 2.330 kpc   (last plateau point)
+
+Domain classification (independent of M_bar):
+  All 16 plateau points: g_int/g_crit ∈ [0.59, 0.68]  → COLLECTIVE ✅
+
+M_bar = 1.10 × 10⁸ M☉
+  Source: total baryonic content of IC 1613
+  (Mateo 1998; van den Bergh 2000; cited in observational literature)
+  Includes HI gas (~3.4 × 10⁷ M☉) and stellar mass
+  Not adjusted to fit the prediction</div>
+
+    <div class="result-box">
+        <strong>IC 1613 — Verdict with direct TRGB distance</strong>
+
+        <table style="margin-top:15px;">
+            <thead><tr><th>Parameter</th><th>Value</th></tr></thead>
+            <tbody>
+                <tr><td>Distance</td><td>0.755 Mpc — TRGB direct (Oh et al. 2015)</td></tr>
+                <tr><td>Domain</td><td><span class="tag-c">COLLECTIVE</span> — g_int/g_crit = 0.593</td></tr>
+                <tr><td>M_bar</td><td>1.10 × 10⁸ M☉ (observational literature)</td></tr>
+                <tr><td>V_flat</td><td>20.65 km/s (16-point plateau, var = 4.99%)</td></tr>
+                <tr><td>V_pred = (G·M·g_crit)^0.25</td><td>19.55 km/s</td></tr>
+                <tr><td>Error</td><td><strong>5.34%</strong></td></tr>
+                <tr><td>R_T = √(G·M/g_crit)</td><td>1.238 kpc</td></tr>
+                <tr><td>R_T / R_flat</td><td>0.531 — coherent</td></tr>
+                <tr><td>Verdict</td><td>✅ CONFIRMS</td></tr>
+            </tbody>
+        </table>
+        <p style="margin-top:15px;">This is the second verdict independent of Hubble Flow, and produces the lowest error in the entire sample: 5.34%. The prediction uses only the nominal baryonic mass from the literature, with no parameter adjustment of any kind.</p>
+    </div>
+
+    <!-- 7e. MOND CONTRAST -->
+    <h2>7.9 — Methodological Contrast with MOND</h2>
+
+    <p>A methodological comparison was performed between the emergence model and MOND using the same valid COLLECTIVE galaxies from SPARC. The objective is not to falsify MOND but to document what each model predicts with the same inputs.</p>
+
+    <h3>Comparison procedure</h3>
+    <p>For MOND, the full Radial Acceleration Relation (RAR) was applied point by point — not the global BTFR. The complete equation is:</p>
+    <div class="equation">g · μ(g/a₀) = g_N</div>
+    <p>with the standard interpolating function μ(x) = x/√(1+x²) and a₀ = 1.2×10⁻¹⁰ m/s². The local baryonic acceleration g_N = V_bar²/R with Υ = 0.5 (McGaugh et al. fiducial value).</p>
+
+    <h3>UGC07125 — Point-by-point analysis</h3>
+    <table>
+        <thead><tr><th>Model</th><th>RMS error</th><th>Bias</th><th>Parameters</th></tr></thead>
+        <tbody>
+            <tr><td>Emergence (this work)</td><td>23.9%</td><td>−23.1%</td><td>nominal SPARC data</td></tr>
+            <tr><td>MOND — full RAR</td><td>45.5%</td><td>+44.0%</td><td>Υ = 0.5, nominal data</td></tr>
+            <tr><td>MOND — Li et al. 2018 (MCMC)</td><td>6.8%</td><td>−3.8%</td><td>D = 7.45 Mpc (adjusted), Υ = 0.92</td></tr>
+        </tbody>
+    </table>
+
+    <div class="highlight">
+        <strong>Note on the Li et al. 2018 distance:</strong><br><br>
+        Li et al. (2018) achieve a good fit for UGC07125 by reducing the distance from 19.8 Mpc (nominal SPARC) to 7.45 Mpc — a 62% reduction. This distance implies a recession velocity of ~544 km/s, compared to ~1445 km/s from Hubble Flow. The difference (~900 km/s) exceeds typical peculiar velocities (100–300 km/s) and falls outside the SPARC distance uncertainty (±5.9 Mpc). Furthermore, with the adjusted parameters of Li et al. 2018, UGC07125 exits the COLLECTIVE domain (all points fall in THRESHOLD) — meaning that MOND's own fit invalidates the domain classification required to apply its equation.<br><br>
+        <strong>Methodological conclusion:</strong> The valid comparison is with nominal SPARC data — same inputs for both models. The Li et al. 2018 fit involves too many degrees of freedom to constitute a fair comparison.
+    </div>
+
+    <h3>Sensitivity to Υ — no value eliminates MOND's error</h3>
+    <div class="code-block">Υ=0.0  →  RMS=29.7%  bias=+19.4%  ← minimum possible
+Υ=0.5  →  RMS=45.5%  bias=+44.0%
+Υ=1.0  →  RMS=59.7%  bias=+59.0%
+
+Optimal Υ for MOND is 0.0 — completely ignoring stellar mass.
+Even then the error is 30%. MOND overestimates at every point
+regardless of the Υ value.</div>
+
+    <div class="key-statement">
+        <strong>With nominal SPARC data and no parameter adjustments:</strong><br>
+        Emergence (this work): RMS = 23.9% for UGC07125<br>
+        MOND (full RAR): RMS = 45.5% for UGC07125<br><br>
+        This contrast is documented as a preliminary result — more COLLECTIVE galaxies with direct distances are needed for a statistically robust comparison.
+    </div>
+
+    <!-- 7f. SELECTION BIAS -->
+    <h2>7.10 — Selection Bias in SPARC: Why There Are No COLLECTIVE Galaxies with Direct Distances</h2>
+
+    <p>An important methodological finding emerged when searching for COLLECTIVE galaxies with direct distances (TRGB or Cepheids) within SPARC 2016:</p>
+
+    <div class="code-block">SPARC galaxies with direct distance (TRGB/Cepheids):    48
+  COLLECTIVE Q≥2 with direct distance:                     0
+  COLLECTIVE Q=3 (low quality) with direct distance:       2 → no verdict generated</div>
+
+    <p>This is not a failure of the model — it is a structural observational bias:</p>
+
+    <div class="highlight">
+        <strong>COLLECTIVE galaxies are diffuse, low-mass, low-surface-brightness dwarfs.</strong>
+        TRGB and Cepheid distance measurements require resolving individual bright stars,
+        which is feasible only for nearby and sufficiently luminous galaxies.
+        COLLECTIVE galaxies, being faint and diffuse, tend to lack direct distances in 2016-era catalogues.
+        The SPARC catalogue was constructed before modern HI surveys (MeerKAT, WALLABY, Apertif) expanded the sample.
+    </div>
+
+    <p>The solution is to extend the analysis to catalogues designed specifically for nearby dwarf galaxies — such as LITTLE THINGS (Oh et al. 2015), which uses high-resolution VLA observations with independent TRGB distances. UGC04305 and IC 1613 are the first results of this strategy.</p>
+
+    <!-- 8. WIDE BINARIES -->
+    <h1 id="sec8">8. Wide Binary Comparison</h1>
+
+    <h2>Reference catalogue</h2>
+    <p>The wide binary catalogue from Gaia DR2 (El-Badry &amp; Rix 2018, MNRAS 480, 4884) reports breaks in the separation distribution that occur at different scales for different stellar populations:</p>
+
+    <table>
+        <thead><tr><th>Population</th><th>Observed break</th><th>Typical acceleration</th></tr></thead>
+        <tbody>
+            <tr><td>WD+MS (white dwarf + main sequence)</td><td>~3,000 AU</td><td>~10<sup>−9</sup> m/s²</td></tr>
+            <tr><td>WD+WD (white dwarf + white dwarf)</td><td>~1,500 AU</td><td>~10<sup>−9</sup> m/s²</td></tr>
+        </tbody>
+    </table>
+
+    <h2>Distinctive prediction vs. MOND</h2>
+    <p>Since R<sub>T</sub> ∝ √M, each population has its own break radius:</p>
+    <div class="equation">R<sub>break</sub>(MS+MS) &gt; R<sub>break</sub>(WD+MS) &gt; R<sub>break</sub>(WD+WD)</div>
+
+    <div class="warning-box">
+        <strong>Difference from MOND:</strong>
+        <ul style="margin-top:10px;">
+            <li><strong>MOND:</strong> The modification depends only on local acceleration. Binaries with the same separation should behave identically regardless of their masses.</li>
+            <li><strong>Emergence model:</strong> The regime depends on global properties (total mass). Different masses → different transition radii → breaks at different separations.</li>
+        </ul>
+    </div>
+
+    <h2>Proposed test</h2>
+    <p>Using Gaia DR2 data, plot R<sub>break</sub> vs √M<sub>total</sub> by population. If the model is correct, a straight line should emerge. If the break is mass-independent, MOND wins.</p>
+    <p><strong>Status:</strong> Quantitative verification pending — future work.</p>
+
+    <!-- 9. INTERPRETATION -->
+    <h1 id="sec9">9. Interpretation</h1>
+
+    <div class="key-statement">
+        <strong>Gravity behaves as a stability condition of motion, not as a magnitude directly proportional to mass.</strong>
+    </div>
+    <p style="margin-top:20px;">The system does not orbit because gravity pre-exists; gravity appears when motion can sustain itself coherently within a permitted regime.</p>
+
+    <h2>Nature of the theory</h2>
+    <p>This hypothesis <strong>does not replace General Relativity</strong>. It is an effective macroscopic-level theory, analogous to the relationship between thermodynamics and statistical mechanics:</p>
+    <table>
+        <thead><tr><th>Scale</th><th>Description</th></tr></thead>
+        <tbody>
+            <tr><td>Microscopic</td><td>General Relativity (local spacetime geometry)</td></tr>
+            <tr><td>Macroscopic</td><td>Collective emergent regime (galactic dynamics)</td></tr>
+        </tbody>
+    </table>
+
+    <h2>Implication for dark matter</h2>
+    <p>The behaviour attributed to dark matter would be the manifestation of effective emergent gravity in the low-acceleration regime. No additional material substance is required. The analysis of COLLECTIVE galaxies such as UGC04305 and IC 1613 shows that observable baryonic mass is sufficient to predict the rotation velocity when the system is in the correct regime — without assuming any invisible additional mass.</p>
+
+    <h2>Relationship with MOND</h2>
+    <p>MOND empirically identifies the correct acceleration threshold and describes many galaxies well. However, there is an important conceptual and quantitative difference:</p>
+    <div class="highlight">
+        <ul>
+            <li><strong>MOND:</strong> LOCAL modification of the force law. V⁴ = G·M·a₀ applies universally when g &lt; a₀ — regardless of the global state of the system.</li>
+            <li><strong>Emergence model:</strong> GLOBAL regime transition. V⁴ = G·M·a<sub>crit</sub> emerges only when the complete system enters the collective regime — the condition is on the total dynamical state, not on local acceleration alone.</li>
+        </ul>
+        <p style="margin-top:10px;">This difference produces observationally distinguishable predictions — particularly in wide binaries and in galaxies in the threshold zone. The factor of 12 between a₀ (MOND) and a<sub>crit</sub> also implies velocity predictions that differ by a factor of ~1.86, which is observationally distinguishable with sufficient sample size.</p>
+    </div>
+
+    <h2>On parameter adjustments in MOND</h2>
+    <p>The analysis of UGC07125 with nominal SPARC data revealed an important methodological point. Li et al. (2018) fit MOND to 175 galaxies using MCMC with three free parameters per galaxy: Υ (stellar mass), D (distance), and inclination. For UGC07125, the best fit requires reducing the distance from 19.8 Mpc to 7.45 Mpc — a 62% reduction incompatible with the observed recession velocity.</p>
+
+    <div class="definition-box">
+        <strong>Principle of equitable comparison:</strong><br><br>
+        When two models are compared with the same nominal data and without parameter adjustment, the result is methodologically clean. When a model requires reducing the distance by 62% to close the fit, that is not an observational victory — it is the model searching for parameters that work.<br><br>
+        With nominal SPARC data, no adjustments: this model RMS = 23.9%, MOND RMS = 45.5% for UGC07125. This contrast is documented as a preliminary result, not as a falsification of MOND.
+    </div>
+
+    <!-- 10. LIMITATIONS -->
+    <h1 id="sec10">10. Current Limitations</h1>
+
+    <h2>Theoretical limitations</h2>
+    <p>The model does not yet describe:</p>
+    <ul>
+        <li><strong>Extreme relativistic regime</strong> — black holes, neutron stars, strong gravitational lensing</li>
+        <li><strong>Full cosmology</strong> — large-scale structure, cosmic expansion, CMB</li>
+        <li><strong>Early universe structure</strong> — galaxy formation, warm/cold dark matter in cosmology</li>
+        <li><strong>Fundamental mechanism</strong> — a<sub>crit</sub> has not been derived from first principles</li>
+    </ul>
+
+    <h2>Current observational limitations</h2>
+    <div class="highlight">
+        <strong>Sample sufficient for preliminary statistical claim, but not for final conclusion.</strong><br><br>
+        With 5 valid COLLECTIVE galaxies (3 SPARC + 2 LITTLE THINGS with TRGB), the statistical threshold of 5 has been reached and the structure is consistent with the prediction. However, further verification with additional direct-distance galaxies is required to consolidate the result statistically.
+    </div>
+
+    <h2>Known methodological limitations</h2>
+    <ul>
+        <li><strong>Distance dependence:</strong> The three SPARC COLLECTIVE galaxies rely on Hubble Flow distances. Confirmation with direct TRGB or Cepheid distances for these three cases is pending.</li>
+        <li><strong>Υ sensitivity:</strong> The model uses the catalogue fiducial Υ value without modification. A systematic sensitivity analysis across the full COLLECTIVE sample has not yet been performed.</li>
+        <li><strong>HI edge:</strong> The last point of rotation curves may be affected by the HI detection limit — resolved by the plateau criterion, but judgment is required in marginal cases.</li>
+    </ul>
+
+    <!-- 11. MODEL STATUS -->
+    <h1 id="sec11">11. Model Status — February 2026</h1>
+
+    <h2>Accumulated results</h2>
+
+    <table>
+        <thead>
+            <tr><th>Source</th><th>Galaxy</th><th>Distance</th><th>M_bar</th><th>Error</th><th>Ratio</th><th>Verdict</th></tr>
+        </thead>
+        <tbody>
+            <tr><td>SPARC 2016</td><td>UGC06628</td><td>Hubble Flow</td><td>4.61×10⁹ M☉</td><td>19.0%</td><td>1.042</td><td>✅ CONFIRMS</td></tr>
+            <tr><td>SPARC 2016</td><td>UGC07125</td><td>Hubble Flow</td><td>8.06×10⁹ M☉</td><td>12.3%</td><td>0.568</td><td>✅ CONFIRMS</td></tr>
+            <tr><td>SPARC 2016</td><td>UGC09992</td><td>Hubble Flow</td><td>6.58×10⁸ M☉</td><td>9.0%</td><td>0.779</td><td>✅ CONFIRMS</td></tr>
+            <tr style="background:#e8f5e9;"><td>LITTLE THINGS</td><td>UGC04305</td><td><strong>TRGB 3.45 Mpc</strong></td><td>1.388×10⁹ M☉</td><td><strong>6.0%</strong></td><td>0.743</td><td>✅ CONFIRMS</td></tr>
+            <tr style="background:#e8f5e9;"><td>LITTLE THINGS</td><td>IC 1613</td><td><strong>TRGB 0.755 Mpc</strong></td><td>1.10×10⁸ M☉</td><td><strong>5.34%</strong></td><td>0.531</td><td>✅ CONFIRMS</td></tr>
+        </tbody>
+    </table>
+
+    <p>5/5 COLLECTIVE galaxies with valid criteria confirm. 0 falsifications. Both TRGB direct-distance verdicts produce the two lowest errors in the sample (6.0% and 5.34%), and both are entirely independent of Hubble Flow.</p>
+
+    <div class="key-statement">
+        <strong>The double prediction holds:</strong><br>
+        COLLECTIVE valid (5 galaxies) → error ≤ 20% in all cases ✅<br>
+        THRESHOLD + NEWTONIAN (127 SPARC galaxies) → systematic failure ✅<br><br>
+        Statistical threshold of 5 COLLECTIVE confirmations reached.
+        Two independent TRGB direct-distance confirmations achieved (UGC04305 and IC 1613).
+        Verification continues across the full LITTLE THINGS catalogue.
+    </div>
+
+    <h2>Strengths</h2>
+    <ul>
+        <li>Clear and measurable prediction — a<sub>edge</sub> ≈ a<sub>crit</sub></li>
+        <li>Explicit mathematical formulation with reproducible observational criteria</li>
+        <li>Double falsifiable prediction — failure in non-collective regime is also a prediction</li>
+        <li>Protocol with explicit, auditable quality criteria</li>
+        <li>5/5 valid COLLECTIVE galaxies confirm</li>
+        <li>Two independent TRGB direct-distance confirmations (UGC04305: 6.0%; IC 1613: 5.34%)</li>
+        <li>Does not require undetected material substances</li>
+        <li>Generates distinctive predictions vs. MOND (wide binaries, global vs. local threshold)</li>
+        <li>Methodologically strict comparison protocol — same inputs for all models</li>
+        <li>Explicit limits documented — does not claim to explain everything</li>
+    </ul>
+
+    <h2>Weaknesses</h2>
+    <ul>
+        <li>Fundamental physical mechanism deriving a<sub>crit</sub> from first principles is absent</li>
+        <li>Three SPARC verdicts still depend on Hubble Flow — direct-distance confirmation pending for those three</li>
+        <li>Quantitative wide binary verification pending</li>
+        <li>Scope limited to the galactic low-acceleration regime only</li>
+    </ul>
+
+    <h2>Next steps</h2>
+    <ul>
+        <li><strong>Immediate:</strong> Process remaining LITTLE THINGS COLLECTIVE candidates (CVnIdwA, DDO043, F564-V3, WLM) with point-by-point profiles</li>
+        <li><strong>Short term:</strong> Quantitative verification of population breaks in wide binaries (Gaia DR2)</li>
+        <li><strong>Medium term:</strong> BIG-SPARC (~4000 galaxies, in development 2024–2025) — will massively expand the sample</li>
+        <li><strong>Theoretical:</strong> Derive a<sub>crit</sub> from fundamental principles — connection with c·H₀ or causal horizon scale</li>
+    </ul>
+
+    <div class="section-break"></div>
+
+    <h1 style="border:none; text-align:center; margin-top:60px;">Open Questions</h1>
+
+    <div class="definition-box">
+        <h3 style="margin-top:0;">1. Why a<sub>crit</sub> ≈ 10<sup>−11</sup> m/s²?</h3>
+        <p>Possible connections to explore:</p>
+        <ul>
+            <li><em>a</em><sub>crit</sub> ≈ <em>c · H</em><sub>0</sub> — the Hubble constant defines a natural acceleration scale of the universe</li>
+            <li>Causal horizon scale — when internal acceleration falls below the cosmological acceleration, the system loses local coherence</li>
+            <li>Dynamical time vs. relaxation time — the emergent regime appears when τ<sub>dynamical</sub> ≳ τ<sub>cosmic</sub></li>
+        </ul>
+
+        <h3 style="margin-top:25px;">2. What maintains dynamic coherence?</h3>
+        <p>Is this an effective description of geodesics in curved spacetime (compatible with GR at large scales) or does a new physical mechanism of collective correlation exist? The closest analogy is phase condensation — the system transitions to a regime where individual degrees of freedom couple collectively.</p>
+
+        <h3 style="margin-top:25px;">3. How to distinguish from MOND quantitatively with more galaxies?</h3>
+        <p>The factor of 12 between a₀ (MOND) and a<sub>crit</sub> produces velocity prediction differences of a factor ~1.86 — observationally distinguishable. With 5+ COLLECTIVE galaxies with direct distances it is possible to establish statistically whether the emergence model predicts better than MOND without parameter adjustment.</p>
+
+        <h3 style="margin-top:25px;">4. Why does the Universe have this symmetry?</h3>
+        <p>The equation V⁴ = G·M·a<sub>crit</sub> is dimensionally equivalent to a scaling relation between gravitational energy and cosmological energy. If a<sub>crit</sub> = c·H₀, then galactic rotation velocity is set by the expansion of the universe — suggesting that galactic dynamics and cosmology are not independent, a deep connection yet to be explored.</p>
+    </div>
+
+    <!-- 12. REFERENCES -->
+    <h1 id="sec12">12. References</h1>
+
+    <ol class="ref-list">
+        <li>El-Badry, K. &amp; Rix, H.-W. (2018). Impostors among the stars: a stringent photometric criterion for unresolved contaminants. <em>MNRAS</em>, 480, 4884. [Wide binary catalogue, Gaia DR2.]</li>
+        <li>Lelli, F., McGaugh, S. S., &amp; Schombert, J. M. (2016). SPARC: Mass Models for 175 Disk Galaxies with Spitzer Photometry and Accurate Rotation Curves. <em>AJ</em>, 152, 157. [Primary rotation curve catalogue; SPARC.]</li>
+        <li>Li, P., Lelli, F., McGaugh, S. S., &amp; Schombert, J. M. (2018). Fitting the Radial Acceleration Relation to Individual SPARC Galaxies. <em>A&amp;A</em>, 615, A3. [MOND MCMC fits; UGC07125 distance adjustment.]</li>
+        <li>Mateo, M. L. (1998). Dwarf Galaxies of the Local Group. <em>ARA&amp;A</em>, 36, 435–506. [Baryonic mass and properties of IC 1613 and Local Group dwarfs.]</li>
+        <li>McGaugh, S. S., Lelli, F., &amp; Schombert, J. M. (2016). Radial Acceleration Relation in Rotationally Supported Galaxies. <em>PRL</em>, 117, 201101. [Radial Acceleration Relation; MOND fiducial Υ = 0.5.]</li>
+        <li>Milgrom, M. (1983). A modification of the Newtonian dynamics as a possible alternative to the hidden mass hypothesis. <em>ApJ</em>, 270, 365. [Original MOND proposal; a₀ = 1.2 × 10⁻¹⁰ m/s².]</li>
+        <li>Oh, S.-H., Hunter, D. A., Brinks, E., et al. (2015). High-resolution mass models of dwarf galaxies from LITTLE THINGS. <em>AJ</em>, 149, 180. [LITTLE THINGS catalogue; corrected rotation curves; TRGB distances; Υ = 0.5 fiducial.]</li>
+        <li>van den Bergh, S. (2000). <em>The Galaxies of the Local Group</em>. Cambridge University Press. [IC 1613 baryonic mass and structure.]</li>
+        <li>Zwaan, M. A., van der Hulst, J. M., de Blok, W. J. G., &amp; McGaugh, S. S. (1995). The Tully-Fisher relation for low surface brightness galaxies: implications for galaxy evolution. <em>MNRAS</em>, 273, L35. [Low surface brightness galaxy dynamics; early evidence for universal acceleration scale.]</li>
+    </ol>
+
+    <div style="margin-top:60px; padding-top:20px; border-top:2px solid #333; text-align:center; color:#666;">
+        <p><strong>Hypothesis in active development — verification ongoing</strong></p>
+        <p>Document updated: February 2026 — v2.3</p>
+        <p style="margin-top:8px; font-size:0.9em;">
+            SPARC: 175 galaxies · 3/3 valid COLLECTIVE confirm · Double prediction sustained<br>
+            LITTLE THINGS: 2/2 verified with direct TRGB · errors 6.0% and 5.34% · remaining candidates pending
+        </p>
+    </div>
+
+</div>
+</body>
+</html>

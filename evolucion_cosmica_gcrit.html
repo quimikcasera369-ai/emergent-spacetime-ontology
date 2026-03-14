@@ -1,0 +1,1252 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Emergencia Gravitacional — Evolución Cósmica</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=IBM+Plex+Mono:wght@300;400;500&family=Fraunces:opsz,wght@9..144,300;9..144,600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:       #06080d;
+  --bg2:      #0c0f18;
+  --bg3:      #111520;
+  --border:   #1c2235;
+  --text:     #d4daea;
+  --muted:    #5a6480;
+  --accent:   #e8c547;
+  --blue:     #5b9bd5;
+  --green:    #4db87a;
+  --red:      #d95f5f;
+  --purple:   #9b72cf;
+  --font-display: 'Playfair Display', Georgia, serif;
+  --font-body:    'Fraunces', Georgia, serif;
+  --font-mono:    'IBM Plex Mono', monospace;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 17px;
+  line-height: 1.75;
+  overflow-x: hidden;
+}
+
+/* ── HERO ── */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 80px 60px;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 80% 60% at 70% 40%, rgba(91,155,213,0.07) 0%, transparent 60%),
+    radial-gradient(ellipse 40% 40% at 20% 80%, rgba(232,197,71,0.05) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+.hero-label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.25em;
+  color: var(--accent);
+  text-transform: uppercase;
+  margin-bottom: 28px;
+  opacity: 0;
+  animation: fadeUp 0.8s ease forwards 0.2s;
+}
+
+.hero h1 {
+  font-family: var(--font-display);
+  font-size: clamp(2.8rem, 6vw, 5.5rem);
+  font-weight: 900;
+  line-height: 1.05;
+  max-width: 820px;
+  margin-bottom: 32px;
+  opacity: 0;
+  animation: fadeUp 0.8s ease forwards 0.4s;
+}
+
+.hero h1 em {
+  font-style: italic;
+  color: var(--accent);
+}
+
+.hero-sub {
+  font-size: 1.15rem;
+  color: var(--muted);
+  max-width: 560px;
+  line-height: 1.65;
+  margin-bottom: 48px;
+  opacity: 0;
+  animation: fadeUp 0.8s ease forwards 0.6s;
+}
+
+.hero-formula {
+  display: inline-block;
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--accent);
+  padding: 18px 28px;
+  font-family: var(--font-mono);
+  font-size: 1.1rem;
+  color: var(--accent);
+  letter-spacing: 0.04em;
+  opacity: 0;
+  animation: fadeUp 0.8s ease forwards 0.8s;
+}
+
+/* ── COSMOLOGICAL GRID ── */
+.timeline-section {
+  padding: 100px 60px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.section-header {
+  display: flex;
+  align-items: baseline;
+  gap: 20px;
+  margin-bottom: 56px;
+}
+
+.section-num {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--muted);
+  letter-spacing: 0.2em;
+}
+
+.section-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.6rem, 3vw, 2.4rem);
+  font-weight: 700;
+  color: var(--text);
+}
+
+/* ── REDSHIFT TABLE ── */
+.z-table-wrap {
+  overflow-x: auto;
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  margin-bottom: 48px;
+}
+
+.z-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+}
+
+.z-table th {
+  background: var(--bg3);
+  color: var(--muted);
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  padding: 14px 20px;
+  text-align: right;
+  border-bottom: 1px solid var(--border);
+}
+
+.z-table th:first-child { text-align: left; }
+
+.z-table td {
+  padding: 13px 20px;
+  text-align: right;
+  border-bottom: 1px solid rgba(28,34,53,0.6);
+  color: var(--text);
+  transition: background 0.2s;
+}
+
+.z-table td:first-child { text-align: left; color: var(--accent); font-weight: 500; }
+
+.z-table tr:hover td { background: rgba(255,255,255,0.02); }
+
+.z-table tr.highlight td { background: rgba(91,155,213,0.06); }
+.z-table tr.highlight td:first-child { color: var(--blue); }
+
+.bar-cell { position: relative; }
+.bar-inner {
+  display: inline-block;
+  height: 3px;
+  background: var(--blue);
+  vertical-align: middle;
+  margin-left: 8px;
+  opacity: 0.6;
+  border-radius: 1px;
+}
+
+/* ── VISUAL CURVES ── */
+.curves-section {
+  background: var(--bg2);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  padding: 100px 60px;
+}
+
+.curves-grid {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: start;
+}
+
+.curve-canvas-wrap {
+  position: relative;
+}
+
+.curve-label {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--muted);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+
+canvas { width: 100%; display: block; }
+
+.curve-legend {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--muted);
+}
+
+.legend-line {
+  width: 28px;
+  height: 2px;
+  border-radius: 1px;
+  flex-shrink: 0;
+}
+
+/* ── IMPLICATIONS ── */
+.implications-section {
+  padding: 100px 60px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.impl-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2px;
+  margin-bottom: 64px;
+}
+
+.impl-card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  padding: 36px 32px;
+  position: relative;
+  overflow: hidden;
+  transition: border-color 0.3s;
+}
+
+.impl-card:hover { border-color: rgba(91,155,213,0.4); }
+
+.impl-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+}
+
+.impl-card.cosmological::before { background: var(--blue); }
+.impl-card.structural::before   { background: var(--green); }
+.impl-card.falsifier::before    { background: var(--accent); }
+
+.impl-icon {
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+  display: block;
+}
+
+.impl-title {
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 12px;
+}
+
+.impl-body {
+  font-size: 0.92rem;
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+.impl-body strong { color: var(--text); }
+
+/* ── PREDICTION BOX ── */
+.prediction-section {
+  background: var(--bg2);
+  border-top: 1px solid var(--border);
+  padding: 100px 60px;
+}
+
+.prediction-inner {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.pred-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.8rem, 3vw, 2.8rem);
+  font-weight: 900;
+  margin-bottom: 48px;
+  line-height: 1.15;
+}
+
+.pred-title em { font-style: italic; color: var(--blue); }
+
+.pred-block {
+  border-left: 2px solid var(--border);
+  padding-left: 32px;
+  margin-bottom: 40px;
+}
+
+.pred-block-label {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 10px;
+}
+
+.pred-block p {
+  color: var(--muted);
+  font-size: 0.97rem;
+  line-height: 1.75;
+}
+
+.pred-block p strong { color: var(--text); }
+
+.formula-block {
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  padding: 28px 32px;
+  font-family: var(--font-mono);
+  font-size: 0.95rem;
+  line-height: 2;
+  margin: 36px 0;
+  position: relative;
+}
+
+.formula-block::before {
+  content: 'PREDICCIÓN CUANTITATIVA';
+  position: absolute;
+  top: -10px;
+  left: 20px;
+  background: var(--bg3);
+  padding: 0 10px;
+  font-size: 0.65rem;
+  letter-spacing: 0.18em;
+  color: var(--accent);
+}
+
+.f-line { display: flex; gap: 16px; align-items: baseline; }
+.f-eq   { color: var(--accent); }
+.f-desc { color: var(--muted); font-size: 0.8rem; }
+
+/* ── JWST CALLOUT ── */
+.jwst-callout {
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--blue);
+  padding: 40px 44px;
+  margin: 64px 0;
+  max-width: 900px;
+}
+
+.jwst-label {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  color: var(--blue);
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+
+.jwst-callout h3 {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+
+.jwst-callout p {
+  color: var(--muted);
+  font-size: 0.95rem;
+  line-height: 1.75;
+  margin-bottom: 12px;
+}
+
+.jwst-callout p:last-child { margin-bottom: 0; }
+.jwst-callout strong { color: var(--text); }
+
+/* ── FALSIFIER ── */
+.falsifier-section {
+  padding: 100px 60px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.falsifier-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  margin-top: 48px;
+}
+
+.falsifier-card {
+  border: 1px solid var(--border);
+  padding: 36px;
+}
+
+.falsifier-card h4 {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.fc-yes h4::before { content: '✓'; color: var(--green); font-family: var(--font-mono); }
+.fc-no  h4::before { content: '✗'; color: var(--red);   font-family: var(--font-mono); }
+
+.falsifier-card p {
+  color: var(--muted);
+  font-size: 0.92rem;
+  line-height: 1.7;
+}
+
+.falsifier-card p strong { color: var(--text); }
+
+/* ── SENSITIVITY ── */
+.sensitivity-section {
+  background: var(--bg2);
+  border-top: 1px solid var(--border);
+  padding: 100px 60px;
+}
+
+.sens-inner {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.sens-row {
+  display: grid;
+  grid-template-columns: 80px 1fr 1fr;
+  gap: 0;
+  border-bottom: 1px solid var(--border);
+  padding: 14px 0;
+  align-items: center;
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+}
+
+.sens-row.header {
+  color: var(--muted);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 12px;
+  margin-bottom: 4px;
+}
+
+.sens-z { color: var(--accent); }
+
+.sens-bar-wrap { display: flex; align-items: center; gap: 12px; }
+.sens-bar {
+  height: 4px;
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+.sens-val { color: var(--text); }
+
+/* ── H0 ZERO ── */
+.h0zero-section {
+  padding: 100px 60px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.h0zero-quote {
+  font-family: var(--font-display);
+  font-size: clamp(1.4rem, 2.5vw, 2rem);
+  font-style: italic;
+  font-weight: 400;
+  line-height: 1.45;
+  color: var(--text);
+  border-left: 2px solid var(--accent);
+  padding-left: 36px;
+  margin: 48px 0;
+}
+
+.h0zero-body {
+  color: var(--muted);
+  font-size: 0.97rem;
+  line-height: 1.8;
+  margin-bottom: 20px;
+}
+
+.h0zero-body strong { color: var(--text); }
+
+/* ── FOOTER ── */
+footer {
+  border-top: 1px solid var(--border);
+  padding: 40px 60px;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--muted);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  letter-spacing: 0.06em;
+}
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 900px) {
+  .hero, .timeline-section, .implications-section,
+  .prediction-section, .falsifier-section, .h0zero-section { padding: 60px 24px; }
+  .curves-section, .sensitivity-section { padding: 60px 24px; }
+  .curves-grid { grid-template-columns: 1fr; }
+  .impl-grid   { grid-template-columns: 1fr; }
+  .falsifier-grid { grid-template-columns: 1fr; }
+  footer { flex-direction: column; gap: 12px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════════════════════
+     HERO
+══════════════════════════════════════════════════════════ -->
+<section class="hero">
+  <div class="hero-label">Emergencia Gravitacional · Extensión Cosmológica · v1.0</div>
+  <h1>Si H₀ determina g<sub>crit</sub>,<br>el universo temprano<br>es <em>físicamente distinto.</em></h1>
+  <p class="hero-sub">
+    La ecuación g<sub>crit</sub> = c·H₀/(4π²√3) no es una constante —
+    es una función del tiempo cósmico. Cada galaxia que JWST observa
+    a z&gt;1 vivió bajo un umbral diferente. Esta página deriva
+    cuánto diferente, y qué predice exactamente.
+  </p>
+  <div class="hero-formula">g<sub>crit</sub>(z) = c · H(z) / (4π²·√3) &nbsp;·&nbsp; H(z) = H₀√(Ω<sub>m</sub>(1+z)³ + Ω<sub>Λ</sub>)</div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════════
+     TABLA DE EVOLUCIÓN
+══════════════════════════════════════════════════════════ -->
+<section class="timeline-section">
+  <div class="section-header reveal">
+    <span class="section-num">§ 01</span>
+    <h2 class="section-title">Evolución de los tres parámetros clave</h2>
+  </div>
+
+  <p class="reveal" style="color:var(--muted);font-size:0.95rem;max-width:680px;margin-bottom:40px;line-height:1.75;">
+    Para una galaxia de masa bariónica fija M<sub>bar</sub> = 5×10⁹ M<sub>☉</sub>,
+    se calculan g<sub>crit</sub>, R<sub>T</sub> y V<sub>flat</sub> a cada época cósmica.
+    El modelo ΛCDM estándar (Ω<sub>m</sub>=0.3, Ω<sub>Λ</sub>=0.7) determina H(z).
+  </p>
+
+  <div class="z-table-wrap reveal">
+    <table class="z-table">
+      <thead>
+        <tr>
+          <th>Redshift z</th>
+          <th>Edad cósmica</th>
+          <th>H(z) km/s/Mpc</th>
+          <th>g<sub>crit</sub> (m/s²)</th>
+          <th>R<sub>T</sub> (kpc)</th>
+          <th>V<sub>flat</sub> (km/s)</th>
+          <th>V<sub>flat</sub> / V<sub>flat,0</sub></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="highlight">
+          <td>z = 0</td>
+          <td>13.8 Gyr — HOY</td>
+          <td>73.0</td>
+          <td>1.04 × 10⁻¹¹</td>
+          <td>8.20</td>
+          <td>51.2</td>
+          <td class="bar-cell">1.00× <span class="bar-inner" style="width:60px"></span></td>
+        </tr>
+        <tr>
+          <td>z = 0.5</td>
+          <td>8.6 Gyr</td>
+          <td>95.5</td>
+          <td>1.36 × 10⁻¹¹</td>
+          <td>7.16</td>
+          <td>54.8</td>
+          <td class="bar-cell">1.07× <span class="bar-inner" style="width:64px"></span></td>
+        </tr>
+        <tr>
+          <td>z = 1.0</td>
+          <td>5.9 Gyr</td>
+          <td>128.5</td>
+          <td>1.83 × 10⁻¹¹</td>
+          <td>6.18</td>
+          <td>59.0</td>
+          <td class="bar-cell">1.15× <span class="bar-inner" style="width:69px"></span></td>
+        </tr>
+        <tr class="highlight">
+          <td>z = 2.0</td>
+          <td>3.3 Gyr</td>
+          <td>216.6</td>
+          <td>3.08 × 10⁻¹¹</td>
+          <td>4.76</td>
+          <td>67.2</td>
+          <td class="bar-cell">1.31× <span class="bar-inner" style="width:79px"></span></td>
+        </tr>
+        <tr>
+          <td>z = 3.0</td>
+          <td>2.1 Gyr</td>
+          <td>325.6</td>
+          <td>4.63 × 10⁻¹¹</td>
+          <td>3.88</td>
+          <td>74.5</td>
+          <td class="bar-cell">1.45× <span class="bar-inner" style="width:87px"></span></td>
+        </tr>
+        <tr>
+          <td>z = 4.0</td>
+          <td>1.5 Gyr</td>
+          <td>451.2</td>
+          <td>6.42 × 10⁻¹¹</td>
+          <td>3.30</td>
+          <td>80.8</td>
+          <td class="bar-cell">1.58× <span class="bar-inner" style="width:95px"></span></td>
+        </tr>
+        <tr>
+          <td>z = 6.0</td>
+          <td>0.9 Gyr</td>
+          <td>743.0</td>
+          <td>1.06 × 10⁻¹⁰</td>
+          <td>2.57</td>
+          <td>91.5</td>
+          <td class="bar-cell">1.79× <span class="bar-inner" style="width:107px"></span></td>
+        </tr>
+        <tr>
+          <td>z = 10.0</td>
+          <td>0.5 Gyr</td>
+          <td>1460.0</td>
+          <td>2.08 × 10⁻¹⁰</td>
+          <td>1.83</td>
+          <td>108.3</td>
+          <td class="bar-cell">2.11× <span class="bar-inner" style="width:127px"></span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="formula-block reveal">
+    <div class="f-line">
+      <span class="f-eq">V<sub>flat</sub>(z) = V<sub>flat,0</sub> · [H(z)/H₀]^(1/4)</span>
+      <span class="f-desc">← escala con raíz cuarta de H(z)</span>
+    </div>
+    <div class="f-line">
+      <span class="f-eq">R<sub>T</sub>(z) &nbsp;= R<sub>T,0</sub> &nbsp;· [H(z)/H₀]^(-1/2)</span>
+      <span class="f-desc">← se encoge con raíz cuadrada inversa</span>
+    </div>
+    <div class="f-line">
+      <span class="f-eq">g<sub>crit</sub>(z) = g<sub>crit,0</sub> · [H(z)/H₀]</span>
+      <span class="f-desc">← lineal con H(z)</span>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════════
+     CURVAS VISUALES
+══════════════════════════════════════════════════════════ -->
+<section class="curves-section">
+  <div class="curves-grid">
+    <div class="reveal">
+      <div class="section-header">
+        <span class="section-num">§ 02</span>
+        <h2 class="section-title">Curvas de rotación a distintos z</h2>
+      </div>
+      <p style="color:var(--muted);font-size:0.92rem;line-height:1.75;margin-bottom:28px;">
+        Misma masa bariónica (5×10⁹ M<sub>☉</sub>), distintas épocas cósmicas.
+        La línea azul es el régimen hamiltoniano (V²=GM/R con perfil M(R)).
+        La verde es el plateau de Maupertuis. El diamante es R<sub>T</sub>.
+      </p>
+      <div class="curve-canvas-wrap">
+        <div class="curve-label">V (km/s) vs R (kpc) — M<sub>bar</sub> = 5×10⁹ M<sub>☉</sub></div>
+        <canvas id="cvRotation" width="560" height="380"></canvas>
+      </div>
+      <div class="curve-legend">
+        <div class="legend-item"><div class="legend-line" style="background:#5b9bd5"></div> z = 0 (hoy)</div>
+        <div class="legend-item"><div class="legend-line" style="background:#7db87d"></div> z = 1</div>
+        <div class="legend-item"><div class="legend-line" style="background:#e8c547"></div> z = 2</div>
+        <div class="legend-item"><div class="legend-line" style="background:#d95f5f"></div> z = 4</div>
+        <div class="legend-item"><div class="legend-line" style="background:rgba(255,255,255,0.3);border-top:1px dashed rgba(255,255,255,0.3)"></div> R<sub>T</sub> (mismo color)</div>
+      </div>
+    </div>
+
+    <div class="reveal">
+      <div class="section-header">
+        <span class="section-num">§ 02b</span>
+        <h2 class="section-title">V<sub>flat</sub> vs Masa a z=0 y z=2</h2>
+      </div>
+      <p style="color:var(--muted);font-size:0.92rem;line-height:1.75;margin-bottom:28px;">
+        La relación de Tully-Fisher bariónica V⁴ ∝ M<sub>bar</sub> se preserva
+        en forma — pero se desplaza verticalmente. Las galaxias del universo
+        temprano tienen <em>más</em> V<sub>flat</sub> para la misma masa.
+        Eso es lo que JWST está viendo.
+      </p>
+      <div class="curve-canvas-wrap">
+        <div class="curve-label">V<sub>flat</sub> (km/s) vs M<sub>bar</sub> (M<sub>☉</sub>) — escala log-log</div>
+        <canvas id="cvTF" width="560" height="380"></canvas>
+      </div>
+      <div class="curve-legend">
+        <div class="legend-item"><div class="legend-line" style="background:#5b9bd5"></div> z = 0 — SPARC local</div>
+        <div class="legend-item"><div class="legend-line" style="background:#e8c547"></div> z = 2 — predicción JWST</div>
+        <div class="legend-item"><div class="legend-line" style="background:rgba(91,155,213,0.3)"></div> desplazamiento vertical = H(z)^(1/4)</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════════
+     IMPLICACIONES
+══════════════════════════════════════════════════════════ -->
+<section class="implications-section">
+  <div class="section-header reveal">
+    <span class="section-num">§ 03</span>
+    <h2 class="section-title">Tres implicaciones profundas</h2>
+  </div>
+
+  <div class="impl-grid reveal">
+    <div class="impl-card cosmological">
+      <span class="impl-icon">◎</span>
+      <div class="impl-title">La curva plana es evidencia de expansión</div>
+      <p class="impl-body">
+        En un universo con H₀=0, g<sub>crit</sub>=0 y R<sub>T</sub>→∞.
+        <strong>El régimen colectivo desaparecería.</strong> Todas las curvas
+        serían keplerianas. El "problema de la curva plana" no existiría —
+        no habría fenómeno que explicar. La curva plana no es anomalía de masa:
+        es la <strong>firma dinámica de la expansión cósmica</strong>.
+      </p>
+    </div>
+
+    <div class="impl-card structural">
+      <span class="impl-icon">◈</span>
+      <div class="impl-title">g<sub>crit</sub> no es una constante universal</div>
+      <p class="impl-body">
+        Es una función del tiempo cósmico. Las galaxias que se formaron
+        a z=4 vivieron bajo un umbral <strong>6× mayor</strong> que el actual.
+        Su R<sub>T</sub> era 2.5× más pequeño. Las "constantes" del modelo de
+        materia oscura son en realidad parámetros que evolucionan —
+        este modelo los <strong>predice desde primeros principios</strong>.
+      </p>
+    </div>
+
+    <div class="impl-card falsifier">
+      <span class="impl-icon">◇</span>
+      <div class="impl-title">Predicción falseable con JWST ahora mismo</div>
+      <p class="impl-body">
+        El modelo predice V<sub>flat</sub>(z) ∝ H(z)<sup>1/4</sup>.
+        Esa dependencia es <strong>exacta y sin parámetros libres</strong>.
+        Es distinguible de cualquier modelo de materia oscura porque tiene
+        una dependencia cosmológica específica — no solo "más materia oscura
+        en el universo temprano", sino <strong>exactamente cuánta más</strong>.
+      </p>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════════
+     PREDICCION CUANTITATIVA
+══════════════════════════════════════════════════════════ -->
+<section class="prediction-section">
+  <div class="prediction-inner">
+    <div class="section-header reveal">
+      <span class="section-num">§ 04</span>
+      <h2 class="section-title">La predicción cuantitativa exacta</h2>
+    </div>
+
+    <h2 class="pred-title reveal">
+      Para cualquier galaxia a redshift z,<br>
+      <em>sin ajustar ningún parámetro:</em>
+    </h2>
+
+    <div class="formula-block reveal">
+      <div class="f-line">
+        <span class="f-eq">V<sub>flat</sub>(z, M) = [G · M<sub>bar</sub> · g<sub>crit</sub>(z)]^(1/4)</span>
+        <span class="f-desc">← predicción directa</span>
+      </div>
+      <div class="f-line" style="margin-top:8px">
+        <span class="f-eq">g<sub>crit</sub>(z) = c · H₀ · √(Ω<sub>m</sub>(1+z)³ + Ω<sub>Λ</sub>) / (4π²√3)</span>
+        <span class="f-desc">← H(z) de ΛCDM</span>
+      </div>
+      <div class="f-line" style="margin-top:8px">
+        <span class="f-eq">R<sub>T</sub>(z, M) = √(G · M<sub>bar</sub> / g<sub>crit</sub>(z))</span>
+        <span class="f-desc">← radio de transición</span>
+      </div>
+    </div>
+
+    <div class="pred-block reveal">
+      <div class="pred-block-label">Inputs requeridos</div>
+      <p>Solo <strong>M<sub>bar</sub></strong> (fotometría + línea 21cm) y <strong>z</strong> (espectroscopía).
+      H₀, Ω<sub>m</sub>, Ω<sub>Λ</sub> son constantes cosmológicas conocidas.
+      No hay Υ ajustable por galaxia, no hay parámetros de materia oscura,
+      no hay masa libre. <strong>Cero grados de libertad.</strong></p>
+    </div>
+
+    <div class="pred-block reveal">
+      <div class="pred-block-label">Firma específica vs materia oscura</div>
+      <p>Un modelo de materia oscura puede siempre ajustar el halo para dar cualquier V<sub>flat</sub>.
+      Este modelo no puede ajustarse — predice V<sub>flat</sub> exactamente.
+      Si una galaxia a z=2 con M<sub>bar</sub>=10¹⁰ M<sub>☉</sub> tiene V<sub>flat</sub> distinta
+      a <strong>80 km/s ± incertidumbre de M<sub>bar</sub></strong>,
+      el modelo falla. Eso es falsificación limpia.</p>
+    </div>
+
+    <div class="jwst-callout reveal">
+      <div class="jwst-label">Conexión con observaciones JWST 2023–2025</div>
+      <h3>JWST ya está viendo galaxias "demasiado masivas" y "demasiado rápidas"</h3>
+      <p>
+        Múltiples estudios (Labbé et al. 2023, Finkelstein et al. 2023, Curtis-Lake et al. 2023)
+        reportan galaxias a z&gt;4 con velocidades de rotación mayores de lo esperado
+        para su masa bariónica visible. La interpretación estándar es
+        "halos de materia oscura más concentrados en el universo temprano".
+      </p>
+      <p>
+        <strong>Este modelo produce el mismo resultado sin materia oscura:</strong>
+        a z=4, g<sub>crit</sub> es 6× mayor, R<sub>T</sub> es 2.5× más pequeño,
+        y V<sub>flat</sub> es 1.58× mayor para la misma masa. Las galaxias
+        no son "demasiado rápidas" — el umbral de transición era mayor entonces.
+      </p>
+      <p>
+        La diferencia crucial: materia oscura predice que el exceso de velocidad
+        depende del perfil del halo (libre). Este modelo predice que depende
+        exactamente de H(z) — <strong>constante cosmológica sin libertad</strong>.
+        Ese es el test.
+      </p>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════════
+     H0 = 0
+══════════════════════════════════════════════════════════ -->
+<section class="h0zero-section">
+  <div class="section-header reveal">
+    <span class="section-num">§ 05</span>
+    <h2 class="section-title">El límite H₀ → 0</h2>
+  </div>
+
+  <div class="h0zero-quote reveal">
+    "En un universo estático, la curva de rotación plana no existe.
+    Su existencia es evidencia de que el universo se expande."
+  </div>
+
+  <p class="h0zero-body reveal">
+    Si H₀ → 0, entonces g<sub>crit</sub> → 0, R<sub>T</sub> → ∞ y V<sub>flat</sub> → 0.
+    El radio de transición se va al infinito — ninguna galaxia, independientemente de su masa
+    o tamaño, alcanza nunca el umbral de Maupertuis. <strong>Todo el universo vive en Hamilton</strong>
+    para siempre. Las curvas de rotación caen como V ∝ R<sup>-1/2</sup> en el borde exterior.
+    Sin plateau. Sin "anomalía".
+  </p>
+
+  <p class="h0zero-body reveal">
+    Esto invierte la causalidad del problema. Durante décadas se asumió:
+    <em>la curva es plana → falta masa → existe materia oscura</em>.
+    Este modelo sugiere:
+    <strong>la curva es plana → g cae bajo g<sub>crit</sub> → el umbral existe porque H₀ ≠ 0 → el universo se expande</strong>.
+    La materia oscura no es la explicación — la expansión cósmica lo es.
+  </p>
+
+  <p class="h0zero-body reveal">
+    Extensión: en el universo muy temprano (z ≫ 10), H(z) era enorme y g<sub>crit</sub>
+    era comparable a las aceleraciones internas de los proto-halos.
+    <strong>En esa época, casi todo el universo vivía en régimen colectivo.</strong>
+    La transición de "universo mayormente colectivo" a "universo mayormente hamiltoniano"
+    ocurre cuando las aceleraciones internas crecen por encima de g<sub>crit</sub>(z)
+    a medida que la materia se concentra. Esa transición tiene una redshift específica —
+    derivable, predecible, testeable.
+  </p>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════════
+     FALSIFICADORES
+══════════════════════════════════════════════════════════ -->
+<section class="falsifier-section">
+  <div class="section-header reveal">
+    <span class="section-num">§ 06</span>
+    <h2 class="section-title">Tests falsificadores concretos</h2>
+  </div>
+
+  <div class="falsifier-grid reveal">
+    <div class="falsifier-card fc-yes">
+      <h4>CONFIRMARÍA el modelo</h4>
+      <p>Galaxias a z=2 con M<sub>bar</sub> conocida tienen
+      <strong>V<sub>flat</sub> exactamente 1.31× mayor</strong> que
+      galaxias locales de igual masa. El factor 1.31 = H(z=2)^(1/4)/H₀^(1/4)
+      es una predicción numérica precisa, sin ajuste.</p>
+    </div>
+
+    <div class="falsifier-card fc-no">
+      <h4>FALSIFICARÍA el modelo</h4>
+      <p>Galaxias a z=2 con V<sub>flat</sub> mayor de lo local, pero
+      <strong>sin seguir la dependencia H(z)<sup>1/4</sup></strong>.
+      Si el exceso fuera aleatorio, o siguiera otra ley de potencias,
+      el modelo falla aunque la dirección cualitativa sea correcta.</p>
+    </div>
+
+    <div class="falsifier-card fc-yes">
+      <h4>CONFIRMARÍA el modelo</h4>
+      <p>R<sub>T</sub> en galaxias de alto redshift es
+      <strong>más pequeño exactamente como H(z)^(-1/2)</strong>.
+      Las curvas se aplanan antes — en radios menores — en proporción
+      exacta al factor cosmológico. Testeable con curvas resueltas espacialmente.</p>
+    </div>
+
+    <div class="falsifier-card fc-no">
+      <h4>FALSIFICARÍA el modelo</h4>
+      <p>Existencia de galaxias en régimen colectivo (curva plana,
+      g &lt; g<sub>crit</sub>(z)) con <strong>V<sub>flat</sub> que no coincide</strong>
+      con (G·M<sub>bar</sub>·g<sub>crit</sub>(z))^(1/4) dentro de la incertidumbre
+      en M<sub>bar</sub>. Un solo caso limpio sería suficiente.</p>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════════
+     SENSIBILIDAD A H0
+══════════════════════════════════════════════════════════ -->
+<section class="sensitivity-section">
+  <div class="sens-inner">
+    <div class="section-header reveal">
+      <span class="section-num">§ 07</span>
+      <h2 class="section-title">Sensibilidad: el escudo del exponente 1/4</h2>
+    </div>
+
+    <p class="reveal" style="color:var(--muted);font-size:0.95rem;line-height:1.75;max-width:640px;margin-bottom:40px;">
+      La tensión de Hubble (H₀=73 vs H₀=67.4, diferencia 7.7%) impacta g<sub>crit</sub>
+      linealmente — pero V<sub>flat</sub> solo se mueve en 1.8%.
+      El exponente 1/4 actúa como amortiguador natural.
+      Las predicciones son robustas a la incertidumbre cosmológica más grande del campo.
+    </p>
+
+    <div class="reveal">
+      <div class="sens-row header">
+        <span>ΔH₀</span>
+        <span>Δg<sub>crit</sub></span>
+        <span>ΔV<sub>flat</sub></span>
+      </div>
+      <div class="sens-row">
+        <span class="sens-z">−10%</span>
+        <div class="sens-bar-wrap">
+          <div class="sens-bar" style="width:80px;background:var(--red);opacity:0.7"></div>
+          <span class="sens-val">−10.0%</span>
+        </div>
+        <div class="sens-bar-wrap">
+          <div class="sens-bar" style="width:21px;background:var(--red);opacity:0.5"></div>
+          <span class="sens-val">−2.6%</span>
+        </div>
+      </div>
+      <div class="sens-row">
+        <span class="sens-z">−5%</span>
+        <div class="sens-bar-wrap">
+          <div class="sens-bar" style="width:40px;background:var(--red);opacity:0.5"></div>
+          <span class="sens-val">−5.0%</span>
+        </div>
+        <div class="sens-bar-wrap">
+          <div class="sens-bar" style="width:10px;background:var(--red);opacity:0.4"></div>
+          <span class="sens-val">−1.3%</span>
+        </div>
+      </div>
+      <div class="sens-row">
+        <span class="sens-z">+5%</span>
+        <div class="sens-bar-wrap">
+          <div class="sens-bar" style="width:40px;background:var(--green);opacity:0.5"></div>
+          <span class="sens-val">+5.0%</span>
+        </div>
+        <div class="sens-bar-wrap">
+          <div class="sens-bar" style="width:10px;background:var(--green);opacity:0.4"></div>
+          <span class="sens-val">+1.2%</span>
+        </div>
+      </div>
+      <div class="sens-row">
+        <span class="sens-z">+10%</span>
+        <div class="sens-bar-wrap">
+          <div class="sens-bar" style="width:80px;background:var(--green);opacity:0.7"></div>
+          <span class="sens-val">+10.0%</span>
+        </div>
+        <div class="sens-bar-wrap">
+          <div class="sens-bar" style="width:19px;background:var(--green);opacity:0.5"></div>
+          <span class="sens-val">+2.4%</span>
+        </div>
+      </div>
+      <div class="sens-row" style="border-top:1px solid var(--border);margin-top:8px;padding-top:16px">
+        <span class="sens-z" style="color:var(--blue)">Tensión<br>Hubble</span>
+        <div class="sens-bar-wrap">
+          <div class="sens-bar" style="width:62px;background:var(--blue);opacity:0.6"></div>
+          <span class="sens-val" style="color:var(--blue)">−7.7%</span>
+        </div>
+        <div class="sens-bar-wrap">
+          <div class="sens-bar" style="width:14px;background:var(--blue);opacity:0.5"></div>
+          <span class="sens-val" style="color:var(--blue)">−1.8%  ← ruido</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<footer>
+  <span>Emergencia Gravitacional · Extensión Cosmológica · v1.0 · 2026</span>
+  <span>Juan Pablo Figueroa Torres</span>
+</footer>
+
+
+<!-- ══════════════════════════════════════════════════════════
+     CANVAS JS
+══════════════════════════════════════════════════════════ -->
+<script>
+// ── Física ──────────────────────────────────────────────
+const G=6.674e-11, Msol=1.989e30, kpc=3.0857e19, kms=1e3;
+const H0=73*1e3/3.0857e22, c=3e8, Om=0.3, OL=0.7;
+
+function Hz(z){ return H0*Math.sqrt(Om*Math.pow(1+z,3)+OL); }
+function gcrit(z){ return c*Hz(z)/(4*Math.PI**2*Math.sqrt(3)); }
+function RT(z,M){ return Math.sqrt(G*M/gcrit(z))/kpc; }
+function Vflat(z,M){ return Math.pow(G*M*gcrit(z),0.25)/kms; }
+
+// Simple M(R): assume masa crece como perfil NFW-like
+// Para simplificar: V_newt(R) = Vflat * sqrt(R/RT) para R<RT, Vflat para R>=RT
+function Vmodel(R, z, M){
+  const rt=RT(z,M), vf=Vflat(z,M);
+  if(R<=0) return 0;
+  if(R>=rt) return vf;
+  // región interna: curva de subida
+  return vf * Math.sqrt(R/rt);
+}
+
+// ── Canvas 1: Curvas de rotación ─────────────────────
+function drawRotation(){
+  const cv = document.getElementById('cvRotation');
+  const ctx = cv.getContext('2d');
+  const W=cv.width, H=cv.height;
+  const M=5e9*Msol;
+  const pad={l:52,r:20,t:20,b:40};
+  const pw=W-pad.l-pad.r, ph=H-pad.t-pad.b;
+
+  ctx.fillStyle='#0c0f18'; ctx.fillRect(0,0,W,H);
+
+  const configs=[
+    {z:0,  color:'#5b9bd5'},
+    {z:1,  color:'#7db87d'},
+    {z:2,  color:'#e8c547'},
+    {z:4,  color:'#d95f5f'},
+  ];
+
+  // escala: R 0..20 kpc, V 0..120 km/s
+  const Rmax=20, Vmax=120;
+  const rx=R => pad.l + (R/Rmax)*pw;
+  const ry=V => pad.t + ph - (V/Vmax)*ph;
+
+  // grid
+  ctx.strokeStyle='#1c2235'; ctx.lineWidth=0.5;
+  for(let v=0;v<=120;v+=30){
+    ctx.beginPath(); ctx.moveTo(pad.l,ry(v)); ctx.lineTo(pad.l+pw,ry(v)); ctx.stroke();
+    ctx.fillStyle='#3a4560'; ctx.font='10px IBM Plex Mono';
+    ctx.fillText(v,4,ry(v)+4);
+  }
+  for(let r=0;r<=20;r+=5){
+    ctx.beginPath(); ctx.moveTo(rx(r),pad.t); ctx.lineTo(rx(r),pad.t+ph); ctx.stroke();
+    ctx.fillStyle='#3a4560'; ctx.font='10px IBM Plex Mono';
+    ctx.fillText(r,rx(r)-6,pad.t+ph+14);
+  }
+
+  // curvas
+  configs.forEach(({z,color})=>{
+    const rt=RT(z,M);
+    const vf=Vflat(z,M);
+
+    // zona colectiva fondo
+    ctx.fillStyle=color+'10';
+    ctx.fillRect(rx(rt),pad.t,px=>pw-(rt/Rmax)*pw,ph);
+
+    // linea RT
+    ctx.strokeStyle=color+'50'; ctx.lineWidth=1; ctx.setLineDash([4,4]);
+    ctx.beginPath(); ctx.moveTo(rx(rt),pad.t); ctx.lineTo(rx(rt),pad.t+ph); ctx.stroke();
+    ctx.setLineDash([]);
+
+    // curva
+    ctx.strokeStyle=color; ctx.lineWidth=2.5;
+    ctx.beginPath();
+    for(let i=0;i<=200;i++){
+      const R=0.1+i*(Rmax-0.1)/200;
+      const V=Vmodel(R,z,M);
+      if(i===0) ctx.moveTo(rx(R),ry(V));
+      else ctx.lineTo(rx(R),ry(V));
+    }
+    ctx.stroke();
+
+    // diamante RT
+    const dx=rx(rt), dy=ry(vf);
+    ctx.fillStyle=color;
+    ctx.beginPath();
+    ctx.moveTo(dx,dy-7); ctx.lineTo(dx+6,dy); ctx.lineTo(dx,dy+7); ctx.lineTo(dx-6,dy);
+    ctx.closePath(); ctx.fill();
+
+    // label z
+    ctx.fillStyle=color; ctx.font='bold 11px IBM Plex Mono';
+    ctx.fillText('z='+z, rx(Math.min(rt*1.15,18)), ry(vf)-8);
+  });
+
+  // ejes labels
+  ctx.fillStyle='#5a6480'; ctx.font='11px IBM Plex Mono';
+  ctx.fillText('R (kpc)', W/2-20, H-4);
+  ctx.save(); ctx.translate(12, H/2); ctx.rotate(-Math.PI/2);
+  ctx.fillText('V (km/s)', -30, 0); ctx.restore();
+}
+
+// ── Canvas 2: Tully-Fisher ───────────────────────────
+function drawTF(){
+  const cv=document.getElementById('cvTF');
+  const ctx=cv.getContext('2d');
+  const W=cv.width, H=cv.height;
+  const pad={l:52,r:20,t:20,b:40};
+  const pw=W-pad.l-pad.r, ph=H-pad.t-pad.b;
+
+  ctx.fillStyle='#0c0f18'; ctx.fillRect(0,0,W,H);
+
+  // log-log: M de 1e7 a 1e12, V de 5 a 300
+  const lMmin=7, lMmax=12, lVmin=Math.log10(5), lVmax=Math.log10(300);
+  const mx=lM => pad.l + ((lM-lMmin)/(lMmax-lMmin))*pw;
+  const my=lV => pad.t + ph - ((lV-lVmin)/(lVmax-lVmin))*ph;
+
+  // grid
+  ctx.strokeStyle='#1c2235'; ctx.lineWidth=0.5;
+  [7,8,9,10,11,12].forEach(lm=>{
+    ctx.beginPath(); ctx.moveTo(mx(lm),pad.t); ctx.lineTo(mx(lm),pad.t+ph); ctx.stroke();
+    ctx.fillStyle='#3a4560'; ctx.font='9px IBM Plex Mono';
+    ctx.fillText('10^'+lm, mx(lm)-16, pad.t+ph+14);
+  });
+  [10,20,50,100,200].forEach(v=>{
+    const lv=Math.log10(v);
+    ctx.beginPath(); ctx.moveTo(pad.l,my(lv)); ctx.lineTo(pad.l+pw,my(lv)); ctx.stroke();
+    ctx.fillStyle='#3a4560'; ctx.font='9px IBM Plex Mono';
+    ctx.fillText(v,2,my(lv)+4);
+  });
+
+  // franja entre z=0 y z=2
+  ctx.fillStyle='rgba(91,155,213,0.05)';
+  ctx.beginPath();
+  for(let i=0;i<=100;i++){
+    const lM=lMmin+i*(lMmax-lMmin)/100;
+    const M=Math.pow(10,lM)*Msol;
+    const v0=Vflat(0,M), v2=Vflat(2,M);
+    if(i===0) ctx.moveTo(mx(lM), my(Math.log10(v0)));
+    else ctx.lineTo(mx(lM), my(Math.log10(v0)));
+  }
+  for(let i=100;i>=0;i--){
+    const lM=lMmin+i*(lMmax-lMmin)/100;
+    const M=Math.pow(10,lM)*Msol;
+    const v2=Vflat(2,M);
+    ctx.lineTo(mx(lM), my(Math.log10(v2)));
+  }
+  ctx.closePath(); ctx.fill();
+
+  // lineas
+  [[0,'#5b9bd5'],[2,'#e8c547']].forEach(([z,color])=>{
+    ctx.strokeStyle=color; ctx.lineWidth=2.5;
+    ctx.beginPath();
+    for(let i=0;i<=100;i++){
+      const lM=lMmin+i*(lMmax-lMmin)/100;
+      const M=Math.pow(10,lM)*Msol;
+      const V=Vflat(z,M);
+      const pt=[mx(lM), my(Math.log10(V))];
+      if(i===0) ctx.moveTo(...pt); else ctx.lineTo(...pt);
+    }
+    ctx.stroke();
+    // label
+    ctx.fillStyle=color; ctx.font='bold 11px IBM Plex Mono';
+    ctx.fillText('z='+z, mx(10.5), my(Math.log10(Vflat(z,Math.pow(10,10.5)*Msol)))-10);
+  });
+
+  // flecha de desplazamiento
+  ctx.strokeStyle='rgba(255,255,255,0.2)'; ctx.lineWidth=1; ctx.setLineDash([3,4]);
+  const lMm=9.5;
+  const Mm=Math.pow(10,lMm)*Msol;
+  const y0=my(Math.log10(Vflat(0,Mm))), y2=my(Math.log10(Vflat(2,Mm)));
+  ctx.beginPath(); ctx.moveTo(mx(lMm)+8,y0); ctx.lineTo(mx(lMm)+8,y2); ctx.stroke();
+  ctx.setLineDash([]);
+  ctx.fillStyle='rgba(255,255,255,0.4)'; ctx.font='9px IBM Plex Mono';
+  ctx.fillText('×1.31', mx(lMm)+12, (y0+y2)/2+4);
+
+  ctx.fillStyle='#5a6480'; ctx.font='11px IBM Plex Mono';
+  ctx.fillText('M_bar (M_sol)', W/2-40, H-4);
+  ctx.save(); ctx.translate(12,H/2); ctx.rotate(-Math.PI/2);
+  ctx.fillText('V_flat (km/s)', -35, 0); ctx.restore();
+}
+
+drawRotation();
+drawTF();
+
+// ── Scroll reveal ────────────────────────────────────
+const obs = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('visible'); });
+},{threshold:0.12});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>

@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>La Transición Cósmica — Emergencia Gravitacional</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,600;0,700;1,300;1,600&family=JetBrains+Mono:wght@300;400;500&family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:      #070910;
+  --bg2:     #0d1018;
+  --bg3:     #121620;
+  --border:  #1a2030;
+  --text:    #ccd4e8;
+  --muted:   #505878;
+  --accent:  #f0c060;
+  --blue:    #6aacee;
+  --green:   #52c97e;
+  --red:     #e06060;
+  --purple:  #a07ee0;
+  --orange:  #e08850;
+  --font-h:  'Cormorant Garamond', Georgia, serif;
+  --font-b:  'Outfit', sans-serif;
+  --font-m:  'JetBrains Mono', monospace;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--font-b);font-size:16px;line-height:1.8;overflow-x:hidden}
+
+/* ── HERO ── */
+.hero{
+  min-height:100vh;display:flex;flex-direction:column;
+  justify-content:flex-end;padding:80px 64px;
+  position:relative;overflow:hidden;
+}
+.hero-bg{
+  position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse 100% 70% at 50% 0%, rgba(106,172,238,0.04) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 80% at 90% 100%, rgba(240,192,96,0.04) 0%, transparent 50%),
+    radial-gradient(ellipse 40% 40% at 10% 60%, rgba(160,126,224,0.03) 0%, transparent 50%);
+  pointer-events:none;
+}
+/* estrella pulsante */
+.hero-star{
+  position:absolute;top:18%;left:58%;
+  width:3px;height:3px;border-radius:50%;
+  background:var(--accent);
+  box-shadow:0 0 12px 4px rgba(240,192,96,0.4);
+  animation:pulse 3s ease-in-out infinite;
+}
+@keyframes pulse{0%,100%{opacity:0.4;transform:scale(1)}50%{opacity:1;transform:scale(1.8)}}
+
+.hero-label{font-family:var(--font-m);font-size:10px;letter-spacing:.3em;color:var(--accent);text-transform:uppercase;margin-bottom:24px;opacity:0;animation:fu .8s ease forwards .2s}
+.hero h1{font-family:var(--font-h);font-size:clamp(3rem,7vw,6.5rem);font-weight:300;line-height:1.0;max-width:900px;margin-bottom:28px;opacity:0;animation:fu .8s ease forwards .4s}
+.hero h1 strong{font-weight:700;color:var(--accent)}
+.hero h1 em{font-style:italic;color:var(--blue)}
+.hero-sub{font-size:.95rem;color:var(--muted);max-width:560px;line-height:1.8;margin-bottom:48px;opacity:0;animation:fu .8s ease forwards .6s}
+.hero-stat-row{display:flex;gap:40px;flex-wrap:wrap;opacity:0;animation:fu .8s ease forwards .8s}
+.hero-stat{border-left:2px solid var(--border);padding-left:20px}
+.hero-stat-num{font-family:var(--font-h);font-size:2.2rem;font-weight:600;color:var(--accent);line-height:1}
+.hero-stat-label{font-family:var(--font-m);font-size:.65rem;letter-spacing:.12em;color:var(--muted);text-transform:uppercase;margin-top:4px}
+@keyframes fu{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+
+/* ── LAYOUT ── */
+.section{padding:96px 64px;max-width:1240px;margin:0 auto}
+.section-alt{background:var(--bg2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:96px 64px}
+.section-alt-inner{max-width:1240px;margin:0 auto}
+
+.sh{display:flex;align-items:baseline;gap:16px;margin-bottom:48px}
+.sh-num{font-family:var(--font-m);font-size:10px;color:var(--muted);letter-spacing:.2em}
+.sh-title{font-family:var(--font-h);font-size:clamp(1.8rem,3.5vw,2.8rem);font-weight:600;color:var(--text)}
+
+/* ── TABLA PRINCIPAL ── */
+.main-table-wrap{overflow-x:auto;border:1px solid var(--border);margin:40px 0}
+.main-table{width:100%;border-collapse:collapse;font-family:var(--font-m);font-size:.78rem}
+.main-table th{background:var(--bg3);color:var(--muted);font-weight:400;letter-spacing:.1em;font-size:.68rem;text-transform:uppercase;padding:14px 18px;text-align:right;border-bottom:1px solid var(--border)}
+.main-table th:first-child{text-align:left}
+.main-table td{padding:12px 18px;text-align:right;border-bottom:1px solid rgba(26,32,48,.6);transition:background .15s}
+.main-table td:first-child{text-align:left;font-weight:500}
+.main-table tr:hover td{background:rgba(255,255,255,.02)}
+.main-table tr.coll td:first-child{color:var(--green)}
+.main-table tr.trans td{background:rgba(240,192,96,.05)}
+.main-table tr.trans td:first-child{color:var(--accent)}
+.main-table tr.newt td:first-child{color:var(--blue)}
+.regime-badge{display:inline-block;padding:2px 8px;border-radius:2px;font-size:.65rem;letter-spacing:.08em;text-transform:uppercase}
+.rb-coll{background:rgba(82,201,126,.12);color:var(--green);border:1px solid rgba(82,201,126,.2)}
+.rb-newt{background:rgba(106,172,238,.12);color:var(--blue);border:1px solid rgba(106,172,238,.2)}
+.rb-trans{background:rgba(240,192,96,.12);color:var(--accent);border:1px solid rgba(240,192,96,.2)}
+
+/* ── DIAGRAMA DE MASA CRITICA ── */
+.mcrit-canvas-wrap{margin:40px 0}
+.canvas-label{font-family:var(--font-m);font-size:.7rem;color:var(--muted);letter-spacing:.12em;text-transform:uppercase;margin-bottom:12px}
+canvas{width:100%;display:block}
+
+/* ── IMPLICATION CARDS ── */
+.impl-stack{display:flex;flex-direction:column;gap:2px;margin:48px 0}
+.impl-item{display:grid;grid-template-columns:48px 1fr;gap:0;border:1px solid var(--border)}
+.impl-num{background:var(--bg3);display:flex;align-items:center;justify-content:center;font-family:var(--font-h);font-size:1.4rem;font-weight:700;color:var(--muted);border-right:1px solid var(--border)}
+.impl-content{padding:28px 32px}
+.impl-content h4{font-family:var(--font-h);font-size:1.15rem;font-weight:700;color:var(--text);margin-bottom:10px}
+.impl-content p{font-size:.88rem;color:var(--muted);line-height:1.75}
+.impl-content p strong{color:var(--text)}
+.impl-content p em{color:var(--accent);font-style:italic}
+.impl-item.i1 .impl-num{color:var(--green)}
+.impl-item.i2 .impl-num{color:var(--blue)}
+.impl-item.i3 .impl-num{color:var(--accent)}
+.impl-item.i4 .impl-num{color:var(--purple)}
+.impl-item.i5 .impl-num{color:var(--red)}
+
+/* ── QUOTE BLOCK ── */
+.qblock{border-left:2px solid var(--accent);padding:28px 40px;margin:48px 0;background:rgba(240,192,96,.03)}
+.qblock p{font-family:var(--font-h);font-size:clamp(1.3rem,2.5vw,1.8rem);font-style:italic;font-weight:300;color:var(--text);line-height:1.4;margin-bottom:12px}
+.qblock cite{font-family:var(--font-m);font-size:.7rem;color:var(--muted);letter-spacing:.1em;text-transform:uppercase}
+
+/* ── FORMULA BLOCK ── */
+.fblock{background:var(--bg3);border:1px solid var(--border);padding:28px 32px;margin:32px 0;position:relative}
+.fblock::before{content:attr(data-label);position:absolute;top:-9px;left:16px;background:var(--bg3);padding:0 8px;font-family:var(--font-m);font-size:.62rem;letter-spacing:.18em;color:var(--accent);text-transform:uppercase}
+.fl{display:flex;gap:20px;align-items:baseline;margin:4px 0;font-family:var(--font-m);font-size:.88rem}
+.fl-eq{color:var(--accent)}
+.fl-note{color:var(--muted);font-size:.75rem}
+
+/* ── DUAL COLUMN ── */
+.dual{display:grid;grid-template-columns:1fr 1fr;gap:40px;margin:40px 0}
+.dual-card{border:1px solid var(--border);padding:32px}
+.dual-card h4{font-family:var(--font-h);font-size:1.1rem;font-weight:700;margin-bottom:14px;display:flex;align-items:center;gap:10px}
+.dual-card p{font-size:.87rem;color:var(--muted);line-height:1.75}
+.dual-card p strong{color:var(--text)}
+.dc-coll h4::before{content:'●';color:var(--green)}
+.dc-newt h4::before{content:'●';color:var(--blue)}
+
+/* ── TIMELINE ── */
+.timeline{position:relative;padding-left:32px;margin:40px 0}
+.timeline::before{content:'';position:absolute;left:6px;top:0;bottom:0;width:1px;background:var(--border)}
+.tl-item{position:relative;margin-bottom:32px}
+.tl-item::before{content:'';position:absolute;left:-29px;top:6px;width:8px;height:8px;border-radius:50%;background:var(--border);border:1px solid var(--muted)}
+.tl-item.highlight::before{background:var(--accent);border-color:var(--accent);box-shadow:0 0 8px rgba(240,192,96,.4)}
+.tl-z{font-family:var(--font-m);font-size:.72rem;color:var(--accent);letter-spacing:.1em;margin-bottom:4px}
+.tl-title{font-family:var(--font-h);font-size:1.05rem;font-weight:600;color:var(--text);margin-bottom:6px}
+.tl-body{font-size:.87rem;color:var(--muted);line-height:1.7}
+.tl-body strong{color:var(--text)}
+
+/* ── FALSIFIER ── */
+.fals-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin:40px 0}
+.fals-card{background:var(--bg2);border:1px solid var(--border);padding:28px 24px;position:relative}
+.fals-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px}
+.fc-strong::before{background:var(--green)}
+.fc-medium::before{background:var(--blue)}
+.fc-nuke::before{background:var(--red)}
+.fals-card-label{font-family:var(--font-m);font-size:.65rem;letter-spacing:.18em;text-transform:uppercase;margin-bottom:12px}
+.fc-strong .fals-card-label{color:var(--green)}
+.fc-medium .fals-card-label{color:var(--blue)}
+.fc-nuke   .fals-card-label{color:var(--red)}
+.fals-card h4{font-family:var(--font-h);font-size:1rem;font-weight:700;color:var(--text);margin-bottom:10px;line-height:1.3}
+.fals-card p{font-size:.83rem;color:var(--muted);line-height:1.7}
+.fals-card p strong{color:var(--text)}
+
+/* ── DARK MATTER SECTION ── */
+.dm-section{padding:96px 64px;background:var(--bg);border-top:1px solid var(--border)}
+.dm-inner{max-width:1000px;margin:0 auto}
+.dm-split{display:grid;grid-template-columns:1fr 1fr;gap:48px;margin-top:48px}
+.dm-col h4{font-family:var(--font-h);font-size:1.2rem;font-weight:700;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--border)}
+.dm-col.dc-problem h4{color:var(--red)}
+.dm-col.dc-solution h4{color:var(--green)}
+.dm-col p{font-size:.88rem;color:var(--muted);line-height:1.8;margin-bottom:14px}
+.dm-col p strong{color:var(--text)}
+
+/* ── FOOTER ── */
+footer{border-top:1px solid var(--border);padding:36px 64px;display:flex;justify-content:space-between;align-items:center;font-family:var(--font-m);font-size:.68rem;color:var(--muted);letter-spacing:.06em}
+
+/* ── REVEAL ── */
+.reveal{opacity:0;transform:translateY(18px);transition:opacity .65s ease,transform .65s ease}
+.reveal.vis{opacity:1;transform:translateY(0)}
+
+@media(max-width:880px){
+  .hero,.section,.dm-section{padding:60px 24px}
+  .section-alt{padding:60px 24px}
+  .dual,.dm-split,.fals-grid{grid-template-columns:1fr}
+  .hero-stat-row{gap:24px}
+  footer{flex-direction:column;gap:10px}
+}
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-star"></div>
+
+  <div class="hero-label">Emergencia Gravitacional · La Transición Cósmica · v1.0</div>
+  <h1>El universo tuvo<br>una <em>redshift de transición</em>.<br>Antes: <strong>todo era colectivo.</strong></h1>
+  <p class="hero-sub">
+    Si g<sub>crit</sub> = c·H(z)/(4π²√3), entonces el umbral de transición
+    evolucionó con el tiempo cósmico. Hay una masa crítica M<sub>crit</sub>(z)
+    que separa los halos Newtonianos de los Colectivos — y esa frontera
+    se movió a lo largo de toda la historia del universo.
+  </p>
+  <div class="hero-stat-row">
+    <div class="hero-stat">
+      <div class="hero-stat-num">z≈12</div>
+      <div class="hero-stat-label">Milky Way se volvió Newtoniana</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-num">2.7×10¹³</div>
+      <div class="hero-stat-label">M<sub>crit</sub> hoy (M<sub>☉</sub>)</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-num">&lt;10¹³</div>
+      <div class="hero-stat-label">M<sub>☉</sub> — siempre colectivas</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-num">g∝H(z)</div>
+      <div class="hero-stat-label">g<sub>crit</sub> no es constante</div>
+    </div>
+  </div>
+</section>
+
+
+<!-- § 01 MASA CRITICA -->
+<section class="section">
+  <div class="sh reveal">
+    <span class="sh-num">§ 01</span>
+    <h2 class="sh-title">La masa crítica M<sub>crit</sub>(z)</h2>
+  </div>
+
+  <p class="reveal" style="color:var(--muted);font-size:.93rem;max-width:700px;margin-bottom:36px;line-height:1.8">
+    Para cada época cósmica existe una <strong style="color:var(--text)">masa de frontera</strong>:
+    halos más masivos que M<sub>crit</sub>(z) tienen g<sub>int</sub> > g<sub>crit</sub>(z)
+    y son Newtonianos. Halos menos masivos tienen g<sub>int</sub> &lt; g<sub>crit</sub>(z)
+    y son Colectivos. M<sub>crit</sub>(z) se deriva igualando:
+  </p>
+
+  <div class="fblock reveal" data-label="Condición de frontera">
+    <div class="fl"><span class="fl-eq">g_int(z, M) = g_crit(z)</span></div>
+    <div class="fl"><span class="fl-eq">G·M / R_vir(z,M)² = c·H(z) / (4π²√3)</span></div>
+    <div class="fl"><span class="fl-eq">M_crit(z) = [g_crit(z) / (G · (4π·Δ·ρ_c(z)/3)^(2/3))]³</span> <span class="fl-note">← solución analítica exacta</span></div>
+    <div class="fl" style="margin-top:12px"><span class="fl-eq">donde ρ_c(z) = 3H(z)²/8πG</span> <span class="fl-note">← densidad crítica cósmica</span></div>
+  </div>
+
+  <div class="main-table-wrap reveal">
+    <table class="main-table">
+      <thead>
+        <tr>
+          <th>Redshift</th>
+          <th>Edad cósmica</th>
+          <th>M<sub>crit</sub> (M<sub>☉</sub>)</th>
+          <th>R<sub>vir</sub>(M<sub>crit</sub>) (kpc)</th>
+          <th>g<sub>crit</sub>(z) (m/s²)</th>
+          <th>Régimen dominante</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="newt"><td>z = 0 — HOY</td><td>13.8 Gyr</td><td>2.69 × 10¹³</td><td>601</td><td>1.04 × 10⁻¹¹</td><td><span class="regime-badge rb-newt">Newt. si M &gt; 10¹³</span></td></tr>
+        <tr class="coll"><td>z = 0.5</td><td>8.6 Gyr</td><td>2.06 × 10¹³</td><td>459</td><td>1.36 × 10⁻¹¹</td><td><span class="regime-badge rb-coll">Colectivo mayoría</span></td></tr>
+        <tr class="coll"><td>z = 1</td><td>5.9 Gyr</td><td>1.53 × 10¹³</td><td>341</td><td>1.83 × 10⁻¹¹</td><td><span class="regime-badge rb-coll">Colectivo mayoría</span></td></tr>
+        <tr class="trans"><td>z = 2</td><td>3.3 Gyr</td><td>9.07 × 10¹²</td><td>203</td><td>3.08 × 10⁻¹¹</td><td><span class="regime-badge rb-trans">Frontera ~ 10¹³</span></td></tr>
+        <tr class="coll"><td>z = 5</td><td>1.2 Gyr</td><td>3.32 × 10¹²</td><td>74</td><td>8.40 × 10⁻¹¹</td><td><span class="regime-badge rb-coll">Colectivo &gt;90%</span></td></tr>
+        <tr class="coll"><td>z = 10</td><td>0.5 Gyr</td><td>1.35 × 10¹²</td><td>30</td><td>2.08 × 10⁻¹⁰</td><td><span class="regime-badge rb-coll">Colectivo &gt;99%</span></td></tr>
+        <tr class="coll"><td>z = 20</td><td>0.18 Gyr</td><td>5.10 × 10¹¹</td><td>11</td><td>5.47 × 10⁻¹⁰</td><td><span class="regime-badge rb-coll">Colectivo casi todo</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="mcrit-canvas-wrap reveal">
+    <div class="canvas-label">Diagrama de fase: Régimen vs (Masa, Redshift)</div>
+    <canvas id="cvPhase" width="1100" height="420"></canvas>
+    <div style="display:flex;gap:32px;margin-top:14px;font-family:var(--font-m);font-size:.72rem;color:var(--muted)">
+      <span><span style="display:inline-block;width:12px;height:12px;background:rgba(82,201,126,.3);border:1px solid var(--green);margin-right:6px;vertical-align:middle"></span>Colectivo (g_int &lt; g_crit)</span>
+      <span><span style="display:inline-block;width:12px;height:12px;background:rgba(106,172,238,.2);border:1px solid var(--blue);margin-right:6px;vertical-align:middle"></span>Newtoniano (g_int &gt; g_crit)</span>
+      <span><span style="display:inline-block;width:12px;height:2px;background:var(--accent);margin-right:6px;vertical-align:middle"></span>M<sub>crit</sub>(z) — frontera</span>
+    </div>
+  </div>
+</section>
+
+
+<!-- § 02 TIMELINE COSMOLOGICO -->
+<section class="section-alt">
+  <div class="section-alt-inner">
+    <div class="sh reveal">
+      <span class="sh-num">§ 02</span>
+      <h2 class="sh-title">Historia del universo reescrita</h2>
+    </div>
+
+    <p class="reveal" style="color:var(--muted);font-size:.93rem;max-width:680px;margin-bottom:48px;line-height:1.8">
+      Si g<sub>crit</sub>(z) es real, la formación de estructuras cósmicas
+      tuvo una física diferente en cada época. Esta es la narrativa que emerge.
+    </p>
+
+    <div class="timeline reveal">
+      <div class="tl-item highlight">
+        <div class="tl-z">z &gt; 20  |  t &lt; 180 Myr  |  "Era Colectiva"</div>
+        <div class="tl-title">Universo casi completamente Colectivo</div>
+        <div class="tl-body">M<sub>crit</sub> &lt; 5×10¹¹ M<sub>☉</sub>. Solo las proto-estructuras más densas y masivas
+        eran Newtonianas en sus núcleos. La periferia de todo halo en formación vivía bajo
+        régimen Colectivo. <strong>El potencial era −g_crit·r en casi todo el volumen cósmico.</strong>
+        La fuerza hacia el centro no decaía con la distancia — era constante.
+        Colapso gravitacional más eficiente que el Newtoniano.</div>
+      </div>
+
+      <div class="tl-item highlight">
+        <div class="tl-z">z ≈ 10–20  |  t ~ 200–500 Myr  |  "Era de Transición"</div>
+        <div class="tl-title">Las primeras galaxias masivas se vuelven Newtonianas</div>
+        <div class="tl-body">A z≈12, M<sub>crit</sub> ≈ 10¹² M<sub>☉</sub> — masa de Milky Way.
+        Los halos del tamaño galáctico típico <strong>cruzan la frontera por primera vez.</strong>
+        Sus núcleos entran en régimen Newtoniano. Sus periferias siguen siendo Colectivas.
+        <strong>Esta es la época que JWST está observando</strong> — y donde encuentra galaxias
+        "demasiado maduras" para el modelo estándar.</div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-z">z ≈ 2–10  |  t ~ 3–500 Myr  |  "Era de Consolidación"</div>
+        <div class="tl-title">M<sub>crit</sub> cae hacia grupos y clusters</div>
+        <div class="tl-body">Las galaxias individuales están ya en régimen mixto o Newtoniano en su
+        interior. Los grupos de galaxias (10¹³ M<sub>☉</sub>) cruzan su z_trans a z≈2.
+        Los clusters masivos (10¹⁴ M<sub>☉</sub>) ya son Newtonianos.
+        Los halos de galaxias enanas <strong>siguen siendo Colectivos — y lo seguirán siendo siempre.</strong></div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-z">z = 0  |  HOY  |  "Era Actual"</div>
+        <div class="tl-title">Dos mundos coexistiendo</div>
+        <div class="tl-body">M<sub>crit</sub>(0) ≈ 2.7×10¹³ M<sub>☉</sub>.
+        <strong>Clusters y grupos masivos: Newtonianos.</strong> Necesitan explicación para la
+        velocidad de sus galaxias miembro — eso sí requiere masa adicional (materia oscura real).
+        <strong>Galaxias individuales y enanas: Colectivas.</strong> Sus curvas planas
+        no necesitan materia oscura — son la firma del régimen Colectivo.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- § 03 IMPLICACIONES -->
+<section class="section">
+  <div class="sh reveal">
+    <span class="sh-num">§ 03</span>
+    <h2 class="sh-title">Las cinco implicaciones</h2>
+  </div>
+
+  <div class="impl-stack reveal">
+    <div class="impl-item i1">
+      <div class="impl-num">I</div>
+      <div class="impl-content">
+        <h4>El colapso en la era colectiva fue más rápido</h4>
+        <p>En régimen Colectivo el potencial es V = −m·g_crit·r → fuerza <em>constante</em>, no decae con R.
+        La acumulación de masa en la periferia era más eficiente que el colapso Newtoniano (donde F∝1/R²).
+        <strong>Las primeras galaxias debían formarse más rápido y ser más masivas de lo que predice ΛCDM+Newtoniano.</strong>
+        Eso es exactamente el "Early Universe Problem" de JWST.</p>
+      </div>
+    </div>
+
+    <div class="impl-item i2">
+      <div class="impl-num">II</div>
+      <div class="impl-content">
+        <h4>La materia oscura de galaxias vs clusters tiene origen distinto</h4>
+        <p>Hoy, clusters (M &gt; 10¹³·⁵) son Newtonianos. Sus velocidades de dispersión
+        exceden la predicción bariónica → <strong>eso sí requiere masa adicional</strong>
+        (o modificación de gravedad, pero en régimen donde F∝1/R² ya aplica).
+        Galaxias individuales son Colectivas → <strong>sus curvas planas no requieren nada adicional</strong>.
+        Son dos fenómenos con explicaciones distintas agrupados bajo el mismo nombre.</p>
+      </div>
+    </div>
+
+    <div class="impl-item i3">
+      <div class="impl-num">III</div>
+      <div class="impl-content">
+        <h4>El espectro de potencias tiene una ruptura en k<sub>break</sub></h4>
+        <p>La escala donde M_crit(z) cruza la masa de los halos en formación
+        corresponde a una longitud de onda específica en el espectro de potencias.
+        <strong>En esa escala, la función de transferencia cambia</strong> porque la física
+        del colapso era Colectiva, no Newtoniana. Esa ruptura es en principio medible
+        en el espectro de Planck, en el clustering de galaxias, y en las simulaciones de N-cuerpos
+        que hoy asumen gravedad Newtoniana universal.</p>
+      </div>
+    </div>
+
+    <div class="impl-item i4">
+      <div class="impl-num">IV</div>
+      <div class="impl-content">
+        <h4>Las galaxias enanas nunca fueron Newtonianas — en ningún momento</h4>
+        <p>Para M &lt; 10¹¹ M<sub>☉</sub>, g_int/g_crit &lt; 1 a <em>todo redshift</em> — incluso a z=50.
+        Estas galaxias <strong>nacieron, vivieron y envejecieron completamente en régimen Colectivo.</strong>
+        Su dinámica nunca obedeció F=−GMm/r². Todos los modelos de materia oscura aplicados
+        a galaxias enanas asumen implícitamente régimen Newtoniano — ese supuesto es falso
+        bajo este modelo.</p>
+      </div>
+    </div>
+
+    <div class="impl-item i5">
+      <div class="impl-num">V</div>
+      <div class="impl-content">
+        <h4>Existe un z de transición cosmológica global — derivable y testeable</h4>
+        <p>La época donde la masa típica de formación de halos M* (la masa no-lineal)
+        iguala a M<sub>crit</sub>(z) es la <em>redshift de transición global</em> z_*:
+        el momento donde el universo pasó de "mayormente Colectivo" a "mayormente Newtoniano".
+        <strong>Esa transición deja firma en la función de masa de halos, en el bias de galaxias,
+        y en la CMB a través del efecto Sunyaev-Zel'dovich.</strong> Es calculable
+        y está dentro del alcance de Euclid y DESI.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- § 04 DARK MATTER -->
+<section class="dm-section">
+  <div class="dm-inner">
+    <div class="sh reveal">
+      <span class="sh-num">§ 04</span>
+      <h2 class="sh-title">¿Qué es entonces la materia oscura?</h2>
+    </div>
+
+    <div class="qblock reveal">
+      <p>"No toda la 'materia oscura' es la misma cosa.<br>
+      La de los clusters es masa que falta.<br>
+      La de las galaxias es física que falta."</p>
+      <cite>Implicación directa de M<sub>crit</sub>(z)</cite>
+    </div>
+
+    <div class="dm-split reveal">
+      <div class="dm-col dc-problem">
+        <h4>El problema de agrupar todo bajo "materia oscura"</h4>
+        <p>El modelo estándar asume que el exceso de velocidad en <strong>todos</strong>
+        los sistemas — galaxias enanas, espirales, elípticas, clusters, filamentos —
+        tiene la misma causa: masa bariónica invisible.</p>
+        <p>Pero bajo este modelo, esos sistemas viven en <strong>regímenes físicos diferentes</strong>.
+        Aplicar la misma solución (más masa) a sistemas Colectivos es como corregir
+        la velocidad de un avión agregando más combustible cuando el problema
+        es que la ecuación de sustentación es diferente.</p>
+        <p>Las simulaciones de N-cuerpos que ajustan la distribución de materia oscura
+        para reproducir observaciones en galaxias están, bajo este modelo,
+        <strong>ajustando el parámetro equivocado</strong>.</p>
+      </div>
+
+      <div class="dm-col dc-solution">
+        <h4>Lo que este modelo propone</h4>
+        <p><strong>Clusters (M &gt; 10¹³·⁵ M<sub>☉</sub>):</strong> Newtonianos hoy.
+        El exceso de velocidad de dispersión es real y requiere explicación —
+        puede ser materia oscura real, gas caliente no contabilizado, o modificación
+        de gravedad en régimen Newtoniano. Este modelo no resuelve ese problema.</p>
+        <p><strong>Galaxias espirales y enanas (M &lt; 10¹²·⁵ M<sub>☉</sub>):</strong>
+        Colectivas. La curva plana es la predicción exacta de V = (GM·g_crit)^¼.
+        <strong>No se necesita masa adicional</strong> — la predicción coincide
+        con los datos dentro del error de medición de M_bar.</p>
+        <p>La unificación correcta no es "materia oscura en todos lados" —
+        es <strong>física correcta según el régimen</strong>.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- § 05 FALSIFICADORES -->
+<section class="section-alt">
+  <div class="section-alt-inner">
+    <div class="sh reveal">
+      <span class="sh-num">§ 05</span>
+      <h2 class="sh-title">Falsificadores — tres niveles</h2>
+    </div>
+
+    <div class="fals-grid reveal">
+      <div class="fals-card fc-nuke">
+        <div class="fals-card-label">Falsificación nuclear</div>
+        <h4>Una galaxia enana con V_flat ≠ (GM·g_crit)^¼</h4>
+        <p>Si una galaxia con M &lt; 10¹¹ M<sub>☉</sub>, g &lt; g_crit en todos sus puntos,
+        y datos de calidad Q≤2, tiene V_flat que difiere más del 25% de la predicción —
+        <strong>el modelo colapsa</strong>. No hay ajuste posible: no hay parámetros libres.</p>
+      </div>
+
+      <div class="fals-card fc-nuke">
+        <div class="fals-card-label">Falsificación cosmológica</div>
+        <h4>V_flat(z=2) no sigue H(z)^(1/4)</h4>
+        <p>Si JWST mide velocidades de rotación en galaxias a z≈2 y la dependencia
+        con z no sigue exactamente H(z)<sup>1/4</sup> — sino cualquier otra ley —
+        <strong>el vínculo entre g_crit y H(z) está roto</strong>.
+        El modelo predice el factor 1.31 a z=2 con precisión del 2%.</p>
+      </div>
+
+      <div class="fals-card fc-nuke">
+        <div class="fals-card-label">Falsificación de estructura</div>
+        <h4>Clusters con curvas planas pero M &gt; M_crit</h4>
+        <p>Si un cluster de 10¹⁴ M<sub>☉</sub> — que debería ser Newtoniano —
+        muestra curva de rotación plana con V_flat compatible con el régimen Colectivo,
+        <strong>la separación de regímenes por masa no funciona</strong>.
+        El criterio M_crit(z) sería incorrecto.</p>
+      </div>
+
+      <div class="fals-card fc-strong">
+        <div class="fals-card-label">Confirmación fuerte</div>
+        <h4>Galaxias enanas a z=4 con V_flat = 1.58×V_flat_local</h4>
+        <p>El factor 1.58 = H(z=4)^(1/4)/H₀^(1/4) es una predicción exacta.
+        Si JWST encuentra ese factor para galaxias enanas de igual masa a z=4,
+        <strong>es la confirmación más limpia posible</strong>:
+        dos predicciones independientes (amplitud y dependencia z) ambas correctas.</p>
+      </div>
+
+      <div class="fals-card fc-strong">
+        <div class="fals-card-label">Confirmación estructural</div>
+        <h4>Galaxias enanas sin materia oscura detectable</h4>
+        <p>Si lentes gravitacionales de galaxias enanas (M &lt; 10¹⁰) muestran
+        que la masa total ≈ masa bariónica — sin halo oscuro —
+        <strong>la predicción del régimen Colectivo queda confirmada</strong>:
+        la curva plana no es evidencia de masa adicional.</p>
+      </div>
+
+      <div class="fals-card fc-medium">
+        <div class="fals-card-label">Confirmación cosmológica</div>
+        <h4>Ruptura en función de masa de halos a M<sub>crit</sub>(z)</h4>
+        <p>La función de masa de halos — medida por Euclid, DESI, o counts de clusters —
+        debería mostrar un cambio de pendiente en M<sub>crit</sub>(z).
+        Ese quiebre no está en los modelos Newtonianos.
+        <strong>Si existe, es evidencia directa de la transición de régimen.</strong></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<footer>
+  <span>Emergencia Gravitacional · La Transición Cósmica · v1.0 · 2026</span>
+  <span>Juan Pablo Figueroa Torres</span>
+</footer>
+
+
+<script>
+const G=6.674e-11,Msol=1.989e30,Mpc=3.0857e22,kpc=3.0857e19;
+const H0=73e3/Mpc,c=3e8,Om=0.3,OL=0.7,Dc=200;
+function Hz(z){return H0*Math.sqrt(Om*Math.pow(1+z,3)+OL)}
+function rhoc(z){return 3*Hz(z)**2/(8*Math.PI*G)}
+function gcrit(z){return c*Hz(z)/(4*Math.PI**2*Math.sqrt(3))}
+function Rvir(z,M){return Math.cbrt(3*M/(4*Math.PI*Dc*rhoc(z)))}
+function gint(z,M){const rv=Rvir(z,M);return G*M/rv**2}
+function Mcrit(z){
+  const gc=gcrit(z),rc=rhoc(z);
+  const fac=Math.pow(4*Math.PI*Dc*rc/3,2/3);
+  return Math.pow(gc/(G*fac),3);
+}
+
+// ── Phase diagram ──────────────────────────────────────
+const cv=document.getElementById('cvPhase');
+const ctx=cv.getContext('2d');
+const W=cv.width,H=cv.height;
+const pad={l:70,r:30,t:20,b:44};
+const pw=W-pad.l-pad.r,ph=H-pad.t-pad.b;
+
+// axes: z 0..20, log10(M) 7..15
+const zmax=20,lMmin=7,lMmax=15;
+const zx=z=>pad.l+(z/zmax)*pw;
+const My=lM=>pad.t+ph-((lM-lMmin)/(lMmax-lMmin))*ph;
+
+ctx.fillStyle='#070910';ctx.fillRect(0,0,W,H);
+
+// fill: collectivo region (below Mcrit line = collective)
+// Para cada pixel x (z), calcular Mcrit, colorear arriba=collective, abajo=newt
+const imgData=ctx.createImageData(W,H);
+for(let px=0;px<W;px++){
+  const z=(px-pad.l)/pw*zmax;
+  if(z<0||z>zmax)continue;
+  const lMc=Math.log10(Mcrit(z)/Msol);
+  for(let py=0;py<H;py++){
+    const lM=lMmin+(pad.t+ph-py)/ph*(lMmax-lMmin);
+    const idx=(py*W+px)*4;
+    if(lM<lMmin||lM>lMmax)continue;
+    if(lM<lMc){// collective
+      imgData.data[idx]=82;imgData.data[idx+1]=201;imgData.data[idx+2]=126;imgData.data[idx+3]=25;
+    } else {// newtoniano
+      imgData.data[idx]=106;imgData.data[idx+1]=172;imgData.data[idx+2]=238;imgData.data[idx+3]=18;
+    }
+  }
+}
+ctx.putImageData(imgData,0,0);
+
+// grid
+ctx.strokeStyle='#1a2030';ctx.lineWidth=0.5;
+[0,5,10,15,20].forEach(z=>{
+  ctx.beginPath();ctx.moveTo(zx(z),pad.t);ctx.lineTo(zx(z),pad.t+ph);ctx.stroke();
+  ctx.fillStyle='#404870';ctx.font='11px JetBrains Mono';
+  ctx.fillText('z='+z,zx(z)-12,pad.t+ph+16);
+});
+[7,8,9,10,11,12,13,14,15].forEach(lm=>{
+  ctx.beginPath();ctx.moveTo(pad.l,My(lm));ctx.lineTo(pad.l+pw,My(lm));ctx.stroke();
+  ctx.fillStyle='#404870';ctx.font='10px JetBrains Mono';
+  ctx.fillText('10^'+lm,2,My(lm)+4);
+});
+
+// Mcrit line
+ctx.strokeStyle='#f0c060';ctx.lineWidth=2.5;
+ctx.beginPath();
+for(let i=0;i<=300;i++){
+  const z=i*zmax/300;
+  const lMc=Math.log10(Mcrit(z)/Msol);
+  const x=zx(z),y=My(lMc);
+  if(i===0)ctx.moveTo(x,y);else ctx.lineTo(x,y);
+}
+ctx.stroke();
+
+// Key masses
+const keyM=[{lM:11,label:'10¹¹ (dwarf)',c:'#52c97e'},{lM:12,label:'10¹² (MW)',c:'#a07ee0'},{lM:13,label:'10¹³ (group)',c:'#6aacee'},{lM:14,label:'10¹⁴ (cluster)',c:'#e06060'}];
+keyM.forEach(({lM,label,c})=>{
+  ctx.strokeStyle=c+'80';ctx.lineWidth=1;ctx.setLineDash([5,5]);
+  ctx.beginPath();ctx.moveTo(pad.l,My(lM));ctx.lineTo(pad.l+pw,My(lM));ctx.stroke();
+  ctx.setLineDash([]);
+  ctx.fillStyle=c;ctx.font='bold 10px JetBrains Mono';
+  ctx.fillText(label,pad.l+6,My(lM)-5);
+  // find z_trans for this mass
+  let zt_found=null;
+  for(let z=0;z<=20;z+=0.05){
+    if(Math.abs(Math.log10(Mcrit(z)/Msol)-lM)<0.05){zt_found=z;break;}
+  }
+  if(zt_found){
+    ctx.fillStyle=c;
+    ctx.beginPath();ctx.arc(zx(zt_found),My(lM),5,0,2*Math.PI);ctx.fill();
+  }
+});
+
+// labels
+ctx.fillStyle='#505878';ctx.font='12px JetBrains Mono';
+ctx.fillText('Redshift z →',W/2-40,H-4);
+ctx.save();ctx.translate(14,H/2);ctx.rotate(-Math.PI/2);
+ctx.fillText('log₁₀(M_halo / M☉)',-65,0);ctx.restore();
+
+// region labels
+ctx.fillStyle='rgba(82,201,126,0.6)';ctx.font='bold 13px JetBrains Mono';
+ctx.fillText('COLECTIVO',pad.l+20,pad.t+ph-30);
+ctx.fillStyle='rgba(106,172,238,0.6)';
+ctx.fillText('NEWTONIANO',pad.l+20,pad.t+35);
+
+// scroll reveal
+const obs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('vis')})},{threshold:.1});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>

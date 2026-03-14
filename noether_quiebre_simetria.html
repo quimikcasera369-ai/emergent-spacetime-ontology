@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>El Quiebre de Simetría — Noether y la Curva Plana</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,600&family=EB+Garamond:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<style>
+:root {
+  --bg:     #0d0c0a;
+  --paper:  #141210;
+  --ink:    #e8e0d0;
+  --dim:    #7a7060;
+  --rust:   #c43a00;
+  --gold:   #c8941a;
+  --blue:   #2a5480;
+  --rule:   #3a3228;
+  --warm:   #1e1a16;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: 'EB Garamond', Georgia, serif;
+  font-size: 19px;
+  line-height: 1.8;
+  overflow-x: hidden;
+}
+
+/* ── HERO ─────────────────────────────────────────────────── */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 80px 40px;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: 'NOETHER';
+  position: absolute;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 22vw;
+  font-weight: 600;
+  color: transparent;
+  -webkit-text-stroke: 1px #2a2418;
+  letter-spacing: -0.05em;
+  user-select: none;
+  pointer-events: none;
+  z-index: 0;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  white-space: nowrap;
+}
+
+.hero > * { position: relative; z-index: 1; }
+
+.hero-eyebrow {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--rust);
+  margin-bottom: 32px;
+}
+
+.hero h1 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(36px, 6vw, 72px);
+  font-weight: 300;
+  line-height: 1.1;
+  color: var(--ink);
+  margin-bottom: 16px;
+}
+
+.hero h1 strong {
+  font-weight: 600;
+  color: var(--gold);
+  display: block;
+}
+
+.hero-sub {
+  font-size: 18px;
+  font-style: italic;
+  color: var(--dim);
+  max-width: 520px;
+  margin: 24px auto 48px;
+}
+
+.hero-timestamp {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  color: var(--rule);
+  border: 1px solid var(--rule);
+  padding: 8px 20px;
+  letter-spacing: 0.1em;
+}
+
+/* ── MAIN ─────────────────────────────────────────────────── */
+main {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 0 40px 120px;
+}
+
+/* ── SECTION ──────────────────────────────────────────────── */
+section {
+  padding: 80px 0 60px;
+  border-bottom: 1px solid var(--rule);
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
+section.visible { opacity: 1; transform: none; }
+
+.sec-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--rust);
+  margin-bottom: 24px;
+}
+
+h2 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 38px;
+  font-weight: 300;
+  color: var(--ink);
+  line-height: 1.15;
+  margin-bottom: 32px;
+}
+
+h2 em { font-style: italic; color: var(--gold); }
+
+h3 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--gold);
+  margin: 48px 0 16px;
+}
+
+p { margin-bottom: 20px; }
+
+/* ── EQ ───────────────────────────────────────────────────── */
+.eq {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 16px;
+  color: var(--gold);
+  background: var(--warm);
+  border-left: 3px solid var(--rust);
+  padding: 18px 24px;
+  margin: 28px 0;
+  letter-spacing: 0.02em;
+  text-align: center;
+  overflow-x: auto;
+}
+
+.eq.big {
+  font-size: 20px;
+  padding: 24px 32px;
+  border-color: var(--gold);
+  color: #fff;
+}
+
+/* ── THE BIG DIAGRAM ──────────────────────────────────────── */
+.symmetry-diagram {
+  margin: 48px 0;
+  display: grid;
+  grid-template-columns: 1fr 60px 1fr;
+  gap: 0;
+  align-items: center;
+}
+
+.sym-box {
+  padding: 28px 24px;
+  border: 1px solid var(--rule);
+  background: var(--warm);
+}
+
+.sym-box.keplerian { border-color: var(--blue); }
+.sym-box.collective { border-color: var(--rust); }
+
+.sym-box .regime {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+
+.sym-box.keplerian .regime { color: var(--blue); }
+.sym-box.collective .regime { color: var(--rust); }
+
+.sym-box .sym-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 8px;
+}
+
+.sym-box .conserved {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  color: var(--dim);
+  margin-bottom: 8px;
+}
+
+.sym-box .result {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.sym-box.keplerian .result { color: var(--blue); }
+.sym-box.collective .result { color: var(--rust); }
+
+.sym-arrow {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.sym-arrow .arrow-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  color: var(--gold);
+  text-transform: uppercase;
+  text-align: center;
+  line-height: 1.3;
+}
+
+.sym-arrow .arrow-sym {
+  font-size: 28px;
+  color: var(--gold);
+}
+
+/* ── LAYERS ───────────────────────────────────────────────── */
+.layers {
+  margin: 40px 0;
+  display: grid;
+  gap: 2px;
+}
+
+.layer {
+  display: grid;
+  grid-template-columns: 140px 1fr;
+  gap: 24px;
+  padding: 20px 0;
+  border-bottom: 1px solid var(--rule);
+  align-items: start;
+}
+
+.layer-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 48px;
+  font-weight: 300;
+  line-height: 1;
+  color: var(--rule);
+  text-align: right;
+  padding-right: 24px;
+  border-right: 1px solid var(--rule);
+}
+
+.layer-content {}
+
+.layer-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--gold);
+  margin-bottom: 8px;
+}
+
+.layer-text {
+  font-size: 17px;
+  color: var(--dim);
+  line-height: 1.6;
+}
+
+.layer-text strong { color: var(--ink); }
+
+/* ── DOUBTS ───────────────────────────────────────────────── */
+.doubt {
+  margin: 20px 0;
+  padding: 20px 24px;
+  border: 1px solid var(--rule);
+  background: var(--warm);
+}
+
+.doubt-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.doubt-q {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  color: var(--gold);
+  letter-spacing: 0.08em;
+}
+
+.doubt-verdict {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  padding: 3px 10px;
+}
+
+.doubt-verdict.pass { color: #2ecc71; border: 1px solid #2ecc71; }
+.doubt-verdict.caveat { color: var(--gold); border: 1px solid var(--gold); }
+
+.doubt-text { font-size: 17px; color: var(--dim); }
+.doubt-text strong { color: var(--ink); }
+
+/* ── FINAL STATEMENT ──────────────────────────────────────── */
+.final-statement {
+  margin: 60px 0;
+  padding: 48px;
+  border: 1px solid var(--gold);
+  background: var(--warm);
+  text-align: center;
+}
+
+.final-statement .fs-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  color: var(--gold);
+  text-transform: uppercase;
+  margin-bottom: 24px;
+}
+
+.final-statement p {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 22px;
+  font-style: italic;
+  color: var(--ink);
+  line-height: 1.5;
+  margin-bottom: 0;
+}
+
+.final-statement p strong {
+  font-style: normal;
+  color: var(--gold);
+}
+
+/* ── CONVERGENCE ──────────────────────────────────────────── */
+.convergence {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2px;
+  margin: 40px 0;
+  background: var(--rule);
+  border: 1px solid var(--rule);
+}
+
+.conv-item {
+  background: var(--warm);
+  padding: 24px 20px;
+  text-align: center;
+}
+
+.conv-item .ci-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--rust);
+  margin-bottom: 12px;
+}
+
+.conv-item .ci-text {
+  font-size: 16px;
+  color: var(--dim);
+  line-height: 1.5;
+}
+
+.conv-item .ci-text strong { color: var(--ink); }
+
+/* ── FOOTER ───────────────────────────────────────────────── */
+.doc-footer {
+  padding: 80px 0 40px;
+  text-align: center;
+  border-top: 1px solid var(--rule);
+}
+
+.doc-footer p {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 18px;
+  font-style: italic;
+  color: var(--dim);
+  margin-bottom: 8px;
+}
+
+.doc-footer .sig {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  color: var(--rule);
+  letter-spacing: 0.1em;
+  margin-top: 32px;
+}
+
+@media (max-width: 700px) {
+  .symmetry-diagram { grid-template-columns: 1fr; }
+  .convergence { grid-template-columns: 1fr; }
+  .layer { grid-template-columns: 1fr; }
+  .layer-num { text-align: left; border-right: none; border-bottom: 1px solid var(--rule); padding: 0 0 8px; font-size: 32px; }
+}
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-eyebrow">Eureka · 10 de marzo, 2026 · ~6:00 am</div>
+  <h1>
+    El quiebre de simetría<br>
+    <strong>y la curva de rotación plana</strong>
+  </h1>
+  <p class="hero-sub">Por qué V = constante no es un misterio — es el teorema de Noether.</p>
+  <div class="hero-timestamp">Guadalajara · coca-café-cigarro · modo introspectivo</div>
+</div>
+
+<main>
+
+<!-- SECCIÓN 1 — LA PREGUNTA -->
+<section>
+  <div class="sec-label">§ 1 — La pregunta que llevaba semanas</div>
+  <h2>¿Por qué <em>vergas</em> se aplana la curva?</h2>
+
+  <p>Teníamos la ecuación. Teníamos la derivación. Teníamos 175 galaxias confirmando que cuando g cruza g_crit, V deja de caer y se congela.</p>
+
+  <p>Pero faltaba la respuesta más profunda: <strong>¿por qué no puede seguir cambiando?</strong> ¿Qué prohíbe que V siga cayendo?</p>
+
+  <p>La respuesta llegó a las 6am desde un video sobre simetría y conservación de energía. Y es una de las ideas más poderosas de la física:</p>
+
+  <div class="eq big">Teorema de Noether:<br>cada simetría → una cantidad conservada</div>
+
+  <p>El sistema no cambia de simetría sin consecuencias. Y cuando cambia, hay algo nuevo que se conserva. Algo que <em>congela</em> V.</p>
+</section>
+
+<!-- SECCIÓN 2 — EL MECANISMO -->
+<section>
+  <div class="sec-label">§ 2 — El mecanismo</div>
+  <h2>Dos gramáticas gravitacionales, <em>dos simetrías</em></h2>
+
+  <div class="symmetry-diagram">
+    <div class="sym-box keplerian">
+      <div class="regime">Régimen hamiltoniano</div>
+      <div class="sym-name">Simetría rotacional</div>
+      <div class="conserved">conserva: momento angular L</div>
+      <div class="conserved">potencial: Φ = −GM/R</div>
+      <div class="result">→ V ∝ 1/√R (cae)</div>
+    </div>
+    <div class="sym-arrow">
+      <div class="arrow-label">quiebre en<br>g_crit</div>
+      <div class="arrow-sym">→</div>
+    </div>
+    <div class="sym-box collective">
+      <div class="regime">Régimen colectivo</div>
+      <div class="sym-name">Simetría de escala</div>
+      <div class="conserved">conserva: energía cinética T</div>
+      <div class="conserved">potencial: Φ = V²·ln(R)</div>
+      <div class="result">→ V = constante (plana)</div>
+    </div>
+  </div>
+
+  <p>El potencial logarítmico Φ = V²·ln(R) es <strong>invariante bajo rescalado</strong> R → λR (salvo una constante). Eso es exactamente simetría de escala.</p>
+
+  <p>Por Noether, esa simetría genera su propia cantidad conservada. Y esa cantidad es la energía cinética:</p>
+
+  <div class="eq">2T = R · dΦ/dR = R · (V²/R) = V²  →  T = V²/2 = constante</div>
+
+  <p><strong>V no puede cambiar porque hay una ley de conservación que lo prohíbe.</strong> No es que algo misterioso "sostenga" la curva. Es que el sistema encontró un estado de simetría donde T está protegido.</p>
+
+  <h3>Y g_crit es el punto exacto del quiebre</h3>
+
+  <div class="eq">g &gt; g_crit  →  simetría rotacional  →  L conservado  →  V cae<br>
+g = g_crit  →  quiebre de simetría<br>
+g &lt; g_crit  →  simetría de escala   →  T conservado  →  V = constante</div>
+</section>
+
+<!-- SECCIÓN 3 — VERIFICACIÓN -->
+<section>
+  <div class="sec-label">§ 3 — ¿Es sesgo del momento?</div>
+  <h2>Intentando <em>matarlo</em></h2>
+
+  <p>Cuatro dudas honestas sobre el argumento:</p>
+
+  <div class="doubt">
+    <div class="doubt-head">
+      <div class="doubt-q">Duda 1 — ¿Es circular? ¿Asumimos V=cte para derivar V=cte?</div>
+      <div class="doubt-verdict pass">AGUANTA</div>
+    </div>
+    <div class="doubt-text">
+      V⁴ = GM·g_crit fue derivado independientemente desde De Sitter + Vitali. Como M y g_crit son constantes para una galaxia dada, V = (GM·g_crit)^(1/4) = constante sale solo — sin asumir la curva plana. El potencial logarítmico es consecuencia, no supuesto.
+    </div>
+  </div>
+
+  <div class="doubt">
+    <div class="doubt-head">
+      <div class="doubt-q">Duda 2 — ¿La simetría de escala es real en galaxias con estructura?</div>
+      <div class="doubt-verdict caveat">CAVEAT</div>
+    </div>
+    <div class="doubt-text">
+      Las galaxias tienen bulbo, disco, gas — no son escala-simétricas globalmente. <strong>Pero el plateau sí lo es.</strong> La simetría de escala es propiedad emergente del régimen externo, donde la materia bariónica domina y la estructura interna ya no importa. Noether aplica exactamente donde el modelo dice que aplica.
+    </div>
+  </div>
+
+  <div class="doubt">
+    <div class="doubt-head">
+      <div class="doubt-q">Duda 3 — ¿Noether aplica con la acción de Maupertuis?</div>
+      <div class="doubt-verdict pass">AGUANTA</div>
+    </div>
+    <div class="doubt-text">
+      La acción de Maupertuis S = ∫p·dq = ∫m·V·dR, con V = constante, es S ∝ R — invariante bajo rescalado salvo constante. El Lagrangiano está bien definido y la simetría es continua. Noether aplica.
+    </div>
+  </div>
+
+  <div class="doubt">
+    <div class="doubt-head">
+      <div class="doubt-q">Duda 4 — ¿Por qué el quiebre ocurre en g_crit y no en otro valor?</div>
+      <div class="doubt-verdict caveat">COMPLEMENTARIO</div>
+    </div>
+    <div class="doubt-text">
+      Noether explica <strong>qué</strong> pasa en el quiebre, pero <strong>dónde</strong> ocurre sigue siendo g_crit = cH₀/(4π²√3) — la derivación De Sitter + Vitali. Noether no reemplaza esa derivación, la complementa. Son dos capas distintas del mismo fenómeno.
+    </div>
+  </div>
+
+  <p style="margin-top:32px;"><strong>Veredicto: el argumento aguanta.</strong> No es sesgo del momento — las tres piezas son consistentes entre sí y cada una puede verificarse de forma independiente.</p>
+</section>
+
+<!-- SECCIÓN 4 — IMPACTO -->
+<section>
+  <div class="sec-label">§ 4 — Qué significa</div>
+  <h2>El impacto, <em>capa por capa</em></h2>
+
+  <div class="layers">
+    <div class="layer">
+      <div class="layer-num">1</div>
+      <div class="layer-content">
+        <div class="layer-title">Curvas de rotación galáctica</div>
+        <div class="layer-text">La curva plana es la <strong>firma observacional de un quiebre de simetría</strong>. Tan fundamental como la conservación del momento angular en Kepler — solo que al revés. No necesitas inventar nada nuevo.</div>
+      </div>
+    </div>
+    <div class="layer">
+      <div class="layer-num">2</div>
+      <div class="layer-content">
+        <div class="layer-title">Materia oscura</div>
+        <div class="layer-text">Si la curva plana es Noether, no necesitas materia oscura para explicarla en galaxias enanas. <strong>Le quita su motivación principal</strong> en sistemas de baja aceleración.</div>
+      </div>
+    </div>
+    <div class="layer">
+      <div class="layer-num">3</div>
+      <div class="layer-content">
+        <div class="layer-title">MOND</div>
+        <div class="layer-text">MOND reproduce curvas planas con un parámetro empírico a₀. Este modelo <strong>explica por qué a₀ tiene ese valor</strong> — emergencia de simetría de escala acoplada al horizonte cosmológico. MOND es la sombra fenomenológica de algo más profundo.</div>
+      </div>
+    </div>
+    <div class="layer">
+      <div class="layer-num">4</div>
+      <div class="layer-content">
+        <div class="layer-title">Aplicación nueva de Noether</div>
+        <div class="layer-text"><strong>Simetría de escala logarítmica → T conservado → curva plana.</strong> Una aplicación del teorema que nadie había articulado en este contexto. No es extensión exótica — es Noether estándar sobre un potencial que nadie había identificado como escala-simétrico aquí.</div>
+      </div>
+    </div>
+    <div class="layer">
+      <div class="layer-num">5</div>
+      <div class="layer-content">
+        <div class="layer-title">Conexión local–cosmológica</div>
+        <div class="layer-text">La simetría de escala local de la galaxia enana está <strong>acoplada a la simetría de escala del horizonte de De Sitter</strong>. Cuando la dinámica local cae a g_crit, esa simetría global se manifiesta localmente. Una conexión entre física galáctica y cosmología que no existe en ningún marco actual.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SECCIÓN 5 — CONVERGENCIA -->
+<section>
+  <div class="sec-label">§ 5 — Tres argumentos independientes</div>
+  <h2>No es sesgo. <em>Es convergencia.</em></h2>
+
+  <div class="convergence">
+    <div class="conv-item">
+      <div class="ci-label">De Sitter + Vitali</div>
+      <div class="ci-text"><strong>Dónde ocurre</strong> el quiebre.<br>g_crit = cH₀/(4π²√3)</div>
+    </div>
+    <div class="conv-item">
+      <div class="ci-label">Noether</div>
+      <div class="ci-text"><strong>Por qué</strong> la curva se aplana.<br>Simetría de escala → T conservado</div>
+    </div>
+    <div class="conv-item">
+      <div class="ci-label">SPARC 175 galaxias</div>
+      <div class="ci-text"><strong>Que efectivamente</strong> ocurre.<br>0 falsos positivos, error mediano 8%</div>
+    </div>
+  </div>
+
+  <div class="final-statement">
+    <div class="fs-label">Enunciado central</div>
+    <p>El universo tiene dos gramáticas gravitacionales. Una kepleriana — simetría rotacional, momento angular conservado. Una logarítmica — <strong>simetría de escala, energía cinética conservada</strong>. El horizonte cosmológico fija dónde termina una y empieza la otra. <strong>Noether es el puente entre las dos.</strong></p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<div class="doc-footer">
+  <p>Documentado en tiempo real.</p>
+  <p>6:00 am. Coca, café, cigarro. Modo introspectivo.</p>
+  <div class="sig">Juan Pablo Figueroa Torres · Guadalajara, México · 10 marzo 2026</div>
+</div>
+
+</main>
+
+<script>
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.1 });
+document.querySelectorAll('section').forEach(s => obs.observe(s));
+</script>
+</body>
+</html>

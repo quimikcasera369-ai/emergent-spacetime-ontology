@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emergencia Gravitacional por Coherencia Dinámica</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Georgia', 'Times New Roman', serif;
+            line-height: 1.6;
+            color: #222;
+            background: #f5f5f5;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .title-page {
+            text-align: center;
+            padding: 60px 0;
+            border-bottom: 2px solid #333;
+            margin-bottom: 40px;
+        }
+        
+        .main-title {
+            font-size: 2.2em;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #1a1a1a;
+        }
+        
+        .subtitle {
+            font-size: 1.2em;
+            margin-bottom: 30px;
+            color: #555;
+            font-style: italic;
+        }
+        
+        .author-info {
+            margin-top: 50px;
+        }
+        
+        .author-name {
+            font-size: 1.4em;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .author-role {
+            font-size: 1.1em;
+            font-style: italic;
+            margin-bottom: 5px;
+            color: #555;
+        }
+        
+        .author-location {
+            font-size: 1.1em;
+            color: #666;
+        }
+        
+        .toc {
+            background: #f9f9f9;
+            padding: 30px;
+            margin: 40px 0;
+            border-left: 4px solid #2c5aa0;
+        }
+        
+        .toc h2 {
+            margin-bottom: 20px;
+            color: #2c5aa0;
+        }
+        
+        .toc-item {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+        
+        .toc-item.level-1 {
+            font-weight: bold;
+            margin-top: 15px;
+        }
+        
+        .toc-item a {
+            color: #2c5aa0;
+            text-decoration: none;
+        }
+        
+        .toc-item a:hover {
+            text-decoration: underline;
+        }
+        
+        h1 {
+            font-size: 2em;
+            margin: 50px 0 20px 0;
+            color: #1a1a1a;
+            border-bottom: 2px solid #2c5aa0;
+            padding-bottom: 10px;
+        }
+        
+        h2 {
+            font-size: 1.6em;
+            margin: 35px 0 15px 0;
+            color: #2c5aa0;
+        }
+        
+        h3 {
+            font-size: 1.3em;
+            margin: 25px 0 12px 0;
+            color: #444;
+        }
+        
+        p {
+            margin: 15px 0;
+            text-align: justify;
+        }
+        
+        .equation {
+            text-align: center;
+            font-size: 1.3em;
+            margin: 25px 0;
+            padding: 20px;
+            background: #f9f9f9;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .equation-large {
+            font-size: 1.5em;
+        }
+        
+        .equation-block {
+            background: #f0f7ff;
+            padding: 20px;
+            margin: 20px 0;
+            border-left: 4px solid #2c5aa0;
+            border-radius: 3px;
+        }
+        
+        ul {
+            margin: 15px 0 15px 40px;
+        }
+        
+        li {
+            margin: 8px 0;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 25px 0;
+            background: white;
+        }
+        
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        
+        th {
+            background: #e3f2fd;
+            font-weight: bold;
+            text-align: center;
+        }
+        
+        td {
+            text-align: center;
+        }
+        
+        .highlight {
+            background: #fff9e6;
+            padding: 20px;
+            border-left: 4px solid #ffb300;
+            margin: 20px 0;
+        }
+        
+        .key-statement {
+            background: #e8f5e9;
+            padding: 20px;
+            border-left: 4px solid #4caf50;
+            margin: 20px 0;
+            font-size: 1.1em;
+        }
+        
+        .warning-box {
+            background: #ffebee;
+            padding: 20px;
+            border-left: 4px solid #f44336;
+            margin: 20px 0;
+        }
+        
+        .section-break {
+            margin: 60px 0;
+            border-top: 1px solid #ddd;
+        }
+        
+        sup {
+            font-size: 0.7em;
+            vertical-align: super;
+        }
+        
+        sub {
+            font-size: 0.7em;
+            vertical-align: sub;
+        }
+        
+        em {
+            font-style: italic;
+        }
+        
+        strong {
+            font-weight: bold;
+        }
+        
+        .definition-box {
+            background: #f5f5f5;
+            padding: 20px;
+            border: 2px solid #2c5aa0;
+            margin: 25px 0;
+            border-radius: 5px;
+        }
+        
+        .math-section {
+            background: #fafafa;
+            padding: 25px;
+            margin: 30px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        
+        .math-section h3 {
+            color: #2c5aa0;
+            margin-top: 0;
+        }
+        
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+            .container {
+                box-shadow: none;
+                padding: 20px;
+            }
+        }
+        
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px;
+            }
+            .main-title {
+                font-size: 1.6em;
+            }
+            .subtitle {
+                font-size: 1.1em;
+            }
+            h1 {
+                font-size: 1.5em;
+            }
+            h2 {
+                font-size: 1.3em;
+            }
+            table {
+                font-size: 0.9em;
+            }
+            th, td {
+                padding: 8px;
+            }
+            .equation {
+                font-size: 1.1em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Title Page -->
+        <div class="title-page">
+            <div class="main-title">
+                Emergencia Gravitacional<br>por Coherencia Dinámica
+            </div>
+            <div class="subtitle">
+                Una reinterpretación de la gravedad galáctica como fenómeno emergente
+            </div>
+            
+            <div class="author-info">
+                <div class="author-name">Juan Pablo Figueroa Torres</div>
+                <div class="author-role">Investigador Autodidacta</div>
+                <div class="author-location">Guadalajara, Jalisco, México</div>
+            </div>
+        </div>
+
+        <!-- Table of Contents -->
+        <div class="toc">
+            <h2>Índice</h2>
+            <div class="toc-item level-1"><a href="#sec1">1. Introducción</a></div>
+            <div class="toc-item level-1"><a href="#sec2">2. Hipótesis</a></div>
+            <div class="toc-item level-1"><a href="#sec3">3. Formulación Matemática</a></div>
+            <div class="toc-item level-1"><a href="#sec4">4. Predicciones</a></div>
+            <div class="toc-item level-1"><a href="#sec5">5. Resultados Observacionales</a></div>
+            <div class="toc-item level-1"><a href="#sec6">6. Contrastación con Binarias Anchas</a></div>
+            <div class="toc-item level-1"><a href="#sec7">7. Interpretación</a></div>
+            <div class="toc-item level-1"><a href="#sec8">8. Límites Actuales</a></div>
+            <div class="toc-item level-1"><a href="#sec9">9. Estado del Modelo</a></div>
+        </div>
+
+        <!-- Content Sections -->
+        <h1 id="sec1">1. Introducción</h1>
+        
+        <p>El marco gravitacional estándar describe la gravedad como una fuerza fundamental (Newton) o como curvatura geométrica del espacio‑tiempo (Relatividad General). Ambos enfoques asumen que la gravedad existe como consecuencia directa de la masa.</p>
+        
+        <p>Sin embargo, observaciones astronómicas muestran patrones sistemáticos:</p>
+        
+        <ul>
+            <li>Curvas de rotación planas en galaxias</li>
+            <li>Mismo orden de aceleración en sistemas distintos</li>
+            <li>Desacople entre masa visible y dinámica orbital</li>
+        </ul>
+        
+        <p>Esto llevó a la introducción de materia oscura como explicación adicional.</p>
+        
+        <div class="key-statement">
+            <strong>Se propone una reinterpretación:</strong> La gravedad no es la causa primaria del movimiento, sino el resultado de un régimen dinámico organizado.
+        </div>
+
+        <h1 id="sec2">2. Hipótesis</h1>
+        
+        <div class="key-statement">
+            <strong>Hipótesis central:</strong> La gravedad es un fenómeno emergente de la coherencia dinámica del movimiento inercial en regiones de interacción espacio‑materia.
+        </div>
+        
+        <p style="margin-top: 20px;"><strong>La masa no genera gravedad directamente; permite que exista el régimen donde la gravedad aparece.</strong></p>
+
+        <h2>Definición Operacional</h2>
+        
+        <div class="definition-box">
+            <p style="margin-bottom: 15px;"><strong>Existe gravedad emergente cuando:</strong></p>
+            
+            <div class="equation equation-large">
+                <em>a</em> ≤ <em>a</em><sub>crit</sub>
+            </div>
+            
+            <p style="margin: 15px 0;">donde:</p>
+            
+            <div class="equation">
+                <em>a</em> = <em>V</em>² / <em>R</em>
+            </div>
+            
+            <p style="margin: 15px 0;">y</p>
+            
+            <div class="equation equation-large">
+                <em>a</em><sub>crit</sub> ≈ 10<sup>−11</sup> m/s²
+            </div>
+        </div>
+        
+        <h2>Interpretación</h2>
+        
+        <ul>
+            <li><strong>Alta aceleración</strong> (<em>a</em> ≫ <em>a</em><sub>crit</sub>) → dinámica newtoniana dominante</li>
+            <li><strong>Baja aceleración</strong> (<em>a</em> ≤ <em>a</em><sub>crit</sub>) → régimen organizado (gravedad emergente)</li>
+        </ul>
+
+        <h1 id="sec3">3. Formulación Matemática — Coherencia Dinámica Gravitacional</h1>
+
+        <div class="math-section">
+            <h3>3.1. Magnitud Dinámica Local</h3>
+            
+            <div class="equation-block">
+                <div class="equation">
+                    a(R) = V(R)² / R
+                </div>
+                <p style="margin-top: 15px;"><strong>Definición:</strong> aceleración orbital observada en un radio R.</p>
+            </div>
+        </div>
+
+        <div class="math-section">
+            <h3>3.2. Condición de Régimen Gravitacional</h3>
+            
+            <p>Existe régimen gravitacional organizado si:</p>
+            
+            <div class="equation-block">
+                <div class="equation equation-large">
+                    a(R) ≤ a<sub>crit</sub>
+                </div>
+                <p style="margin-top: 10px;">con</p>
+                <div class="equation equation-large">
+                    a<sub>crit</sub> ≈ 10<sup>−11</sup> m/s²
+                </div>
+            </div>
+        </div>
+
+        <div class="math-section">
+            <h3>3.3. Radio de Transición Dinámico</h3>
+            
+            <p>Definido por el punto donde la dinámica cambia de kepleriana a estable:</p>
+            
+            <div class="equation-block">
+                <div class="equation">
+                    V(R<sub>t</sub>)² / R<sub>t</sub> = a<sub>crit</sub>
+                </div>
+                <p style="margin-top: 15px;">De donde:</p>
+                <div class="equation equation-large">
+                    V<sub>t</sub> = √(a<sub>crit</sub> · R<sub>t</sub>)
+                </div>
+            </div>
+        </div>
+
+        <div class="math-section">
+            <h3>3.4. Estructura de la Curva de Rotación Esperada</h3>
+            
+            <div class="equation-block">
+                <p><strong>Régimen interno (R &lt; R<sub>t</sub>):</strong></p>
+                <div class="equation">
+                    V(R) ∝ R<sup>−1/2</sup>
+                </div>
+                
+                <p style="margin-top: 20px;"><strong>Zona de transición (R ≈ R<sub>t</sub>):</strong></p>
+                <div class="equation">
+                    a(R) ≈ a<sub>crit</sub>
+                </div>
+                
+                <p style="margin-top: 20px;"><strong>Régimen externo (R &gt; R<sub>t</sub>):</strong></p>
+                <div class="equation">
+                    dV/dR ≈ 0
+                </div>
+            </div>
+        </div>
+
+        <div class="math-section">
+            <h3>3.5. Predicciones Directas</h3>
+            
+            <div class="equation-block">
+                <p><strong>1. Umbral universal</strong></p>
+                <p>Para galaxias rotacionales:</p>
+                <div class="equation equation-large">
+                    a<sub>borde</sub> ≈ a<sub>crit</sub>
+                </div>
+                
+                <p style="margin-top: 25px;"><strong>2. Independencia de masa</strong></p>
+                <p>La velocidad plana depende del radio de transición, no directamente de la masa total:</p>
+                <div class="equation equation-large">
+                    V<sub>plana</sub> ≈ √(a<sub>crit</sub> · R<sub>t</sub>)
+                </div>
+                
+                <p style="margin-top: 25px;"><strong>3. Coincidencia de orden de magnitud</strong></p>
+                <p>Distintos sistemas deben cumplir:</p>
+                <div class="equation equation-large">
+                    a<sub>borde</sub> ~ 10<sup>−11</sup> m/s²
+                </div>
+            </div>
+        </div>
+
+        <div class="math-section">
+            <h3>3.6. Criterio Observacional</h3>
+            
+            <div class="equation-block">
+                <p>Dado un perfil V(R):</p>
+                <ol style="margin: 15px 0 15px 20px; text-align: left;">
+                    <li>Calcular a(R) = V²/R</li>
+                    <li>Verificar convergencia al mismo orden de magnitud</li>
+                </ol>
+                <p style="margin-top: 15px;"><strong>Si a(R) converge al mismo orden de magnitud en múltiples galaxias → satisface el régimen dinámico.</strong></p>
+            </div>
+        </div>
+
+        <h1 id="sec4">4. Predicciones</h1>
+
+        <h2>Predicción 1 — Umbral Universal</h2>
+        
+        <p>Galaxias distintas deben converger al mismo orden de aceleración en su borde estable:</p>
+        
+        <div class="equation equation-large">
+            <em>a</em><sub>borde</sub> ≈ <em>a</em><sub>crit</sub>
+        </div>
+        
+        <p>independiente de masa o tamaño.</p>
+
+        <h2>Predicción 2 — Independencia Directa de Masa</h2>
+        
+        <p>La velocidad orbital no queda fijada únicamente por la masa visible, sino por el régimen dinámico alcanzado.</p>
+
+        <h2>Predicción 3 — Transición de Régimen</h2>
+        
+        <p>Debe observarse:</p>
+        
+        <ul>
+            <li>Región central aproximadamente kepleriana</li>
+            <li>Punto de quiebre cercano a <em>a</em><sub>crit</sub></li>
+            <li>Meseta orbital posterior</li>
+        </ul>
+
+        <h1 id="sec5">5. Resultados Observacionales Utilizados</h1>
+        
+        <p>Datos del catálogo SPARC para galaxias con propiedades muy diferentes:</p>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>Galaxia</th>
+                    <th>Distancia</th>
+                    <th>V (km/s)</th>
+                    <th>R (kpc)</th>
+                    <th>Aceleración Borde</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>UGCA444</td>
+                    <td>0.98 Mpc</td>
+                    <td>38.3</td>
+                    <td>2.62</td>
+                    <td>1.8 × 10<sup>−11</sup> m/s²</td>
+                </tr>
+                <tr>
+                    <td>UGCA442</td>
+                    <td>4.35 Mpc</td>
+                    <td>56.5</td>
+                    <td>6.33</td>
+                    <td>1.6 × 10<sup>−11</sup> m/s²</td>
+                </tr>
+                <tr>
+                    <td>UGCA281</td>
+                    <td>5.68 Mpc</td>
+                    <td>29.5</td>
+                    <td>1.08</td>
+                    <td>2.6 × 10<sup>−11</sup> m/s²</td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <div class="highlight">
+            <p><strong>Resultado:</strong> Las galaxias convergen al mismo orden de magnitud de aceleración.</p>
+            <p style="margin-top: 10px;">Este resultado es independiente de cualquier ajuste de parámetros y usa únicamente la definición cinemática <em>a</em> = <em>V</em>²/<em>R</em>.</p>
+        </div>
+
+        <h1 id="sec6">6. Contrastación con Binarias Anchas</h1>
+
+        <h2>Catálogo de Gaia DR2</h2>
+        
+        <p>El catálogo de binarias anchas de Gaia DR2 (El-Badry & Rix 2018, MNRAS 480, 4884) proporciona datos de más de 50,000 sistemas binarios con separaciones entre 50 y 50,000 UA.</p>
+
+        <h3>Observaciones Relevantes</h3>
+        
+        <p>El catálogo reporta <strong>rupturas en la distribución de separaciones</strong> que ocurren en escalas diferentes para diferentes poblaciones estelares:</p>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>Población</th>
+                    <th>Ruptura observada</th>
+                    <th>Aceleración típica</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>WD/MS (enana blanca + secuencia principal)</td>
+                    <td>~3000 AU</td>
+                    <td>~10<sup>−9</sup> m/s²</td>
+                </tr>
+                <tr>
+                    <td>WD/WD (enana blanca + enana blanca)</td>
+                    <td>~1500 AU</td>
+                    <td>~10<sup>−9</sup> m/s²</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>Interpretación Convencional vs Modelo Emergente</h3>
+        
+        <p><strong>El-Badry & Rix (2018) proponen:</strong></p>
+        <p>Las rupturas se deben a impulsos durante la formación de enanas blancas (~0.75 km/s), que desvinculan binarias anchas.</p>
+        
+        <div class="key-statement">
+            <p><strong>El presente modelo ofrece interpretación alternativa:</strong></p>
+            <p style="margin-top: 15px;">Las escalas de separación donde ocurren las rupturas (~1500-3000 AU) corresponden a regímenes donde las aceleraciones orbitales se aproximan a valores cercanos al umbral crítico (orden de 10<sup>−9</sup> m/s², un orden de magnitud por encima de a<sub>crit</sub>).</p>
+        </div>
+
+        <h3>Predicción Distintiva</h3>
+        
+        <p>Si bien MOND predice velocidades anómalas en binarias anchas en general, <strong>no explica naturalmente por qué estas rupturas ocurren en separaciones diferentes para cada población</strong>.</p>
+        
+        <p>El presente modelo ofrece explicación: el radio de transición R<sub>t</sub> depende de la masa total del sistema según:</p>
+        
+        <div class="equation">
+            R<sub>t</sub> ~ V² / a<sub>crit</sub>
+        </div>
+        
+        <p>Sistemas con diferentes masas totales (WD/MS vs WD/WD) cruzan el umbral a diferentes separaciones, prediciendo rupturas poblacionales específicas.</p>
+
+        <div class="warning-box">
+            <p><strong>Importante:</strong> Esta predicción distingue el modelo de emergencia gravitacional de MOND:</p>
+            <ul style="margin-top: 10px;">
+                <li><strong>MOND:</strong> La modificación de gravedad depende solo de la aceleración local. Binarias con misma separación deberían comportarse igual independientemente de las masas.</li>
+                <li><strong>Modelo emergente:</strong> El régimen depende de propiedades globales del sistema (masa total). Diferentes masas → diferentes radios de transición → rupturas en diferentes separaciones.</li>
+            </ul>
+        </div>
+
+        <h3>Verificación Pendiente</h3>
+        
+        <p>Análisis cuantitativo detallado de velocidades orbitales vs separación en diferentes poblaciones del catálogo El-Badry & Rix queda pendiente para trabajo futuro. Esta verificación permitirá:</p>
+        
+        <ul>
+            <li>Confirmar si las rupturas correlacionan con transiciones de régimen predichas</li>
+            <li>Distinguir cuantitativamente entre MOND y emergencia gravitacional</li>
+            <li>Verificar dependencia de masa total en radio de transición</li>
+        </ul>
+
+        <h1 id="sec7">7. Interpretación</h1>
+        
+        <div class="key-statement">
+            <p><strong>La gravedad se comporta como condición de estabilidad del movimiento y no como magnitud proporcional directa a la masa.</strong></p>
+        </div>
+        
+        <p style="margin-top: 20px;">El sistema no orbita porque exista gravedad previa; la gravedad aparece cuando el movimiento puede mantenerse coherentemente dentro de un régimen permitido.</p>
+        
+        <h2>Implicaciones</h2>
+        
+        <p><strong>Sobre la materia oscura:</strong></p>
+        <p>El comportamiento atribuido a materia oscura sería en realidad la manifestación de gravedad efectiva emergente en régimen de baja aceleración. No se requiere una sustancia material adicional.</p>
+        
+        <p style="margin-top: 20px;"><strong>Relación con MOND:</strong></p>
+        <p>MOND (Modified Newtonian Dynamics) funciona empíricamente porque identifica correctamente el umbral de aceleración. Sin embargo, MOND modifica la ley gravitacional de forma ad hoc, mientras que este modelo propone que la gravedad emerge como fenómeno colectivo sin modificar las leyes fundamentales locales.</p>
+        
+        <div class="highlight">
+            <p><strong>Distinción clave:</strong></p>
+            <ul style="margin-top: 10px;">
+                <li><strong>MOND:</strong> Modificación LOCAL de la ley de gravedad (depende solo de aceleración en cada punto)</li>
+                <li><strong>Modelo emergente:</strong> Transición de régimen GLOBAL (depende de propiedades del sistema completo)</li>
+            </ul>
+            <p style="margin-top: 15px;">Esta diferencia genera predicciones observacionalmente distinguibles, como las rupturas poblacionales en binarias anchas.</p>
+        </div>
+        
+        <h2>Régimen vs. Escala</h2>
+        
+        <p>Es importante distinguir:</p>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>Sistema</th>
+                    <th>Aceleración típica</th>
+                    <th>Régimen</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Sistema Solar (Tierra)</td>
+                    <td>~6×10<sup>−3</sup> m/s²</td>
+                    <td>Newtoniano local</td>
+                </tr>
+                <tr>
+                    <td>Borde galáctico</td>
+                    <td>~10<sup>−11</sup> m/s²</td>
+                    <td>Emergente colectivo</td>
+                </tr>
+                <tr>
+                    <td>Cúmulos globulares</td>
+                    <td>~10<sup>−8</sup> m/s²</td>
+                    <td>Newtoniano local</td>
+                </tr>
+                <tr>
+                    <td>Binarias anchas</td>
+                    <td>~10<sup>−9</sup> - 10<sup>−11</sup> m/s²</td>
+                    <td>Transición</td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <p>La gravedad existe en todos los casos (Relatividad General), pero su manifestación cambia según el régimen dinámico.</p>
+
+        <h1 id="sec8">8. Límites Actuales</h1>
+        
+        <p>El modelo aún no describe:</p>
+        
+        <ul>
+            <li><strong>Régimen relativista extremo</strong> (agujeros negros, estrellas de neutrones)</li>
+            <li><strong>Lentes gravitacionales</strong> (aunque compatible en principio con efectos de campo)</li>
+            <li><strong>Cosmología completa</strong> (estructuras a gran escala, expansión del universo)</li>
+            <li><strong>Estructura del universo temprano</strong> (formación inicial de galaxias)</li>
+        </ul>
+        
+        <div class="highlight">
+            <p><strong>Actualmente se limita al régimen galáctico de baja aceleración.</strong></p>
+            <p style="margin-top: 10px;">Se requiere desarrollo teórico adicional para extender el modelo a otros regímenes físicos.</p>
+        </div>
+
+        <h1 id="sec9">9. Estado del Modelo</h1>
+        
+        <p>Se plantea como <strong>hipótesis física falsable</strong> basada en coincidencias sistemáticas de aceleración observada.</p>
+        
+        <h2>Fortalezas</h2>
+        <ul>
+            <li>Predicción clara y medible (<em>a</em><sub>borde</sub> ≈ <em>a</em><sub>crit</sub>)</li>
+            <li>Formulación matemática explícita con criterios observacionales</li>
+            <li>Evidencia preliminar consistente con datos observacionales (UGCA galaxias)</li>
+            <li>No requiere sustancias materiales no detectadas</li>
+            <li>Propone reinterpretación conceptual sin modificar leyes fundamentales locales</li>
+            <li>Genera predicciones distintivas vs MOND (rupturas poblacionales en binarias)</li>
+        </ul>
+        
+        <h2>Debilidades</h2>
+        <ul>
+            <li>Falta mecanismo físico fundamental que derive <em>a</em><sub>crit</sub></li>
+            <li>Análisis estadístico preliminar (muestra pequeña de galaxias)</li>
+            <li>Verificación cuantitativa de binarias anchas pendiente</li>
+            <li>Ámbito limitado (no cosmología completa)</li>
+            <li>Distinción observacional de MOND requiere análisis adicionales</li>
+        </ul>
+        
+        <h2>Próximos Pasos</h2>
+        <ul>
+            <li>Análisis cuantitativo con muestra ampliada de galaxias SPARC</li>
+            <li>Verificación detallada de predicción de binarias anchas (catálogo El-Badry & Rix)</li>
+            <li>Búsqueda de predicciones distintivas adicionales vs MOND y materia oscura</li>
+            <li>Desarrollo teórico: derivar <em>a</em><sub>crit</sub> de principios fundamentales</li>
+            <li>Contrastación con sistemas en régimen de transición</li>
+            <li>Verificación de la estructura de curva de rotación predicha (kepleriana → transición → plana)</li>
+        </ul>
+
+        <div class="section-break"></div>
+
+        <h1 style="border: none; text-align: center; margin-top: 60px;">Preguntas Abiertas</h1>
+        
+        <div class="definition-box">
+            <h3 style="margin-top: 0;">1. ¿Por qué a<sub>crit</sub> ≈ 10<sup>−11</sup> m/s²?</h3>
+            <p>Posibles conexiones a explorar:</p>
+            <ul>
+                <li><em>a</em><sub>crit</sub> = <em>c H</em><sub>0</sub> (constante de Hubble)</li>
+                <li>Escala de horizonte causal</li>
+                <li>Tiempo dinámico vs. tiempo de relajación del sistema</li>
+            </ul>
+            
+            <h3 style="margin-top: 25px;">2. ¿Qué mantiene la coherencia dinámica?</h3>
+            <p>¿Es solo descripción efectiva de geodésicas en espacio-tiempo curvado (RG) o existe un mecanismo nuevo?</p>
+            
+            <h3 style="margin-top: 25px;">3. ¿Cómo distinguir de MOND observacionalmente?</h3>
+            <p>Las rupturas poblacionales en binarias anchas ofrecen una vía. Análisis cuantitativo pendiente para confirmar esta distinción.</p>
+        </div>
+
+        <div style="margin-top: 60px; padding-top: 20px; border-top: 2px solid #333; text-align: center; color: #666;">
+            <p><strong>Hipótesis en desarrollo</strong></p>
+            <p>Documento actualizado: Febrero 2026</p>
+        </div>
+    </div>
+</body>
+</html>

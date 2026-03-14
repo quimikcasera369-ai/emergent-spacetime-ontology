@@ -1,0 +1,1012 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Emergencia Gravitacional por Coherencia Dinámica</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,700;1,400;1,500&family=JetBrains+Mono:wght@400;700&family=Cormorant+Garamond:ital,wght@0,300;0,600;1,300;1,600&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<style>
+:root {
+  --ink:     #1a1814;
+  --paper:   #f8f4ed;
+  --rust:    #7a2800;
+  --gold:    #8a6800;
+  --smoke:   #6a6258;
+  --rule:    #c8b48a;
+  --warm:    #ede8df;
+  --accent2: #1a3a5c;
+  --eq-bg:   #f0ebe0;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'EB Garamond', Georgia, serif;
+  background: var(--paper);
+  color: var(--ink);
+  font-size: 19px;
+  line-height: 1.75;
+  overflow-x: hidden;
+}
+
+/* ── PROGRESS BAR ─────────────────────────────────────────────── */
+#progress {
+  position: fixed; top: 0; left: 0;
+  height: 3px; width: 0%;
+  background: linear-gradient(90deg, var(--rust), var(--gold));
+  z-index: 1000;
+  transition: width 0.1s linear;
+}
+
+/* ── SIDEBAR NAV ──────────────────────────────────────────────── */
+nav {
+  position: fixed; left: 0; top: 0;
+  width: 220px; height: 100vh;
+  background: var(--ink);
+  padding: 48px 0 32px;
+  overflow-y: auto;
+  z-index: 100;
+  display: flex; flex-direction: column;
+}
+
+nav .logo {
+  padding: 0 24px 32px;
+  border-bottom: 1px solid #3a3228;
+  margin-bottom: 20px;
+}
+
+nav .logo span {
+  display: block;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 13px;
+  color: var(--rule);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  line-height: 1.4;
+}
+
+nav a {
+  display: block;
+  padding: 8px 24px;
+  font-family: 'EB Garamond', serif;
+  font-size: 13.5px;
+  color: #8a8070;
+  text-decoration: none;
+  line-height: 1.3;
+  transition: color 0.2s, padding-left 0.2s;
+  border-left: 2px solid transparent;
+}
+
+nav a:hover, nav a.active {
+  color: var(--rule);
+  padding-left: 30px;
+  border-left-color: var(--rust);
+}
+
+nav a .num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  color: #4a4038;
+  margin-right: 6px;
+}
+
+nav a.active .num { color: var(--rust); }
+
+nav .nav-footer {
+  margin-top: auto;
+  padding: 24px;
+  border-top: 1px solid #3a3228;
+  font-size: 12px;
+  color: #4a4038;
+  font-family: 'JetBrains Mono', monospace;
+  line-height: 1.6;
+}
+
+/* ── MAIN ─────────────────────────────────────────────────────── */
+main {
+  margin-left: 220px;
+  max-width: 820px;
+  padding: 0 64px 120px;
+}
+
+/* ── COVER ────────────────────────────────────────────────────── */
+.cover {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 80px 0 60px;
+  border-bottom: 1px solid var(--rule);
+}
+
+.cover-eyebrow {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--smoke);
+  margin-bottom: 32px;
+}
+
+.cover h1 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(48px, 7vw, 80px);
+  font-weight: 600;
+  line-height: 1.05;
+  color: var(--ink);
+  margin-bottom: 8px;
+}
+
+.cover h1 em {
+  font-style: italic;
+  color: var(--rust);
+}
+
+.cover-sub {
+  font-family: 'EB Garamond', serif;
+  font-size: 20px;
+  font-style: italic;
+  color: var(--smoke);
+  margin: 24px 0 48px;
+}
+
+.cover-rule {
+  width: 60px; height: 2px;
+  background: var(--rule);
+  margin-bottom: 40px;
+}
+
+.meta-grid {
+  display: grid;
+  grid-template-columns: 140px 1fr;
+  gap: 6px 24px;
+  max-width: 520px;
+}
+
+.meta-key {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  color: var(--smoke);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding-top: 2px;
+}
+
+.meta-val {
+  font-size: 17px;
+  color: var(--ink);
+}
+
+.cover-quote {
+  margin-top: 64px;
+  padding-top: 32px;
+  border-top: 1px solid var(--rule);
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 22px;
+  font-style: italic;
+  color: var(--rust);
+}
+
+.cover-quote cite {
+  display: block;
+  font-size: 14px;
+  color: var(--smoke);
+  margin-top: 8px;
+  font-style: normal;
+  font-family: 'EB Garamond', serif;
+}
+
+/* ── CHAPTERS ─────────────────────────────────────────────────── */
+.chapter {
+  padding: 100px 0 60px;
+  border-bottom: 1px solid var(--warm);
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.chapter.visible { opacity: 1; transform: none; }
+
+.chapter-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 100px;
+  font-weight: 300;
+  color: var(--warm);
+  line-height: 1;
+  margin-bottom: -12px;
+  user-select: none;
+}
+
+.chapter h2 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 38px;
+  font-weight: 600;
+  color: var(--ink);
+  line-height: 1.1;
+  margin-bottom: 16px;
+}
+
+.chapter-rule {
+  width: 100%; height: 1px;
+  background: var(--rule);
+  margin-bottom: 40px;
+}
+
+/* ── SECTION HEAD ─────────────────────────────────────────────── */
+h3 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--rust);
+  margin: 52px 0 16px;
+}
+
+/* ── PROSE ────────────────────────────────────────────────────── */
+p { margin-bottom: 20px; text-align: justify; }
+
+/* ── EQUATION ─────────────────────────────────────────────────── */
+.eq {
+  background: var(--eq-bg);
+  border-left: 3px solid var(--rust);
+  padding: 20px 28px;
+  margin: 32px 0;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 17px;
+  color: var(--rust);
+  text-align: center;
+  letter-spacing: 0.03em;
+  overflow-x: auto;
+}
+
+/* ── CALLOUT ──────────────────────────────────────────────────── */
+.callout {
+  border-left: 3px solid var(--gold);
+  background: #f5f0e0;
+  padding: 16px 20px;
+  margin: 24px 0;
+  font-size: 17px;
+  color: var(--ink);
+}
+
+.callout strong { color: var(--gold); }
+
+/* ── TABLE ────────────────────────────────────────────────────── */
+.table-wrap { overflow-x: auto; margin: 32px 0; }
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 16px;
+}
+
+thead th {
+  background: var(--ink);
+  color: var(--rule);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 12px 16px;
+  text-align: left;
+  font-weight: 400;
+}
+
+tbody td {
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--warm);
+  vertical-align: top;
+  color: var(--ink);
+}
+
+tbody tr:nth-child(even) td { background: #f5f0e5; }
+
+tbody tr:hover td { background: #ede6d5; }
+
+td.accent { color: var(--rust); font-weight: 700; font-family: 'JetBrains Mono', monospace; font-size: 14px; }
+td.good   { color: #2a6a30; font-weight: 600; }
+td.mono   { font-family: 'JetBrains Mono', monospace; font-size: 14px; }
+
+/* ── BULLETS ──────────────────────────────────────────────────── */
+ul.clean {
+  list-style: none;
+  padding: 0;
+  margin: 16px 0 24px;
+}
+
+ul.clean li {
+  padding: 6px 0 6px 24px;
+  position: relative;
+  font-size: 18px;
+  border-bottom: 1px solid var(--warm);
+}
+
+ul.clean li::before {
+  content: '—';
+  position: absolute; left: 0;
+  color: var(--rust);
+}
+
+ul.clean li strong { color: var(--accent2); }
+
+/* ── REGIME CARDS ─────────────────────────────────────────────── */
+.regime-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin: 32px 0;
+}
+
+.regime-card {
+  padding: 20px;
+  border: 1px solid var(--rule);
+  background: var(--warm);
+  position: relative;
+  overflow: hidden;
+}
+
+.regime-card::before {
+  content: '';
+  position: absolute; top: 0; left: 0;
+  width: 4px; height: 100%;
+}
+
+.regime-card.hamilton::before { background: var(--accent2); }
+.regime-card.umbral::before   { background: var(--gold); }
+.regime-card.colectivo::before{ background: var(--rust); }
+
+.regime-card .label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.regime-card.hamilton .label  { color: var(--accent2); }
+.regime-card.umbral .label    { color: var(--gold); }
+.regime-card.colectivo .label { color: var(--rust); }
+
+.regime-card .cond {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  color: var(--smoke);
+  margin-bottom: 8px;
+}
+
+.regime-card .eq-small {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 14px;
+  color: var(--ink);
+  font-weight: 700;
+}
+
+.regime-card .example {
+  font-size: 14px;
+  color: var(--smoke);
+  margin-top: 8px;
+  font-style: italic;
+}
+
+/* ── GCRIT BOX ────────────────────────────────────────────────── */
+.gcrit-derivation {
+  background: var(--ink);
+  color: var(--rule);
+  padding: 40px;
+  margin: 40px 0;
+}
+
+.gcrit-derivation .main-eq {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 20px;
+  color: #fff;
+  text-align: center;
+  margin-bottom: 32px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid #3a3228;
+}
+
+.factor-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+.factor {
+  padding: 20px;
+  border: 1px solid #3a3228;
+}
+
+.factor .sym {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 36px;
+  font-weight: 600;
+  color: var(--rust);
+  line-height: 1;
+  margin-bottom: 8px;
+}
+
+.factor .source {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--gold);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.factor .desc {
+  font-size: 15px;
+  color: #9a9080;
+  line-height: 1.5;
+}
+
+/* ── STATS STRIP ──────────────────────────────────────────────── */
+.stats-strip {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  background: var(--rule);
+  margin: 40px 0;
+  border: 1px solid var(--rule);
+}
+
+.stat {
+  background: var(--paper);
+  padding: 20px 16px;
+  text-align: center;
+}
+
+.stat .num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 42px;
+  font-weight: 600;
+  line-height: 1;
+  color: var(--rust);
+}
+
+.stat .label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--smoke);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-top: 4px;
+}
+
+/* ── PRED CARDS ───────────────────────────────────────────────── */
+.pred-grid {
+  display: grid;
+  gap: 12px;
+  margin: 32px 0;
+}
+
+.pred-card {
+  display: grid;
+  grid-template-columns: 36px 1fr auto;
+  gap: 16px;
+  align-items: start;
+  padding: 16px;
+  border: 1px solid var(--warm);
+  background: var(--warm);
+}
+
+.pred-card:hover { border-color: var(--rule); }
+
+.pred-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 28px;
+  font-weight: 600;
+  color: var(--rule);
+  line-height: 1;
+}
+
+.pred-text { font-size: 17px; }
+
+.pred-dataset {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--smoke);
+  white-space: nowrap;
+  padding-top: 4px;
+}
+
+.pred-dataset.confirmed {
+  color: #2a6a30;
+  background: #e8f5ea;
+  padding: 2px 8px;
+}
+
+/* ── TIMELINE ─────────────────────────────────────────────────── */
+.timeline {
+  position: relative;
+  padding-left: 28px;
+  margin: 32px 0;
+}
+
+.timeline::before {
+  content: '';
+  position: absolute; left: 0; top: 0;
+  width: 1px; height: 100%;
+  background: var(--rule);
+}
+
+.tl-item {
+  position: relative;
+  margin-bottom: 28px;
+}
+
+.tl-item::before {
+  content: '';
+  position: absolute;
+  left: -32px; top: 6px;
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--rust);
+}
+
+.tl-date {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--smoke);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 4px;
+}
+
+.tl-text { font-size: 17px; }
+.tl-text strong { color: var(--rust); }
+
+/* ── EPILOGUE ─────────────────────────────────────────────────── */
+.epilogue {
+  padding: 80px 0;
+  text-align: center;
+}
+
+.epilogue p {
+  max-width: 520px;
+  margin: 0 auto 20px;
+  font-size: 18px;
+  color: var(--smoke);
+  text-align: center;
+}
+
+.epilogue .sig {
+  margin-top: 48px;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 18px;
+  font-style: italic;
+  color: var(--rust);
+}
+
+/* ── RESPONSIVE ───────────────────────────────────────────────── */
+@media (max-width: 900px) {
+  nav { display: none; }
+  main { margin-left: 0; padding: 0 24px 80px; }
+  .regime-cards { grid-template-columns: 1fr; }
+  .factor-grid { grid-template-columns: 1fr; }
+  .stats-strip { grid-template-columns: repeat(2,1fr); }
+}
+</style>
+</head>
+<body>
+
+<div id="progress"></div>
+
+<!-- ── NAV ─────────────────────────────────────────────────────── -->
+<nav>
+  <div class="logo">
+    <span>Emergencia</span>
+    <span>Gravitacional</span>
+    <span style="color:#4a4038;margin-top:4px;font-size:11px;">J.P. Figueroa Torres</span>
+  </div>
+  <a href="#cover"><span class="num">—</span>Portada</a>
+  <a href="#cap0"><span class="num">0</span>El Origen</a>
+  <a href="#cap1"><span class="num">1</span>Documento 0</a>
+  <a href="#cap2"><span class="num">2</span>Tres Dominios</a>
+  <a href="#cap3"><span class="num">3</span>Derivación g_crit</a>
+  <a href="#cap4"><span class="num">4</span>175 Galaxias</a>
+  <a href="#cap5"><span class="num">5</span>Cosmología</a>
+  <a href="#cap6"><span class="num">6</span>Predicciones</a>
+  <a href="#cap7"><span class="num">7</span>Estado Actual</a>
+  <div class="nav-footer">
+    Marzo 2026<br>
+    Guadalajara, MX<br>
+    0 parámetros libres
+  </div>
+</nav>
+
+<!-- ── MAIN ────────────────────────────────────────────────────── -->
+<main>
+
+<!-- PORTADA -->
+<section class="cover" id="cover">
+  <div class="cover-eyebrow">Documento Maestro · Recorrido Cronológico</div>
+  <h1>Emergencia Gravitacional<br><em>por Coherencia Dinámica</em></h1>
+  <div class="cover-sub">Del imán de bocina a las 175 galaxias — 6 semanas</div>
+  <div class="cover-rule"></div>
+  <div class="meta-grid">
+    <span class="meta-key">Autor</span>
+    <span class="meta-val">Juan Pablo Figueroa Torres</span>
+    <span class="meta-key">Origen</span>
+    <span class="meta-val">Finales de enero 2026, Guadalajara</span>
+    <span class="meta-key">Duración</span>
+    <span class="meta-val">6 semanas</span>
+    <span class="meta-key">Ecuación</span>
+    <span class="meta-val">V⁴ = G · M_bar · g_crit</span>
+    <span class="meta-key">g_crit</span>
+    <span class="meta-val">cH₀ / (4π²√3) = 1.009 × 10⁻¹¹ m/s²</span>
+    <span class="meta-key">Parámetros</span>
+    <span class="meta-val" style="color:var(--rust);font-weight:600;">Cero</span>
+    <span class="meta-key">Catálogos</span>
+    <span class="meta-val">SPARC (175) · LITTLE THINGS (9)</span>
+  </div>
+  <div class="cover-quote">
+    "La gravedad no colapsa. Se apaga."
+    <cite>— Documento 0, febrero 2026</cite>
+  </div>
+</section>
+
+<!-- CAP 0 -->
+<section class="chapter" id="cap0">
+  <div class="chapter-num">0</div>
+  <h2>El Origen<br><span style="font-weight:300;font-size:24px;color:var(--smoke)">La ventana metaestable</span></h2>
+  <div class="chapter-rule"></div>
+
+  <p><strong>Finales de enero, 2026. Guadalajara.</strong> Un imán de bocina sobre una superficie elevada. Un desarmador de punta imantada posicionado verticalmente. En cierto rango de distancia y altura, el desarmador permanece estable sin estar pegado ni apoyado. No cae. No vuela. Solo... está.</p>
+
+  <p>El experimento identificó tres zonas físicas:</p>
+
+  <div class="regime-cards">
+    <div class="regime-card hamilton">
+      <div class="label">Zona inferior</div>
+      <div class="cond">distancia &lt; 0.5 cm</div>
+      <div class="eq-small">Atracción fuerte</div>
+      <div class="example">El desarmador se pega sin equilibrio posible</div>
+    </div>
+    <div class="regime-card umbral">
+      <div class="label">Ventana metaestable</div>
+      <div class="cond">0.5 – 1.5 cm</div>
+      <div class="eq-small">Equilibrio sin contacto</div>
+      <div class="example">Re-estabilización tras perturbaciones menores</div>
+    </div>
+    <div class="regime-card colectivo">
+      <div class="label">Zona superior</div>
+      <div class="cond">distancia &gt; 1.5 cm</div>
+      <div class="eq-small">Repulsión / escape</div>
+      <div class="example">El objeto es empujado fuera</div>
+    </div>
+  </div>
+
+  <p>El punto de ruptura llegó a ~21 gramos. Pero el colapso no fue abrupto. El desarmador se fue inclinando gradualmente, como si intentara aguantar, hasta que no pudo más. <strong>La extinción fue suave y progresiva, no singular.</strong></p>
+
+  <div class="callout">
+    <strong>La pregunta que cambió todo:</strong> ¿Qué pasa si la gravedad funciona igual? ¿Qué pasa si también tiene una ventana metaestable, y cuando las condiciones cambian, simplemente se apaga?
+  </div>
+
+  <p>Este experimento no está en ningún paper de física teórica. Pero está en el origen de este trabajo — y por eso abre este documento.</p>
+</section>
+
+<!-- CAP 1 -->
+<section class="chapter" id="cap1">
+  <div class="chapter-num">1</div>
+  <h2>El Documento 0<br><span style="font-weight:300;font-size:24px;color:var(--smoke)">La coherencia gravitacional</span></h2>
+  <div class="chapter-rule"></div>
+
+  <p style="font-style:italic;color:var(--smoke);">Dos días sin dormir. Febrero 2026.</p>
+
+  <p>El primer documento formal del modelo introdujo una sola variable nueva — no una fuerza, no energía, no geometría:</p>
+
+  <div class="eq">C(t) — coherencia del pozo gravitacional</div>
+
+  <p>Un <strong>criterio de existencia</strong> del régimen gravitacional.</p>
+
+  <h3>Tres estados del campo</h3>
+  <ul class="clean">
+    <li><strong>C &gt; 0</strong> — hay pozo gravitacional activo. Las órbitas existen.</li>
+    <li><strong>C = 0</strong> — frontera de estabilidad. Régimen marginal.</li>
+    <li><strong>C &lt; 0</strong> — extinción. No hay gravedad. Movimiento libre.</li>
+  </ul>
+
+  <p>La dinámica se formuló como un problema de pertenencia a un conjunto. En lugar de "una fuerza empuja al objeto", la pregunta es:</p>
+
+  <div class="eq">¿pertenece la trayectoria al conjunto Ω(C)?</div>
+
+  <p>Caer <em>es</em> quedarse dentro del conjunto. Escapar es salir de él.</p>
+
+  <h3>Delimitación respecto a la Relatividad General</h3>
+
+  <div class="table-wrap">
+  <table>
+    <thead><tr><th>Aspecto</th><th>Relatividad General</th><th>Este marco</th></tr></thead>
+    <tbody>
+      <tr><td>Naturaleza</td><td>Geometría fundamental</td><td>Régimen emergente</td></tr>
+      <tr><td>Gravedad</td><td>Siempre presente</td><td>Condicional</td></tr>
+      <tr><td>Singularidades</td><td>Permitidas</td><td>Excluidas</td></tr>
+      <tr><td>Dominio</td><td>Dinámica interna</td><td>Existencia del régimen</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <p>La RG describe cómo se comporta la gravedad cuando existe. Este marco describe cuándo existe. Son complementarios, no contradictorios.</p>
+
+  <div class="callout">
+    <strong>Predicción 0 (documento inicial):</strong> Existen configuraciones de energía-momento donde la RG predice curvatura débil pero este marco predice ausencia de gravedad efectiva por pérdida de coherencia. — Las galaxias enanas de baja aceleración son exactamente esas configuraciones.
+  </div>
+</section>
+
+<!-- CAP 2 -->
+<section class="chapter" id="cap2">
+  <div class="chapter-num">2</div>
+  <h2>Formalización<br><span style="font-weight:300;font-size:24px;color:var(--smoke)">Los tres dominios dinámicos</span></h2>
+  <div class="chapter-rule"></div>
+
+  <p>La intuición de C(t) necesitaba una variable física medible. La respuesta llegó desde la mecánica clásica: la <strong>aceleración gravitacional local</strong> — no la velocidad, no la masa, la aceleración.</p>
+
+  <div class="eq">g = V² / R</div>
+
+  <p>El modelo propone que existe una aceleración crítica g_crit que separa dos regímenes cualitativamente distintos:</p>
+
+  <div class="regime-cards">
+    <div class="regime-card hamilton">
+      <div class="label">Hamiltoniano</div>
+      <div class="cond">g &gt; g_crit</div>
+      <div class="eq-small">V² = GM/R</div>
+      <div class="example">Vía Láctea, Andrómeda, galaxias masivas</div>
+    </div>
+    <div class="regime-card umbral">
+      <div class="label">Umbral</div>
+      <div class="cond">g ≈ g_crit</div>
+      <div class="eq-small">Transición</div>
+      <div class="example">UGC01281 "el centauro"</div>
+    </div>
+    <div class="regime-card colectivo">
+      <div class="label">Colectivo</div>
+      <div class="cond">g &lt; g_crit</div>
+      <div class="eq-small">V⁴ = GM · g_crit</div>
+      <div class="example">IC 1613, UGC07125, enanas</div>
+    </div>
+  </div>
+
+  <h3>Radio de transición</h3>
+  <p>El radio donde una galaxia cruza de régimen hamiltoniano a colectivo, derivado sin parámetros libres:</p>
+  <div class="eq">R_T = √( G · M_bar / g_crit )</div>
+
+  <p>Las galaxias más masivas tienen R_T mayor — la región hamiltoniana se extiende más lejos. Las enanas de poca masa entran al régimen colectivo en su totalidad. Eso explica por qué son las enanas, y no las espirales gigantes, las que muestran curvas de rotación planas sin materia oscura visible.</p>
+</section>
+
+<!-- CAP 3 -->
+<section class="chapter" id="cap3">
+  <div class="chapter-num">3</div>
+  <h2>Derivación de g_crit<br><span style="font-weight:300;font-size:24px;color:var(--smoke)">De Sitter y el conjunto de Vitali</span></h2>
+  <div class="chapter-rule"></div>
+
+  <p>La pregunta más exigente del modelo: ¿de dónde viene g_crit? Si es un parámetro ajustado empíricamente, el modelo no vale más que MOND. Si se deriva de física fundamental, es otra cosa.</p>
+
+  <p><strong>La respuesta tiene dos factores independientes.</strong></p>
+
+  <div class="gcrit-derivation">
+    <div class="main-eq">g_crit = cH₀ / (4π²√3) = 1.009 × 10⁻¹¹ m/s²</div>
+    <div class="factor-grid">
+      <div class="factor">
+        <div class="sym">4π²</div>
+        <div class="source">Horizonte de De Sitter</div>
+        <div class="desc">Gibbons & Hawking (1977): el horizonte cosmológico tiene tiempo de correlación t_corr = 1/H₀. La condición de resonancia orbital T_orb = t_corr da Ω = 2πH₀, produciendo el factor 4π².</div>
+      </div>
+      <div class="factor">
+        <div class="sym">√3</div>
+        <div class="source">Conjunto de Vitali</div>
+        <div class="desc">La medida exterior del conjunto de Vitali sobre el círculo del horizonte satisface 1 ≤ Σλ(V) ≤ 3. Media geométrica: √(1·3) = √3. No dinámica — estructura matemática del selector orbital.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout">
+    <strong>Ningún parámetro ajustado.</strong> Ambos factores son consecuencias independientes de física y matemática conocida. El axioma de elección actúa como principio de selección: de todas las órbitas posibles sobre el horizonte, el elemento canónico de Vitali selecciona la privilegiada.
+  </div>
+</section>
+
+<!-- CAP 4 -->
+<section class="chapter" id="cap4">
+  <div class="chapter-num">4</div>
+  <h2>175 Galaxias<br><span style="font-weight:300;font-size:24px;color:var(--smoke)">Validación observacional</span></h2>
+  <div class="chapter-rule"></div>
+
+  <p>El protocolo fue diseñado con una premisa central: <strong>sin cherry-picking.</strong> La clasificación de cada galaxia se determina antes de calcular el error de predicción.</p>
+
+  <div class="stats-strip">
+    <div class="stat"><div class="num">175</div><div class="label">Galaxias SPARC</div></div>
+    <div class="stat"><div class="num">0</div><div class="label">Falsos positivos</div></div>
+    <div class="stat"><div class="num">8%</div><div class="label">Error mediano colectivas</div></div>
+    <div class="stat"><div class="num">55%</div><div class="label">Error mediano hamiltonianas</div></div>
+  </div>
+
+  <h3>Confirmaciones colectivas</h3>
+  <div class="table-wrap">
+  <table>
+    <thead><tr><th>Galaxia</th><th>V_obs (km/s)</th><th>V_pred (km/s)</th><th>Error</th><th>Fuente</th></tr></thead>
+    <tbody>
+      <tr><td>IC 1613</td><td class="mono">17.5</td><td class="mono">19.5</td><td class="good">12.0%</td><td>LITTLE THINGS, TRGB</td></tr>
+      <tr><td>UGC04305</td><td class="mono">34.8</td><td class="mono">34.4</td><td class="good">1.0%</td><td>LITTLE THINGS, TRGB</td></tr>
+      <tr><td>UGC07125</td><td class="mono">65.2</td><td class="mono">53.1</td><td class="good">18.6%</td><td>SPARC Q=1</td></tr>
+      <tr><td>UGC06628</td><td class="mono">41.8</td><td class="mono">46.0</td><td class="good">10.1%</td><td>SPARC Q=2</td></tr>
+      <tr><td>UGC09992</td><td class="mono">33.6</td><td class="mono">28.3</td><td class="good">15.6%</td><td>SPARC Q=2</td></tr>
+      <tr><td>F561-1</td><td class="mono">50.0</td><td class="mono">47.0</td><td class="good">6.1%</td><td>SPARC Q=3</td></tr>
+      <tr><td>F567-2</td><td class="mono">47.5</td><td class="mono">46.5</td><td class="good">2.1%</td><td>SPARC Q=3</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h3>Casos especiales</h3>
+
+  <div class="callout" style="border-color:var(--smoke)">
+    <strong>UGC01281 — el "centauro":</strong> 5 de sus 25 puntos caen en régimen colectivo (g &lt; g_crit) pero el plateau está en zona de threshold. Galaxia mixta genuina — hamiltoniana en el plateau, colectiva en el núcleo. Exactamente la categoría que el modelo predice que debe existir.
+  </div>
+
+  <div class="callout" style="border-color:var(--smoke)">
+    <strong>UGC03580 — la absuelta:</strong> Apareció con error 8.8% en zona hamiltoniana. Investigación reveló que el detector de plateau tomó la parte baja de una curva ascendente. V_flat real = 126.2 km/s. Error real = 51%. Hamiltoniana profunda confirmada — el protocolo la habría descartado en cualquier caso (ratio_med = 14.6 × g_crit).
+  </div>
+</section>
+
+<!-- CAP 5 -->
+<section class="chapter" id="cap5">
+  <div class="chapter-num">5</div>
+  <h2>Extensión Cosmológica<br><span style="font-weight:300;font-size:24px;color:var(--smoke)">Dos fluidos, dos épocas</span></h2>
+  <div class="chapter-rule"></div>
+
+  <p>Si g_crit depende de H₀, y H₀ evoluciona con el redshift, entonces g_crit también evoluciona:</p>
+  <div class="eq">g_crit(z) = cH(z) / (4π²√3)</div>
+
+  <h3>El redshift de transición z*</h3>
+  <p>Hay un redshift donde la masa característica de galaxias M★(z) cruza la masa crítica M_crit(z). El modelo predice:</p>
+  <div class="eq">z* ≈ 0.3  —  hace ~3,200 millones de años</div>
+  <p>Antes de z*: el universo era mayoritariamente colectivo. Después de z*: mayoritariamente hamiltoniano.</p>
+
+  <h3>Sistema de dos fluidos</h3>
+  <p>La densidad total se separa en dos componentes que crecen diferente:</p>
+  <div class="eq">ρ = ρ_H + ρ_C</div>
+  <p>Con fracción colectiva f_C(k,z), la ecuación de crecimiento de perturbaciones:</p>
+  <div class="eq">δ̈ + 2Hδ̇ = 4πGρ̄ [(1 − f_C)δ + f_C · δ^(1/2)]</div>
+  <p>El exponente α = 1/2 para el régimen colectivo se deriva variativamente de la acción de Maupertuis en coordenadas comóviles. No se ajusta.</p>
+
+  <h3>Predicción JWST</h3>
+  <div class="eq">V_flat(z) ∝ H(z)^(1/4)  →  ×1.31 más rápido a z = 2</div>
+  <p>En el universo temprano (z &gt; 2), el régimen colectivo domina. Las estructuras masivas se forman más rápido que en ΛCDM. Esto explica naturalmente las galaxias masivas observadas por JWST a z &gt; 10.</p>
+</section>
+
+<!-- CAP 6 -->
+<section class="chapter" id="cap6">
+  <div class="chapter-num">6</div>
+  <h2>Predicciones Falsificables<br><span style="font-weight:300;font-size:24px;color:var(--smoke)">Lo que puede matar al modelo</span></h2>
+  <div class="chapter-rule"></div>
+
+  <p>Un modelo que no puede ser falsificado no es ciencia. Estas son las predicciones cuantitativas verificables con instrumentación existente o próxima:</p>
+
+  <div class="pred-grid">
+    <div class="pred-card">
+      <div class="pred-num">1</div>
+      <div class="pred-text"><strong>Evolución de V_flat con z:</strong> galaxias enanas a z=2 deben rotar ×1.31 más rápido que análogas locales de igual masa bariónica.</div>
+      <div class="pred-dataset">JWST + ELT</div>
+    </div>
+    <div class="pred-card">
+      <div class="pred-num">2</div>
+      <div class="pred-text"><strong>Falla sistemática hamiltoniana:</strong> la fórmula V⁴=GM·g_crit debe fallar con mediana &gt;50% en galaxias no-colectivas.</div>
+      <div class="pred-dataset confirmed">SPARC ✓ 55%</div>
+    </div>
+    <div class="pred-card">
+      <div class="pred-num">3</div>
+      <div class="pred-text"><strong>Confirmación colectiva:</strong> error mediano &lt;20% en galaxias clasificadas como colectivas.</div>
+      <div class="pred-dataset confirmed">SPARC ✓ 8%</div>
+    </div>
+    <div class="pred-card">
+      <div class="pred-num">4</div>
+      <div class="pred-text"><strong>Modulación BAO:</strong> la amplitud del pico BAO debe variar con z — no su posición.</div>
+      <div class="pred-dataset">DESI DR2</div>
+    </div>
+    <div class="pred-card">
+      <div class="pred-num">5</div>
+      <div class="pred-text"><strong>Binarias amplias:</strong> ruptura en velocidad orbital al cruzar R_T calculado desde la masa bariónica.</div>
+      <div class="pred-dataset">Gaia DR4</div>
+    </div>
+    <div class="pred-card">
+      <div class="pred-num">6</div>
+      <div class="pred-text"><strong>P(k) a gran escala:</strong> espectro de potencias suprimido respecto a ΛCDM para R &gt; 100 Mpc.</div>
+      <div class="pred-dataset">Euclid</div>
+    </div>
+  </div>
+</section>
+
+<!-- CAP 7 -->
+<section class="chapter" id="cap7">
+  <div class="chapter-num">7</div>
+  <h2>Estado Actual<br><span style="font-weight:300;font-size:24px;color:var(--smoke)">Completado y pendiente</span></h2>
+  <div class="chapter-rule"></div>
+
+  <h3>Completado</h3>
+  <div class="timeline">
+    <div class="tl-item">
+      <div class="tl-date">Ene 2026</div>
+      <div class="tl-text">Experimento del imán. Concepto de ventana metaestable gravitacional.</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-date">Feb 2026</div>
+      <div class="tl-text">Documento 0: variable C(t), tres estados del régimen, delimitación vs GR.</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-date">Feb 2026</div>
+      <div class="tl-text"><strong>V⁴ = G·M·g_crit</strong> como ecuación de estado del régimen colectivo. Primeras 5 confirmaciones en SPARC y LITTLE THINGS.</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-date">Feb–Mar 2026</div>
+      <div class="tl-text">g_crit derivado desde horizonte De Sitter (4π²) + conjunto de Vitali (√3). Cero parámetros libres.</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-date">Mar 2026</div>
+      <div class="tl-text">Protocolo ciego en 175 galaxias SPARC: 0 falsos positivos. Sistema de dos fluidos cosmológico. k_crit(z). z*≈0.3. Identificación de UGC01281 "centauro" y 13 galaxias "curiosas".</div>
+    </div>
+  </div>
+
+  <h3>Pendiente prioritario</h3>
+  <ul class="clean">
+    <li><strong>Oh+2015 (VizieR):</strong> 26 galaxias LITTLE THINGS con curvas completas.</li>
+    <li><strong>Derivación covariante formal:</strong> acción completa en métrica FLRW.</li>
+    <li><strong>MCMC vs DESI DR1/DR2:</strong> f·σ₈ y P(k) observado.</li>
+    <li><strong>Sondeo de 13 "curiosas":</strong> galaxias con g_min &lt; g_crit pero plateau threshold.</li>
+    <li><strong>Ampliar catálogo:</strong> THINGS + ALFALFA → 500+ galaxias.</li>
+  </ul>
+
+  <h3>Contacto académico</h3>
+  <p>Email redactado para el <strong>Dr. Simon Nicholas Kemp</strong> — SNI Nivel II, IAM CUCEI UdeG, especialista en materia oscura y curvas de rotación galáctica. A 10 minutos de Zapopan. Envío: 10 de marzo, 2026.</p>
+</section>
+
+<!-- EPILOGUE -->
+<section class="epilogue">
+  <div style="width:40px;height:1px;background:var(--rule);margin:0 auto 40px;"></div>
+  <p>Este trabajo empezó con un desarmador flotando entre las fuerzas de un imán de bocina a finales de enero de 2026.</p>
+  <p>Seis semanas después tiene nombre, ecuación, derivación desde primeros principios, y 175 galaxias que dicen que algo aquí funciona.</p>
+  <p>Puede estar equivocado. Pero el proceso fue honesto: sin cherry-picking, sin parámetros ajustados, con predicciones que pueden falsificarlo.</p>
+  <p>Si hay algo aquí, la comunidad lo encontrará. Si no lo hay, también.</p>
+  <div class="sig">
+    Juan Pablo Figueroa Torres<br>
+    Guadalajara, Jalisco, México — Marzo 2026
+  </div>
+</section>
+
+</main>
+
+<script>
+// Progress bar
+window.addEventListener('scroll', () => {
+  const total = document.documentElement.scrollHeight - window.innerHeight;
+  const pct   = (window.scrollY / total) * 100;
+  document.getElementById('progress').style.width = pct + '%';
+});
+
+// Intersection observer for chapter animations
+const chapters = document.querySelectorAll('.chapter');
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) e.target.classList.add('visible');
+  });
+}, { threshold: 0.08 });
+chapters.forEach(c => obs.observe(c));
+
+// Active nav link
+const navLinks = document.querySelectorAll('nav a');
+const sections = document.querySelectorAll('section[id]');
+const navObs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      navLinks.forEach(l => l.classList.remove('active'));
+      const active = document.querySelector(`nav a[href="#${e.target.id}"]`);
+      if (active) active.classList.add('active');
+    }
+  });
+}, { threshold: 0.3 });
+sections.forEach(s => navObs.observe(s));
+</script>
+</body>
+</html>

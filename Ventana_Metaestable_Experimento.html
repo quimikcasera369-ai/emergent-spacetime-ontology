@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Ventana Metaestable – Experimento Documentado</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    max-width: 750px;
+    margin: 0 auto;
+    padding: 40px;
+    color: #222;
+    line-height: 1.7;
+    background: #fff;
+  }
+  h1 {
+    font-size: 1.6em;
+    border-bottom: 2px solid #333;
+    padding-bottom: 10px;
+    margin-bottom: 6px;
+  }
+  .author {
+    color: #555;
+    font-size: 0.95em;
+    margin-bottom: 30px;
+  }
+  h2 {
+    font-size: 1.2em;
+    margin-top: 32px;
+    color: #333;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 4px;
+  }
+  h3 {
+    font-size: 1.05em;
+    margin-top: 20px;
+    color: #444;
+  }
+  p {
+    margin-bottom: 14px;
+  }
+  .nota {
+    background: #f4f7fa;
+    border-left: 4px solid #6a9fd8;
+    padding: 12px 16px;
+    margin: 20px 0;
+    font-size: 0.93em;
+    color: #445;
+  }
+  .dato {
+    background: #eef6ee;
+    border-left: 4px solid #5a9a5a;
+    padding: 12px 16px;
+    margin: 20px 0;
+    font-size: 0.93em;
+    color: #334;
+  }
+  .especulacion {
+    background: #faf4ec;
+    border-left: 4px solid #c9934a;
+    padding: 12px 16px;
+    margin: 20px 0;
+    font-size: 0.93em;
+    color: #554;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 18px 0;
+    font-size: 0.95em;
+  }
+  th {
+    background: #e8eef4;
+    text-align: left;
+    padding: 10px 14px;
+    border: 1px solid #ccc;
+    font-weight: 600;
+    color: #333;
+  }
+  td {
+    padding: 9px 14px;
+    border: 1px solid #ddd;
+  }
+  tr:nth-child(even) td {
+    background: #f9fafb;
+  }
+  .ecuacion {
+    background: #f7f7f7;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    padding: 14px 20px;
+    text-align: center;
+    font-size: 1.1em;
+    font-style: italic;
+    margin: 18px 0;
+    color: #333;
+  }
+  .ecuacion .sub { font-size: 0.82em; vertical-align: sub; }
+  .ecuacion .sup { font-size: 0.82em; vertical-align: super; }
+  .leyenda {
+    font-size: 0.88em;
+    color: #555;
+    margin-top: -10px;
+    margin-bottom: 18px;
+    padding-left: 4px;
+  }
+  .seccion-final {
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid #ccc;
+  }
+  .pie {
+    margin-top: 50px;
+    font-size: 0.82em;
+    color: #888;
+    border-top: 1px solid #eee;
+    padding-top: 10px;
+  }
+  .etiqueta {
+    display: inline-block;
+    font-size: 0.75em;
+    font-weight: bold;
+    padding: 2px 7px;
+    border-radius: 3px;
+    margin-right: 4px;
+  }
+  .etiqueta-dato { background: #d4edda; color: #155724; }
+  .etiqueta-obs { background: #d1ecf1; color: #0c5460; }
+  .etiqueta-esp { background: #fff3cd; color: #856404; }
+</style>
+</head>
+<body>
+
+<h1>Ventana Metaestable</h1>
+<div class="author">Experimento documentado – Juan Pablo Figueroa Torres<br>Fecha: febrero 2026</div>
+
+<div class="nota">
+  <strong>Nota metodológica.</strong> Este documento organiza únicamente los datos y observaciones del experimento físico con el imán de bocina. Las interpretaciones analógicas hacia otros sistemas (gravedad, sistemas planetarios) se desarrollan en un documento separado.
+</div>
+
+<h2>1. Descripción del sistema</h2>
+
+<p>Se utiliza un imán extraído de una bocina (forma circular, un solo polo visible en la circunferencia). El imán se coloca sobre una superficie elevada estable. Un desarmador de punta imantada se posiciona verticalmente, con la punta hacia arriba, alineada con la circunferencia del imán. En cierto rango de distancia y altura, el desarmador permanece estable sin estar pegado ni apoyado en el imán.</p>
+
+<p>Este punto de equilibrio se denomina en este documento <strong>ventana metaestable</strong>: una región espacial donde el objeto se mantiene en equilibrio sin contacto, pero que se puede romper si las condiciones cambian.</p>
+
+<h2>2. Ecuación del modelo</h2>
+
+<p>El modelo mecánico propuesto para el sistema es:</p>
+
+<div class="ecuacion">
+  m·x″ + γ·x′ + K<sub>ef</sub>(t)·x = ε(t) + F<sub>ext</sub>(t)
+</div>
+
+<div class="leyenda">
+  <strong>m</strong> = masa del objeto | <strong>γ</strong> = coeficiente de amortiguamiento | <strong>K<sub>ef</sub>(t)</strong> = rigidez efectiva, dependiente del tiempo | <strong>ε(t)</strong> = ruido térmico o vibraciones del entorno | <strong>F<sub>ext</sub>(t)</strong> = fuerza externa aplicada (dedo, vibración, etc.)
+</div>
+
+<div class="dato">
+  <span class="etiqueta etiqueta-dato">Condición clave</span> La estabilidad se mantiene mientras F<sub>ext</sub> sea menor que la fuerza de escape del pozo. Cuando la masa total supera el límite, el sistema colapsa sin necesidad de perturbación externa.
+</div>
+
+<h2>3. Geometría del pozo metaestable</h2>
+
+<p>El imán tiene una altura total de aproximadamente 2 centímetros. Se identificaron tres zonas verticales:</p>
+
+<table>
+  <tr>
+    <th>Zona</th>
+    <th>Rango (aprox.)</th>
+    <th>Comportamiento</th>
+  </tr>
+  <tr>
+    <td>Superior</td>
+    <td>Último ~0.5 cm de arriba</td>
+    <td>Repulsión. El desarmador cae hacia afuera.</td>
+  </tr>
+  <tr>
+    <td><strong>Metaestable</strong></td>
+    <td>Zona central (~1 cm)</td>
+    <td>Equilibrio. El desarmador permanece estable.</td>
+  </tr>
+  <tr>
+    <td>Inferior</td>
+    <td>Último ~0.5 cm de abajo</td>
+    <td>Atracción fuerte. El desarmador se pega al imán.</td>
+  </tr>
+</table>
+
+<p>En cuanto a la <strong>separación horizontal</strong> (distancia radial desde la circunferencia del imán):</p>
+
+<table>
+  <tr>
+    <th>Distancia al imán</th>
+    <th>Comportamiento</th>
+  </tr>
+  <tr>
+    <td>Menos de 0.5 cm</td>
+    <td>Atracción: el desarmador se pega.</td>
+  </tr>
+  <tr>
+    <td><strong>0.5 – 1.5 cm</strong></td>
+    <td><strong>Ventana metaestable: equilibrio estable.</strong></td>
+  </tr>
+  <tr>
+    <td>Más de 1.5 – 2 cm</td>
+    <td>Repulsión o pérdida de confinamiento: cae.</td>
+  </tr>
+</table>
+
+<div class="dato">
+  <span class="etiqueta etiqueta-dato">Dato</span> La ventana metaestable ocupa aproximadamente la mitad del espacio total disponible, tanto en altura como en separación horizontal. La otra mitad se divide en partes aproximadamente iguales entre atracción y repulsión.
+</div>
+
+<h2>4. Datos de masa y punto de ruptura</h2>
+
+<table>
+  <tr>
+    <th>Configuración</th>
+    <th>Masa aprox.</th>
+    <th>¿Estable?</th>
+  </tr>
+  <tr>
+    <td>Desarmador solo (con mango)</td>
+    <td>~17 g</td>
+    <td>Sí</td>
+  </tr>
+  <tr>
+    <td>Desarmador sin mango</td>
+    <td>Menor (~mitad)</td>
+    <td>Sí</td>
+  </tr>
+  <tr>
+    <td>Desarmador + alambre enrollado</td>
+    <td>~19 g</td>
+    <td>Sí</td>
+  </tr>
+  <tr>
+    <td>Desarmador + pseudocapacitor en teflón</td>
+    <td>No medida</td>
+    <td>Sí</td>
+  </tr>
+  <tr>
+    <td>Desarmador + papel seco</td>
+    <td>~18 g</td>
+    <td>Sí</td>
+  </tr>
+  <tr>
+    <td>Desarmador + papel mojado (progresivo)</td>
+    <td>~19–20 g</td>
+    <td>Sí, hasta el límite</td>
+  </tr>
+  <tr style="background:#fdecea;">
+    <td><strong>Desarmador + papel mojado (punto de ruptura)</strong></td>
+    <td><strong>~21 g</strong></td>
+    <td><strong>No – colapso</strong></td>
+  </tr>
+</table>
+
+<div class="dato">
+  <span class="etiqueta etiqueta-dato">Dato</span> La masa adicional que soportó el pozo antes de romperse fue de aproximadamente <strong>4 gramos</strong> sobre los 17 gramos base del desarmador.
+</div>
+
+<h2>5. Observaciones sobre el colapso</h2>
+
+<p>El punto de ruptura fue alcanzado al agregar agua progresivamente al papel. El colapso <strong>no requirió perturbación externa</strong>: el desarmador cayó por sí solo cuando la masa superó el límite.</p>
+
+<p>La forma en que cayó es un dato importante. No fue una caída instantánea. Se observó una transición progresiva: el desarmador parecía "intentar aguantar", se fue inclinando gradualmente, y después de un período de degradación visible, finalmente se venció.</p>
+
+<div class="dato">
+  <span class="etiqueta etiqueta-dato">Observación</span> La extinción del régimen metaestable fue <strong>suave y progresiva</strong>, no abrupta ni singular. El sistema no "explotó", simplemente dejó de poder mantener el equilibrio.
+</div>
+
+<h2>6. Pruebas de robustez</h2>
+
+<p>Se realizaron varias pruebas para entender qué tipos de perturbación rompían o no la estabilidad:</p>
+
+<table>
+  <tr>
+    <th>Perturbación</th>
+    <th>Intensidad</th>
+    <th>¿Rompió la estabilidad?</th>
+  </tr>
+  <tr>
+    <td>Rotación del imán</td>
+    <td>Completa (360°)</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>Vibración del frigobar (motor)</td>
+    <td>Baja, continua</td>
+    <td>No (produce pequeña oscilación)</td>
+  </tr>
+  <tr>
+    <td>Toque con el dedo</td>
+    <td>Variable, moderada</td>
+    <td>No (el sistema se re-estabiliza)</td>
+  </tr>
+  <tr>
+    <td>Multímetro encendido encima</td>
+    <td>Baja</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>Masa adicional &gt; 4 g</td>
+    <td>Supera fuerza de escape</td>
+    <td>Sí – colapso</td>
+  </tr>
+</table>
+
+<div class="dato">
+  <span class="etiqueta etiqueta-dato">Observación</span> El sistema se re-estabiliza solo después de perturbaciones menores. Esto corresponde al término de amortiguamiento (γ·x′) en la ecuación: la energía de la perturbación se disipa y el objeto vuelve al equilibrio.
+</div>
+
+<h2>7. Papel de la punta imantada</h2>
+
+<p>Un elemento crítico del sistema es que los desarmadores utilizados tienen <strong>punta imantada</strong>. Se realizaron pruebas con objetos sin imantación:</p>
+
+<table>
+  <tr>
+    <th>Objeto</th>
+    <th>¿Punta imantada?</th>
+    <th>Resultado</th>
+  </tr>
+  <tr>
+    <td>Desarmadores (varios)</td>
+    <td>Sí</td>
+    <td>Estabilidad robusta, aguanta perturbaciones y masa adicional.</td>
+  </tr>
+  <tr>
+    <td>Punta de cautín</td>
+    <td>No</td>
+    <td>Se puede estabilizar pero el equilibrio es mucho más frágil.</td>
+  </tr>
+  <tr>
+    <td>Otros objetos no imantados</td>
+    <td>No</td>
+    <td>O se atraen completamente o no encuentran equilibrio.</td>
+  </tr>
+</table>
+
+<div class="dato">
+  <span class="etiqueta etiqueta-dato">Dato</span> La interacción magnética entre la punta y el imán es parte activa del pozo. Sin ella, el pozo existe pero es mucho más superficial. Esto sugiere que K<sub>ef</sub> tiene dos componentes: una geométrica (del imán) y una de interacción (entre punta y campo).
+</div>
+
+<h2>8. Tres zonas de interacción</h2>
+
+<p>Al explorar la circunferencia del imán se identificaron tres comportamientos claros:</p>
+
+<table>
+  <tr>
+    <th>Zona</th>
+    <th>Comportamiento</th>
+  </tr>
+  <tr>
+    <td>Atracción fuerte</td>
+    <td>El objeto se pega al imán sin posibilidad de equilibrio.</td>
+  </tr>
+  <tr>
+    <td><strong>Metaestabilidad</strong></td>
+    <td>El objeto se mantiene en equilibrio sin contacto.</td>
+  </tr>
+  <tr>
+    <td>Repulsión</td>
+    <td>El objeto es empujado fuera, no puede quedarse.</td>
+  </tr>
+</table>
+
+<div class="dato">
+  <span class="etiqueta etiqueta-dato">Dato</span> La zona metaestable existe precisamente en la transición entre atracción y repulsión. Es el punto donde ambas fuerzas se equilibran.
+</div>
+
+<h2 class="seccion-final">9. Datos pendientes</h2>
+
+<p>Los siguientes datos podrían refinar el modelo pero <strong>no han sido medidos aún</strong>:</p>
+
+<table>
+  <tr>
+    <th>Dato pendiente</th>
+    <th>Por qué importa</th>
+  </tr>
+  <tr>
+    <td>Masa exacta del desarmador sin mango</td>
+    <td>Definir mejor el rango de masas que aguanta el pozo.</td>
+  </tr>
+  <tr>
+    <td>Masa exacta del desarmador + pseudocapacitor</td>
+    <td>Otro punto de referencia dentro del pozo.</td>
+  </tr>
+  <tr>
+    <td>Frecuencia de oscilación cuando se perturba</td>
+    <td>Permitiría estimar γ y K<sub>ef</sub> numéricamente.</td>
+  </tr>
+  <tr>
+    <td>Mapeado más detallado de la circunferencia</td>
+    <td>Ver si la ventana es uniforme en todo el aro o varía.</td>
+  </tr>
+  <tr>
+    <td>Experimento con imanes de otra geometría</td>
+    <td>Ver si el fenómeno depende de la forma circular o es más general.</td>
+  </tr>
+</table>
+
+<div class="pie">
+  Documento de datos experimentales. Las interpretaciones análogas hacia otros sistemas físicos se desarrollan por separado.<br>
+  Autor: Juan Pablo Figueroa Torres | Fecha: febrero 2026
+</div>
+
+</body>
+</html>

@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Teoría Cosmológica de Dos Regímenes Gravitacionales</title>
+
+<style>
+body{
+    font-family: Arial, Helvetica, sans-serif;
+    margin:40px;
+    line-height:1.6;
+    background:#fafafa;
+    color:#222;
+}
+h1,h2,h3{
+    color:#111;
+}
+.section{
+    margin-bottom:40px;
+}
+.box{
+    background:#ffffff;
+    border-left:4px solid #4a6ee0;
+    padding:15px;
+    margin:15px 0;
+}
+.eq{
+    font-family: "Courier New", monospace;
+    background:#f3f3f3;
+    padding:6px;
+    display:block;
+}
+</style>
+
+<!-- MathJax para ecuaciones -->
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+</head>
+
+<body>
+
+<h1>Teoría Cosmológica de Dos Regímenes Gravitacionales</h1>
+
+<p>
+Este documento resume el estado actual del modelo desarrollado: una
+formulación cosmológica basada en la existencia de dos regímenes
+gravitacionales que emergen de una acción variacional tipo Maupertuis.
+La idea central es que el comportamiento gravitatorio depende de si la
+aceleración local supera o no un umbral fundamental \(g_{crit}\).
+</p>
+
+<div class="section">
+
+<h2>1. Motivación Física</h2>
+
+<p>
+Las teorías gravitacionales estándar describen el crecimiento de
+estructura mediante la ecuación lineal de perturbaciones.
+Sin embargo, múltiples observaciones sugieren tensiones en la amplitud
+de crecimiento de estructuras a gran escala.
+</p>
+
+<div class="box">
+Hipótesis central:  
+existe un régimen gravitacional colectivo cuando  
+\( g < g_{crit} \).
+</div>
+
+<p>
+En ese régimen la dinámica no es la de partículas independientes,
+sino de una estructura colectiva del campo gravitacional.
+</p>
+
+</div>
+
+<div class="section">
+
+<h2>2. Acción de Maupertuis en coordenadas comóviles</h2>
+
+<p>
+Partimos del principio variacional:
+</p>
+
+<div class="eq">
+\( S = \int p \cdot dq \)
+</div>
+
+<p>
+En cosmología usamos coordenadas comóviles:
+</p>
+
+<div class="eq">
+\( r = a(t)x \)
+</div>
+
+<p>
+La velocidad peculiar es:
+</p>
+
+<div class="eq">
+\( v_p = a \dot{x} \)
+</div>
+
+<p>
+El momento conjugado se vuelve:
+</p>
+
+<div class="eq">
+\( p_x = m a^2 \dot{x} \)
+</div>
+
+<p>
+La acción resultante es:
+</p>
+
+<div class="eq">
+\( S = \int m a^2 \dot{x}^2 dt \)
+</div>
+
+<p>
+La variación produce la ecuación cosmológica estándar:
+</p>
+
+<div class="eq">
+\( \ddot{x} + 2H\dot{x} =
+-\frac{1}{a^2}\nabla \phi \)
+</div>
+
+</div>
+
+<div class="section">
+
+<h2>3. Régimen colectivo</h2>
+
+<p>
+El régimen colectivo introduce un potencial efectivo:
+</p>
+
+<div class="eq">
+\( \Phi_{eff} = \sqrt{\Phi \Phi_{crit}} \)
+</div>
+
+<p>
+con
+</p>
+
+<div class="eq">
+\( g_{crit} = \frac{cH_0}{4\pi^2\sqrt3} \)
+</div>
+
+<p>
+Al variar la acción aparece el factor:
+</p>
+
+<div class="eq">
+\( \alpha = \frac{1}{2} \)
+</div>
+
+<p>
+Este valor surge directamente del operador variacional.
+</p>
+
+</div>
+
+<div class="section">
+
+<h2>4. Modelo cosmológico de dos fluidos</h2>
+
+<p>
+La densidad total se separa en dos componentes:
+</p>
+
+<div class="eq">
+\( \rho = \rho_H + \rho_C \)
+</div>
+
+<ul>
+<li>\(\rho_H\): régimen hamiltoniano</li>
+<li>\(\rho_C\): régimen colectivo</li>
+</ul>
+
+<p>
+Definimos la fracción colectiva:
+</p>
+
+<div class="eq">
+\( f_C = \frac{\rho_C}{\rho} \)
+</div>
+
+<p>
+La ecuación de crecimiento resultante es:
+</p>
+
+<div class="eq">
+\( \ddot{\delta} + 2H\dot{\delta}
+= 4\pi G\bar{\rho}(1-\frac12 f_C)\delta \)
+</div>
+
+</div>
+
+<div class="section">
+
+<h2>5. Condición de transición</h2>
+
+<p>
+El cambio de régimen ocurre cuando la aceleración gravitatoria
+de una perturbación alcanza el umbral:
+</p>
+
+<div class="eq">
+\( g(R,z) = G\bar{\rho}(z)\delta R \)
+</div>
+
+<div class="eq">
+\( g(R,z) = g_{crit} \)
+</div>
+
+<p>
+lo que determina el redshift de transición \(z_{exit}(k)\).
+</p>
+
+</div>
+
+<div class="section">
+
+<h2>6. Ecuación cerrada para \(f_C(k,z)\)</h2>
+
+<p>
+Considerando la distribución estadística de perturbaciones,
+la fracción colectiva puede escribirse como:
+</p>
+
+<div class="eq">
+\( f_C(k,z) =
+\frac12
+\operatorname{erfc}
+\left(
+\frac{\delta_{crit}(k,z)}
+{\sqrt2\,\sigma(k,z)}
+\right)
+\)
+</div>
+
+<p>
+donde
+</p>
+
+<div class="eq">
+\( \delta_{crit}(k,z) =
+\frac{k g_{crit}}{G\bar{\rho}(z)} \)
+</div>
+
+</div>
+
+<div class="section">
+
+<h2>7. Significado físico</h2>
+
+<ul>
+<li>Escalas pequeñas cruzan el umbral temprano.</li>
+<li>Escalas grandes permanecen colectivas más tiempo.</li>
+<li>El crecimiento de estructura se vuelve dependiente de escala.</li>
+</ul>
+
+<p>
+Esto modifica el crecimiento de perturbaciones y por lo tanto
+el espectro de potencia de materia.
+</p>
+
+</div>
+
+<div class="section">
+
+<h2>8. Predicciones preliminares</h2>
+
+<ul>
+<li>Supresión natural del crecimiento a gran escala.</li>
+<li>Transición característica alrededor de ~100 Mpc.</li>
+<li>Reducción del parámetro de crecimiento observado.</li>
+</ul>
+
+</div>
+
+<div class="section">
+
+<h2>9. Estado actual</h2>
+
+<p>
+El marco conceptual está definido y el sistema dinámico es cerrado.
+Los siguientes pasos naturales son:
+</p>
+
+<ul>
+<li>resolver numéricamente el sistema acoplado</li>
+<li>derivar el espectro de potencia completo</li>
+<li>comparar con datos cosmológicos observacionales</li>
+</ul>
+
+</div>
+
+</body>
+</html>
